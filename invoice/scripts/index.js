@@ -26,9 +26,6 @@ function renderInvoices() {
   invoices.forEach(function (invoice, index) {
     const invoiceElement = document.createElement('li');
     invoiceElement.innerHTML = `<div class='sidebar__invoices__invoice'>
-      <button class='sidebar__invoices__invoice__delete' onclick="deleteInvoice(${invoice.id})">
-        Delete
-      </button>
       <button class='sidebar__invoices__invoice' onclick="showSelectedInvoice(${invoice.id})" id="invoice-${invoice.id}">
         <div class="sidebar__invoices__invoice__top-row">
           <h4>
@@ -43,6 +40,9 @@ function renderInvoices() {
           </div>
           <p class="sidebar__invoices__invoice__bottom-row__amount">${moneyFormatter(invoice.amount)}</p>
         </div>
+      </button>
+      <button class='sidebar__invoices__invoice__delete' onclick="deleteInvoice(${invoice.id})">
+        Delete
       </button>
     </div>`;
     invoicesList.appendChild(invoiceElement);

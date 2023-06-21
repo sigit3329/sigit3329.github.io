@@ -136,7 +136,7 @@ body {
   --color-white: #fff;
   --color-black: #000;
   --color-navbar: #306090;
-  --color-sidebar: #303048;
+  --color-sidebar: #19193d;
   --color-background: #f2f3f5;
   --color-search-background: #484860;
   --color-search-bar: #353e48;
@@ -176,15 +176,15 @@ body {
 
 .content {
   display: grid;
-  grid-template-columns: 20rem 1fr;
-  min-height: calc(100vh - 3rem); }
+  grid-template-columns: 23rem 1fr;
+  min-height: calc(100vh - 2rem); }
 
 .sidebar {
   background-color: var(--color-sidebar); }
   .sidebar__search-block {
-    padding: 1rem 0.5rem;
+    padding: 2rem 0.5rem;
     display: grid;
-    gap: 1rem; }
+    gap: 2rem; }
     .sidebar__search-block__input {
       padding: 0.75rem 0.5rem 0.75rem 2.25rem;
       border-radius: 2rem;
@@ -212,8 +212,7 @@ body {
     color: var(--color-sidebar-invoice-primary);
     border-top: 1px solid var(--color-sidebar-invoice-border);
     background: transparent;
-    border: none;
-    width: 100%; }
+    border: none;}
     .sidebar__invoices__invoice--selected, .sidebar__invoices__invoice:hover {
       background-color: var(--color-selected-invoice-background);
       color: var(--color-white); }
