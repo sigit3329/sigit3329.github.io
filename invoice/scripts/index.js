@@ -4,40 +4,79 @@ function fetchInvoices() {
   const invoices = JSON.parse(localStorage.getItem('invoices'));
   // If there are no invoices, return an empty array
   if (invoices === null) {
+	
     return [];
   }
   // Otherwise, return the invoices
   return invoices;
 }
+
+
 function renderInvoices() {
   // Fetches the invoices from localStorage
   const invoices = fetchInvoices();
   // If there are no invoices, return an empty array
   if (invoices.length === 0) {
-    return;
+    location.reload();
+	return;
   }
   // Otherwise, render the invoices
   const invoicesList = document.getElementById('invoices');
   invoicesList.innerHTML = ''
   invoices.forEach(function (invoice, index) {
     const invoiceElement = document.createElement('li');
-    invoiceElement.innerHTML = `<button class='sidebar__invoices__invoice' onclick="showSelectedInvoice(${invoice.id})" id="invoice-${invoice.id}">
-    <div class="sidebar__invoices__invoice__top-row">
-            <h4>
-              Inv. #${index + 1} ${invoice.id}
-            </h4>
-            <time class="sidebar__invoices__invoice__top-row__time">${generateFormattedDateTimeString(new Date(invoice.date))}</time>
+    invoiceElement.innerHTML = `<div class='sidebar__invoices__invoice'>
+      <button class='sidebar__invoices__invoice__delete' onclick="deleteInvoice(${invoice.id})">
+        Delete
+      </button>
+      <button class='sidebar__invoices__invoice' onclick="showSelectedInvoice(${invoice.id})" id="invoice-${invoice.id}">
+        <div class="sidebar__invoices__invoice__top-row">
+          <h4>
+            Inv. #${index + 1} ${invoice.id}
+          </h4>
+          <time class="sidebar__invoices__invoice__top-row__time">${generateFormattedDateTimeString(new Date(invoice.date))}</time>
+        </div>
+        <div class="sidebar__invoices__invoice__bottom-row">
+          <div class="sidebar__invoices__invoice__bottom-row__left">
+            <p>Items - ${invoice.items.length}</p>
+            <p class="sidebar__invoices__invoice__bottom-row__left__name">${invoice.customer.name || 'N.A.'}</p>
           </div>
-          <div class="sidebar__invoices__invoice__bottom-row">
-            <div class="sidebar__invoices__invoice__bottom-row__left">
-              <p>Items - ${invoice.items.length}</p>
-              <p class="sidebar__invoices__invoice__bottom-row__left__name">${invoice.customer.name || 'N.A.'}</p>
-            </div>
-            <p class="sidebar__invoices__invoice__bottom-row__amount">${moneyFormatter(invoice.amount)}</p>
-          </div></button>`;
+          <p class="sidebar__invoices__invoice__bottom-row__amount">${moneyFormatter(invoice.amount)}</p>
+        </div>
+      </button>
+    </div>`;
     invoicesList.appendChild(invoiceElement);
+
   });
+  
 }
+
+function deleteInvoice(invoiceId) {
+  // Tampilkan popup konfirmasi
+  const confirmDelete = confirm("Apakah Anda yakin ingin menghapus invoice ini?");
+  if (confirmDelete) {
+	  
+    // Hapus invoice dari localStorage
+    const invoices = fetchInvoices();
+    const updatedInvoices = invoices.filter((invoice) => invoice.id !== invoiceId);
+    saveInvoices(updatedInvoices);
+	
+    // Render ulang daftar invoice
+    renderInvoices();
+    showInvoicesCount();
+    hideNoInvoicesExist();
+	
+    // Jika invoice yang dihapus adalah invoice yang sedang ditampilkan, hapus detail invoice
+    if (invoiceInProgress && invoiceInProgress.id === invoiceId) {
+      hideInvoiceDetails();
+    }     
+  }
+  
+}
+
+
+
+
 
 function showSelectedInvoice(invoiceId) {
   const invoice = fetchInvoiceById(invoiceId)
@@ -198,8 +237,38 @@ function submitCustomerDetails(skip = false) {
   }
 }
 function saveInvoices(invoices) {
-  localStorage.setItem('invoices', JSON.stringify(invoices))
+  localStorage.setItem('invoices', JSON.stringify(invoices));
 }
+
+function deleteInvoice(invoiceId) {
+  // Tampilkan popup konfirmasi
+  const confirmDelete = confirm("Apakah Anda yakin ingin menghapus invoice ini?");
+  if (confirmDelete) {
+    // Hapus invoice dari localStorage
+    const invoices = fetchInvoices();
+    const updatedInvoices = invoices.filter((invoice) => invoice.id !== invoiceId);
+    saveInvoices(updatedInvoices);
+
+    // Render ulang daftar invoice
+    renderInvoices();
+    showInvoicesCount();
+    hideNoInvoicesExist();
+
+    // Jika invoice yang dihapus adalah invoice yang sedang ditampilkan, hapus detail invoice
+    if (invoiceInProgress && invoiceInProgress.id === invoiceId) {
+      hideInvoiceDetails();
+    }
+  }
+}
+
+function hideInvoiceDetails() {
+  const invoiceDetailArea = document.getElementById('printable-area');
+  invoiceDetailArea.innerHTML = '';
+}
+
+// ...
+
+
 function addElementToInvoice(event) {
   event.preventDefault()
   const item = {
@@ -321,5 +390,6 @@ function submitInvoice() {
   saveInvoices(invoices)
   invoiceInProgress = undefined
   toggleDialog()
+  location.reload();
 }
 init()
