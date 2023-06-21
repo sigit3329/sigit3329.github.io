@@ -176,12 +176,12 @@ function fetchInvoiceById(id) {
 }
 function moneyFormatter(amount) {
   if (Intl) {
-    return new Intl.NumberFormat("en-IN", {
+    return new Intl.NumberFormat("id-ID", {
       style: "currency",
-      currency: "INR"
+      currency: "IDR"
     }).format(amount);
   } else {
-    return `₹${amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}`;
+    return `Rp${amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}`;
   }
 }
 
