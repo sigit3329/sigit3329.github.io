@@ -135,7 +135,7 @@ body {
 :root {
   --color-white: #fff;
   --color-black: #000;
-  --color-navbar: #306090;
+  --color-navbar: #115191;
   --color-sidebar: #19193d;
   --color-background: #f2f3f5;
   --color-search-background: #484860;
@@ -153,7 +153,7 @@ body {
   --color-invoice-table-border: #e5e7ec;
   --color-invoice-table-title: #b4bbc5;
   --color-invoice-summary-title: #383f48;
-  --color-fab: #ff64a4;
+  --color-fab: #31db06;
   --color-dialog-subtitle: #878c93;
   --color-dialog-button: #f3f4f6;
   --color-dialog-footer: #eef0f2;
