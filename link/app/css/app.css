@@ -18,7 +18,7 @@ body{
     display: block;
     font-size: 25px;
     text-decoration: none;
-    color: #000000;
+    color: #00ffdd;
     background: transparent;
     margin-bottom: 25px;
     -webkit-border-radius: 30px;
@@ -27,7 +27,7 @@ body{
     -o-border-radius: 30px;
 }
 .card:hover{
-    background-image: linear-gradient(120deg, #09ff00 0%, #33ff00 100%);
+    background-image: linear-gradient(120deg, #001aff 0%, #ff0000 100%);
 }
 h2{
     color: #ffffff;
