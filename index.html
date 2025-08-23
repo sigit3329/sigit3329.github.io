@@ -1,864 +1,188 @@
-<!doctype html>
-<html class="no-js" lang="en">
+<!DOCTYPE html>
+<html lang="id" data-theme="system">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portofolio – Muhammad Sigit Nugroho</title>
+  <meta name="description" content="Portofolio ringkas berisi tautan LinkedIn, Instagram, Tokopedia, GitHub, Asmaul-Husna, Ducky-Arduino, Kalkulator Bunga Majemuk, dan Lokasi.">
+  <meta name="theme-color" content="#0ea5e9">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
 
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Muh. Sigit Nugroho | Maker, Hacker, Innovator, DIY">
-    <meta name="keywords" content="Hacker, Innovation, Innovator, Muh Sigit Nugroho, Entrepreneur, Portfolio, Internship">
-    <meta name="author" content="Muh. Sigit Nugroho">
+  <!-- Structured Data ringkas -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Person",
+    "name":"Muhammad Sigit Nugroho",
+    "url":"/",
+    "sameAs":[
+      "https://www.linkedin.com/in/muhammad-sigit-nugroho/",
+      "https://github.com/sigit3329",
+      "https://www.instagram.com/sigit.berkarya/"
+    ],
+    "jobTitle":"IoT & Embedded Engineer"
+  }
+  </script>
+</head>
+<body>
+  <noscript><div class="noscript">Situs ini berjalan lebih baik dengan JavaScript aktif.</div></noscript>
 
-    <title>Sigit Berkarya</title>
-
-    <!-- favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/SI-GIT trasparant.png">
-
-    <!-- main css, import other css -->
-    <link rel="stylesheet" href="css/main.css">
-
-    <!-- font awesome -->
-    <!-- <link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.css" /> -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.0/css/all.css">
-
-    <!-- modernizr js -->
-    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
-
-  </head>
-
-  <body>
-    <!-- Loading Bar Start -->
-    <div id="loading">
-      <div id="loading-center">
-        <div id="loading-center-absolute">
-          <img src="img/SI-GIT trasparant.png" alt="logo sigit berkarya" />
-          <div class="object" id="object_three"></div>
-        </div>
+  <!-- HEADER -->
+  <header class="site-header container">
+    <div class="brand">
+      <div class="avatar" aria-hidden="true">MS</div>
+      <div>
+        <h1 class="title">Muhammad Sigit Nugroho</h1>
+        <p class="subtitle">IoT • Embedded • Robotik • Web</p>
       </div>
     </div>
-    <!-- Loading Bar End -->
-    <div id="home"></div>
 
-    <!-- Header Section Start -->
-    <header class="header-style-1 bg-color-1">
-      <div class="top clearfix">
-        <div class="header-top active-sticky ptb-50">
-          <div class="container">
-            <div class="row">
-              <div class="col-xs-4 col-sm-4 " >
-                <div class="left">
-                  <div class="logo">
-                    <a href="index.html"><img src="img/SI-GIT trasparant.png" alt="logo sigit berkarya" style="width: 55px;"/></a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xs-8 col-sm-8">
-                <div class="right">
-                  <div class="expand-menu-open floatright">
-                    <i class="zmdi zmdi-menu"></i>
-                  </div>
-                  <nav class="mainmenu onepage-nev floatright">
-                    <ul class="clearfix">
-                      <li><a href="#home">Home</a></li>
-                      <li><a href="#about">About</a></li>
-                      <li><a href="#portfolio">Portfolio</a></li>
-                      <li><a href="#service">Interests</a></li>
-                      <li><a href="#recognitions">Recognitions</a></li>
-                      <li><a href="#blog">Blog</a></li>
-                      <li><a href="#contact">Contact</a></li>
-                    </ul>
-                  </nav>
-                </div>
-              </div>
-            </div>
+    <nav class="hero-cta">
+      <a class="btn primary" href="mailto:msigit.n12@gmail.com">Hire Me</a>
+      <a class="btn ghost" href="cv.pdf" target="_blank" rel="noopener">Unduh CV</a>
+      <button id="themeToggle" class="btn ghost" aria-label="Ganti tema">🌓</button>
+    </nav>
+  </header>
+
+  <!-- GRID KARTU -->
+  <main class="container">
+    <section class="grid">
+
+      <!-- LinkedIn -->
+      <article class="card reveal">
+        <div class="card-head">
+          <div class="card-icon linkedin" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V23h-4zM8.5 8.5h3.8V10h.05c.53-1 1.82-2.05 3.74-2.05 4 0 4.74 2.63 4.74 6.05V23h-4v-6.5c0-1.55-.03-3.55-2.17-3.55-2.17 0-2.5 1.69-2.5 3.43V23h-4V8.5z"/></svg>
           </div>
+          <h3 class="card-title">LinkedIn</h3>
+          <p class="card-desc">Profil profesional & perjalanan karier saya.</p>
         </div>
-        <div class="mainmenu-expand bg-color-3">
-          <div class="close-menu">
-            <i class="zmdi zmdi-close-circle-o"></i>
-          </div>
-          <div class="menu-logo">
-            <a href="index.html"><img src="img/SI-GIT trasparant.png" alt="logo sigit berkarya" /></a>
-          </div>
-          <nav class="mainmenu-box onepage-nev">
-            <ul class="clearfix">
-              <li><a href="#home">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#portfolio">Portfolio</a></li>
-              <li><a href="#service">Interests</a></li>
-              <li><a href="#recognitions">Recognitions</a></li>
-              <li><a href="#blog">Blog</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </nav>
+        <div class="card-actions">
+          <a class="btn primary" href="https://www.linkedin.com/in/muhammad-sigit-nugroho/" target="_blank" rel="noopener">Kunjungi LinkedIn</a>
         </div>
-      </div>
-      <div class="bottom">
-        <div class="container intro-page">
-          <div class="row relative">
-            <div class="col-xs-12 col-sm-6 static">              
-              <div class="slider-text percent-50 intro-page-vertical-center">
-                <h5 class="mb-11">Hello, my name is</h5>
-                <h1 class="mb-30">Muh. Sigit Nugroho</h1>
-                <p class="font-16 line-height-28">
-                  <!-- Student Maker, Inventor, Researcher -->
-                  Expertise Internet of Things (IoT) | Microcontroller | Automasi
-                </p>
-                <div class="alert alert-info percent-75" style="margin-top: 50px; margin-bottom: 150px;" role="alert">
-                  This website is under revamping. Some info might not be up-to-date.
-                </div>
-              </div>
-            </div>
+      </article>
 
-            <div class="col-xs-12 col-sm-6">	
-              <div class="slider-text percent-85 intro-page-vertical-center-2">
-                <h3 class="mb-11">SIGIT BERKARYA</h5>
-
-
-                <div class="font-16 line-height-28 mb-10">
-                  <a class="btn btn-primary btn-lg btn-block" href="https://server.sigitberkarya.com/" target="_blank"> <i style="padding-right: 12px;"></i>SERVER NAS</a>
-                </div>
-
-                <div class="font-16 line-height-28 mb-10">
-                  <a class="btn btn-primary btn-lg btn-block" href="https://amitech.sigitberkarya.com/" target="_blank"> <i style="padding-right: 12px;"></i>AMI Tech</a>
-                </div>
-
-                <div class="font-16 line-height-28 mb-10">
-                  <a class="btn btn-primary btn-lg btn-block" href="https://instagram.com/sigit.berkarya" target="_blank"> <i style="padding-right: 12px;"></i>Instagram</a>
-                </div>
-                
-                <div class="font-16 line-height-28 mb-10">
-                  <a class="btn btn-primary btn-lg btn-block" href="https://www.linkedin.com/in/muhammad-sigit-nugroho/" target="_blank"> <i style="padding-right: 12px;"></i>LinkedIn</a>
-                </div>
-
-                <div class="font-16 line-height-28 mb-10">
-                  <a class="btn btn-primary btn-lg btn-block" href="https://www.youtube.com/channel/UCrXblmO67rGz0cMYLUetpYg" target="_blank"> <i style="padding-right: 12px;"></i>YouTube</a>
-                </div>
-
-                <div class="font-16 line-height-28 mb-10">
-                  <a class="btn btn-primary btn-lg btn-block" href="https://github.com/sigit3329/" target="_blank"> <i style="padding-right: 12px;"></i>github</a>
-                </div>
-
-                <div class="font-16 line-height-28 mb-10">
-                  <a class="btn btn-primary btn-lg btn-block" href="https://wa.me/6285156888959" target="_blank"> <i style="padding-right: 12px;"></i>WhatsApp</a>
-                </div>
-
-                <div class="font-16 line-height-28 mb-10">
-                  <a class="btn btn-primary btn-lg btn-block" href="https://invoice.sigitberkarya.com/" target="_blank"> <i style="padding-right: 12px;"></i>Faktur (Invoice)</a>
-                </div>
-                
-                <div class="font-16 line-height-28 mb-10">
-                  <a class="btn btn-primary btn-lg btn-block" href="https://dompetku.sigitberkarya.com/" target="_blank"> <i style="padding-right: 12px;"></i>DOMPET_KU</a>
-                </div>
-
-                <div class="font-16 line-height-28 mb-10">
-                  <a class="btn btn-primary btn-lg btn-block" href="https://note.sigitberkarya.com/" target="_blank"> <i style="padding-right: 12px;"></i>NOTE</a>
-                </div>
-
-                <div class="font-16 line-height-28 mb-10">
-                  <a class="btn btn-primary btn-lg btn-block" href="https://file.sigitberkarya.com/" target="_blank"> <i style="padding-right: 12px;"></i>FILE MANAGER</a>
-                </div>
-
-<!-- 
-                <div class="font-16 line-height-28 mb-10">
-                  <a class="btn btn-primary btn-lg btn-block" href="" target="_blank" disabled> <i class="fa fa-microchip" style="padding-right: 12px;"></i>GPS Realtime</a>
-                </div>
-
-                
-                <div class="font-16 line-height-28 mb-10">
-                  <a class="btn btn-primary btn-lg btn-block" href="https://www.instagram.com/p/Cg3IAbAp43u/" target="_blank"> <i class="fa fa-gift" style="padding-right: 12px;"></i>Smart Kost</a>
-                </div>
-
-                <div class="font-16 line-height-28 mb-10">
-                  <a class="btn btn-primary btn-lg btn-block" href="" target="_blank" disabled><i class="fas fa-brain" style="padding-right: 12px;"></i>Laser alarm with Telegram</a>
-                </div>
-
-                <div class="font-16 line-height-28 mb-10">
-                  <a class="btn btn-primary btn-lg btn-block" href="" target="_blank" disabled> <i  class="fas fa-project-diagram" style="padding-right: 12px;"></i>Sound tracker with radio frequency signal</a>
-                </div>
-
-                <div class="font-16 line-height-28 mb-10">
-                  <a class="btn btn-primary btn-lg btn-block" href="" target="_blank" disabled> <i  class="fas fa-project-diagram" style="padding-right: 12px;"></i>Lie detector based IoT</a>
-                </div>
-
-                <div class="font-16 line-height-28 mb-10">
-                  <a class="btn btn-primary btn-lg btn-block" href="" target="_blank" disabled> <i  class="fas fa-network-wired" style="padding-right: 12px;"></i>IoT-based polling station</a>
-                </div> -->
-                
-              </div>
-            </div>
-
+      <!-- Instagram -->
+      <article class="card reveal">
+        <div class="card-head">
+          <div class="card-icon instagram" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.66 0 3 1.34 3 3v10c0 1.66-1.34 3-3 3H7c-1.66 0-3-1.34-3-3V7c0-1.66 1.34-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5zm0 2A2.5 2.5 0 1 1 9.5 12 2.5 2.5 0 0 1 12 9.5zM18 7.2a1 1 0 1 0-1-1 1 1 0 0 0 1 1z"/></svg>
           </div>
+          <h3 class="card-title">Instagram</h3>
+          <p class="card-desc">Galeri karya & aktivitas di @sigit.berkarya.</p>
         </div>
-      </div>
-    </header>
-    <!-- Header Section End -->
-    <!-- About Section Start -->
-    <section class="about-area section-padding light-bg" id="about">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="section-title text-center mb-60">
-              <h2 class="mb-20">About Me</h2>
-              <div class="horizontal-line">
-                <div class="top"></div>
-                <div class="bottom"></div>
-              </div>
-            </div>
-          </div>
+        <div class="card-actions">
+          <a class="btn primary" href="https://www.instagram.com/sigit.berkarya/" target="_blank" rel="noopener">Buka Instagram</a>
         </div>
-        <div class="row">
-          <div class="col-xs-12 col-sm-6">
-            <div class="left mr-40">
-              <h3 class="font-22 capitalize">Hi there!</h3>
-              <p class="font-16 line-height-28">
-                  My name is Sigit and I am pursuing a S.Kom. in Informatika at the University of Amikom, Yogyakarta.
-                  My main interest are in Internet of Things (IoT), Microcontroller, Elektro, as well as programming the microcontroller.
-              </p>
-              <br>
-              <p class="font-16 line-height-28">
-                <strong>I am currently looking for internship opportunities for 6th semester. Please feel free to contact me!</strong>
-              </p>
-              <div class="about-button mt-30">
-                <a class="btn" href="doc/Muhammad Sigit Nugroho.pdf" target="_blank"> <i class="fa fa-download" style="padding-right: 12px;"></i>See my resume</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-push-1 col-md-5">
-            <br >
-            <img src="img/mentor-robotik-malhik2.jpg" alt="Sigit Berkarya" />
-            <p class="font-16 line-height-28">
-              Mentor in robotics, internet of things, and electrical at Madrasah Aliyah Al-Hikmah 2. May 2022.
-          </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- About Section End -->
-    <!-- Experience Section Start -->
-    <section class="experience-area section-padding bg-color-1">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="section-title text-center mb-60">
-              <h2 class="mb-20">Current and Past Roles</h2>
-              <div class="horizontal-line">
-                <div class="top"></div>
-                <div class="bottom"></div>
-              </div>
-              <br />
-              <b> See Resume for Details </b>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-12 col-sm-6 mobile-mb-30">
-            <div class="left">
-              <div class="single-experi">
-                <div class="left-text floatleft relative">
-                  <a href="" target="_blank"><h4 class="montserrat weight-medium mb-5 capitalize">Freelance</h4></a>
-                  <p class="montserrat weight-medium">2019 - now</p>
-                  <p class="montserrat weight-medium">Yogyakarta and Bumiayu</p>
-                </div>
-                <div class="right-text">
-                  <i class="zmdi zmdi-star"></i>
-                  <h3 class="capitalize font-20">Laptop upgrade service</h3>
-                  <p>
-                    Provides services for laptop upgrades, including ram and migration from hard disk to ssd.
-                  </p>
-                </div>
-            </div>
-            <br />
-              <div class="single-experi">
-                  <div class="left-text floatleft relative">
-                    <a href="" target="_blank"><h4 class="montserrat weight-medium mb-5 capitalize">Freelance</h4></a>
-                    <p class="montserrat weight-medium">2020 - now</p>
-                    <p class="montserrat weight-medium">Anywhere</p>
-                  </div>
-                  <div class="right-text">
-                    <i class="zmdi zmdi-star"></i>
-                    <h3 class="capitalize font-20">Make prototype (IoT)</h3>
-                    <p>
-                      Provide services to make prototypes of any product based on electricity and the internet of things.
-                    </p>
-                  </div>
-              </div>
-              <br>
-              <div class="single-experi mb-50">
-                <div class="left-text floatleft relative">
-                  <a href="https://www.choosemuse.com/" target="_blank"><h4 class="montserrat weight-medium mb-5 capitalize">Freelance</h4></a>
-                  <p class="montserrat weight-medium">2020 - now</p>
-                  <p class="montserrat weight-medium">Anywhere</p>
-                </div>
-                <div class="right-text">
-                  <i class="zmdi zmdi-star"></i>
-                  <h3 class="capitalize font-20">Microcontroller coding services</h3>
-                  <p>Provides services for coding microcontrollers such as arduino, nodemcu, and other esp.</p>
-                </div>
-              </div>
+      </article>
 
-            </div>
+      <!-- Tokopedia -->
+      <article class="card reveal">
+        <div class="card-head">
+          <div class="card-icon toko" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M7 6V4a5 5 0 0 1 10 0v2h3a1 1 0 0 1 1 1v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V7a1 1 0 0 1 1-1h3zm2 0h6V4a3 3 0 0 0-6 0v2z"/></svg>
           </div>
-          <div class="col-xs-12 col-sm-6">
-            <div class="right">
-                <div class="single-experi">
-                    <div class="left-text floatleft relative">
-                      <a href="https://malhikdua.sch.id/" target="_blank"><h4 class="montserrat weight-medium mb-5 capitalize">Mentor at Madrasah Aliyah Al-Hikmah 2</h4></a>
-                      <p class="montserrat weight-medium">May 2022</p>
-                      <p class="montserrat weight-medium">Benda, Sirampog Area</p>
-                    </div>
-                    <div class="right-text">
-                      <i class="zmdi zmdi-star"></i>
-                      <h3 class="capitalize font-20">Educator</h3>
-                      <p>
-                        Teaching about arduino, internet of things, basic electricity, and teaches how to code a microcontroller along with its logic.</p>
-                    </div>
-                </div>
-              <br>
-
-              <br />
-              <div class="single-experi">
-                <div class="left-text floatleft">
-                  <h4 class="montserrat weight-medium mb-5 capitalize">Other</h4>
-                </div>
-                <div class="right-text">
-                  <ul class="awards">
-                    <li>Repair various electronic items such as cellphones, laptops, and others.</li>
-        
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+          <h3 class="card-title">Tokopedia</h3>
+          <p class="card-desc">Produk & jasa seputar IoT/Elektronika.</p>
         </div>
-        <br>
-        <br>
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="section-title text-center mb-60">
-              <h2 class="mb-20">Education</h2>
-              <div class="horizontal-line">
-                <div class="top"></div>
-                <div class="bottom"></div>
-              </div>
-            </div>
-          </div>
+        <div class="card-actions">
+          <a class="btn primary" href="https://www.tokopedia.com/" target="_blank" rel="noopener">Lihat Tokopedia</a>
         </div>
-        <div class="row">
-          <div class="col-xs-12 col-sm-6 mobile-mb-30">
-            <div class="left">
-              <div class="single-experi">
-                  <div class="left-text floatleft relative">
-                    <a href="https://home.amikom.ac.id/" target="_blank"><h4 class="montserrat weight-medium mb-5 capitalize">University Amikom, Special Region of Yogyakarta</h4></a>
-                    <p class="montserrat weight-medium">Graduating in May 2024</p>
-                    <p class="montserrat weight-medium">Sleman, Yogyakarta, Indonesia</p>
-                  </div>
-                  <div class="right-text">
-                    <i class="zmdi zmdi-label-alt"></i>
-                    <h3 class="capitalize font-20">Informatics Engineering</h3>
-                    <p>
-                      The field of informatics engineering continues to grow. Day by day, this world needs more and more people who are experts in this field and willing to develop the technology that exists today.
-                    </p>
-                  </div>              
-              </div>
-              <br>
+      </article>
 
-              <div class="single-experi">
-                <div class="left-text floatleft">
-                  <h4 class="montserrat weight-medium mb-5 capitalize">Other Programs</h4>
-                </div>
-                <div class="right-text">
-                  <ul class="awards">
-                    <li>Leader of <a class="experience-link" href="https://www.Instagram.com/hexamikom" target="_blank">HEXA University Amikom Yogyakarta</a></li>
-                    <!-- <li>Member of <a class="experience-link" href="https://www.instagram.com/amccamikom/" target="_blank">AMCC University Amikom Yogyakarta</a></li> -->
-                    <!-- <li>Member of <a class="experience-link" href="https://www.instagram.com/fossilamikom/" target="_blank">FOSSIL University Amikom Yogyakarta</a></li> -->
-                  </ul>
-                </div>
-              </div>
-            </div>
+      <!-- GitHub -->
+      <article class="card reveal">
+        <div class="card-head">
+          <div class="card-icon github" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.42c.58.11.8-.25.8-.56v-2c-3.26.71-3.95-1.39-3.95-1.39-.53-1.33-1.3-1.68-1.3-1.68-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.6-.3-5.33-1.3-5.33-5.79 0-1.28.46-2.32 1.2-3.14-.12-.3-.52-1.53.11-3.18 0 0 .98-.31 3.2 1.2a11.1 11.1 0 0 1 5.82 0c2.22-1.5 3.2-1.2 3.2-1.2.63 1.65.23 2.88.11 3.18.75.82 1.2 1.86 1.2 3.14 0 4.5-2.73 5.49-5.34 5.79.42.36.8 1.08.8 2.18v3.23c0 .31.21.68.81.56A11.5 11.5 0 0 0 12 .5z"/></svg>
           </div>
-          <div class="col-xs-12 col-sm-6">
-            <div class="right">
-              <div class="single-experi mb-50">
-                <div class="left-text floatleft relative">
-                  <a href="https://smansabumiayu.sch.id/" target="_blank"><h4 class="montserrat weight-medium mb-5 capitalize">Senior High School Country 1 Bumiayu</h4></a>
-                  <p class="montserrat weight-medium">2017 - 2020</p>
-                  <p class="montserrat weight-medium">Bumiayu, Brebes</p>
-                </div>
-                <div class="right-text">
-                  <i class="zmdi zmdi-label-alt"></i>
-                  <h3 class="capitalize font-20">Mathematics and natural sciences</h3>
-                </div>
-              </div>
-            </div>
-          </div>
+          <h3 class="card-title">GitHub</h3>
+          <p class="card-desc">Repositori, proyek, & kontribusi terbuka.</p>
         </div>
-      </div>
-    </section>
-    <!-- Experience Section End -->
-    <!-- Portfolio Section Start -->
-    <section class="portfolio-area portfolio-one light-bg section-padding clearfix" id="portfolio">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="section-title text-center mb-30">
-              <h2 class="mb-20">Things I worked on</h2>
-              <div class="horizontal-line">
-                <div class="top"></div>
-                <div class="bottom"></div>
-              </div>
-              <br />
-              <p> Sorted from the latest to the oldest. </p>
-              <p> Hover to view project description, Click to view the details.</p>
-              <b> Last Updated September 2022 </b>
-
-            </div>
-          </div>
+        <div class="card-actions">
+          <a class="btn primary" href="https://github.com/sigit3329" target="_blank" rel="noopener">Buka GitHub</a>
         </div>
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="all-portfolio">
-              <div class="portfolio-menu text-center">
-                <ul class="clearfix mb-50">
-                  <li data-filter="*" class="active">All</li>
-                  <li data-filter=".collaboration">Collaboration</li>
-                  <li data-filter=".research">Research</li>
-                  <li data-filter=".iot">Internet of Things</li>
-                  <li data-filter=".electro">Electro</li>
-                  <li data-filter=".robotics">Robotics</li>
-                  <li data-filter=".webapp">Web/App</li>
-                  <li data-filter=".event">Event</li>
-                </ul>
-              </div>
-            </div>
-            <div class="portfolio-grid">
+      </article>
 
-              <div class="grid-item new collaboration electro percent-33">
-                <a href="https://www.instagram.com/p/Cl6mY4VgIKU/" target="_blank" class="fancybox">
-                  <div class="single-portfolio overlay light-1 text-center">
-                    <img src="img/portfolio/B-Locker.jpg" alt="smart locker sigit berkarya"/>
-                    <div class="title plr-40 text-center">
-                      <div class="project-title text-left">
-                        <h4 class="font-20 montserrat weight-regular capitalize no-margin">B-Locker Biometric Locker</h4>
-                        <p class="montserratlight">Colaborasi dari tim DisVin</p>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <div class="grid-item new iot electro percent-33">
-                <a href="https://www.instagram.com/p/Cg3IAbAp43u/" target="_blank" class="fancybox">
-                  <div class="single-portfolio overlay light-1 text-center">
-                    <img src="img/portfolio/smart kost.jpg" alt="smart kost sigit berkarya"/>
-                    <div class="title plr-40 text-center">
-                      <div class="project-title text-left">
-                        <h4 class="font-20 montserrat weight-regular capitalize no-margin">Smart Kost (Internet of Things)</h4>
-                        <p class="montserratlight">source code: https://github.com/sigit3329/Smart-Kost</p>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <div class="grid-item new webapp percent-33">
-                <a href="https://github.com/sigit3329/shutdown-button" target="_blank" class="fancybox">
-                  <div class="single-portfolio overlay light-1 text-center">
-                    <img src="img/portfolio/shutdown button.png" alt="Shotdown Butoon sigit berkarya"/>
-                    <div class="title plr-40 text-center">
-                      <div class="project-title text-left">
-                        <h4 class="font-20 montserrat weight-regular capitalize no-margin">Shutdown Butoon</h4>
-                        <p class="montserratlight">source code: https://github.com/sigit3329/shutdown-button</p>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <div class="grid-item new iot electro percent-33">
-                <a href="https://www.instagram.com/p/Cgrc8FNg8Sz/" target="_blank" class="fancybox">
-                  <div class="single-portfolio overlay light-1 text-center">
-                    <img src="img/portfolio/motor iot.jpg" alt="Motor IoT sigit berkarya" />
-                    <div class="title plr-40 text-center">
-                      <div class="project-title text-left">
-                        <h4 class="font-20 montserrat weight-regular capitalize no-margin">Supra X 125 IoT</h4>
-                        <p class="montserratlight">Supra X 123 berbasis Internet of Things
-                          <br><br>
-                          Dibuat semester 2 (2021) https://www.youtube.com/shorts/NBUvD3eR12g
-                          <br><br>
-                          Update ganti platform semester 3
-                          <br><br>
-                          Source Code: https://github.com/sigit3329/Motor-IoT</p>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <div class="grid-item new electro percent-33">
-                <a href="https://www.instagram.com/p/Ccc_XpJggU4/" target="_blank" class="fancybox">
-                  <div class="single-portfolio overlay light-1 text-center">
-                    <img src="img/portfolio/sarung tangan critical damage.jpg" alt="Sarung tangan critical damage sigit berkarya"/>
-                    <div class="title plr-40 text-center">
-                      <div class="project-title text-left">
-                        <h4 class="font-20 montserrat weight-regular capitalize no-margin">Sarung tangan critical damage</h4>
-                        <p class="montserratlight">For self defense.</p>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
+      <!-- Asmaul-Husna -->
+      <article class="card reveal">
+        <div class="card-head">
+          <div class="card-icon husna" aria-hidden="true">
+            <!-- icon book/star -->
+            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M4 4h10a4 4 0 0 1 4 4v12H6a2 2 0 0 1-2-2V4zm12 0v16h2V8a4 4 0 0 0-4-4h2zM8 8h6v2H8V8zm0 4h6v2H8v-2z"/></svg>
           </div>
+          <h3 class="card-title">Asmaul Husna</h3>
+          <p class="card-desc">Dzikir Asmaul-Husna interaktif.</p>
         </div>
-      </div>
-    </section>
-    <!-- Portfolio Section End -->
-    <!-- Service Section Start -->
-    <section class="service-area bg-color-1 section-padding" id="service">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="section-title text-center mb-60">
-              <h2 class="mb-20">INTERESTS</h2>
-              <div class="horizontal-line">
-                <div class="top"></div>
-                <div class="bottom"></div>
-              </div>
-            </div>
-          </div>
+        <div class="card-actions">
+          <a class="btn primary" href="asmaul-husna/" rel="noopener">Buka Asmaul Husna</a>
         </div>
-        
-        <div class="row text-center">
-           <div class="mobile-mb-30 col-xs-12 col-sm-4 col-md-4">
-            <div class="single-service pt-50 pb-60 plr-20">
-              <i class="zmdi zmdi-fast-forward"></i>
-              <h5 class="montserrat weight-medium no-margin"><strong>Unconventional and weird ideas challenges the way we do things</strong></h5>
-              <hr class="mtb-15" />
-              <p>I believe unconventional and strange ideas can give rise to great ideas, sometimes.</p>
-              <hr>
-              <h5 class="montserrat weight-medium no-margin"><strong>Notable Prototypes I worked on</strong></h5>
-              <br>
-              <ul class="awards interest-area" style="padding-left: 10%;">
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-              </ul>
-            </div>
+      </article>
+
+      <!-- Ducky-Arduino -->
+      <article class="card reveal">
+        <div class="card-head">
+          <div class="card-icon arduino" aria-hidden="true">
+            <!-- icon "infinity" ala arduino -->
+            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M7 8c2.5 0 4 2 5 4 1-2 2.5-4 5-4 2.21 0 4 1.79 4 4s-1.79 4-4 4c-2.5 0-4-2-5-4-1 2-2.5 4-5 4-2.21 0-4-1.79-4-4s1.79-4 4-4m0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4m10 0a2 2 0 1 0 .001 4.001A2 2 0 0 0 17 10z"/></svg>
           </div>
-         
-          <div class="mobile-mb-30 col-xs-12 col-sm-4 col-md-4">
-            <div class="single-service pt-50 pb-60 plr-20">
-              <i class="zmdi zmdi-code-setting"></i>
-              <h5 class="montserrat weight-medium no-margin"><strong>Educational gap in technology</strong></h5>
-              <hr class="mtb-15" />
-              <p>"If you have a little knowledge in IT, don't hesitate to share it. Whether it's through videos, writings, etc., we can get here because other people have done the same thing before"</p>
-              <hr>
-              <h5 class="montserrat weight-medium no-margin"><strong>Initiatives I am working on</strong></h5>
-              <br>
-              <ul class="awards interest-area" style="padding-left: 8%; padding-right: 8%;">
-                <li>Mentor in robotics, internet of things, and electrical at Madrasah Aliyah Al-Hikmah 2. May 2022.</li>
-                <li></li>
-                <li></li>
-                <li></li>
-              </ul>
-            </div>
-          </div>
-          <div class="mobile-mb-30 col-xs-12 col-sm-4 col-md-4">
-            <div class="single-service pt-50 pb-60 plr-20">
-              <i class="zmdi zmdi-layers"></i>
-              <h5 class="montserrat weight-medium no-margin"><strong>Create jobs in the field of technology, including the internet of things, robotics, electricity, and a little about physics.</strong></h5>
-              <hr class="mtb-15" />
-              <p>The narrowness of the field of work makes me have an interest in creating jobs in the field of technology. The technology developed here is more specific in the fields of IoT, electrical, and microcontroller coding.</p>
-              <hr>
-              <h5 class="montserrat weight-medium no-margin"><strong>Things I Aspire to Worked On</strong></h5>
-              <br>
-              <ul class="awards interest-area" style="padding-left: 8%; padding-right: 8%;">
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-              </ul>
-            </div>
-          </div>
+          <h3 class="card-title">Ducky Arduino</h3>
+          <p class="card-desc">Koleksi skrip & utilitas terkait Arduino.</p>
         </div>
-        <br>
-        <div class="row text-center">
-          <div class="mobile-mb-30 col-xs-12 col-sm-6 col-md-6">
-            <div class="single-service pt-50 pb-60 plr-20">
-              <i class="zmdi zmdi-settings"></i>
-              <h5 class="montserrat weight-medium no-margin"><strong>Areas I have Worked On</strong></h5>
-              <hr class="mtb-15" />
-              <p>A summary of various areas I have worked on or researched into through projects.</p>
-              <br />
-              <span class="badge">Distributed Web</span>
-              <span class="badge">Decentrailized Applications</span>
-              <span class="badge">Brain-Computer Interface</span>
-              <span class="badge">Mechatronics System</span>
-              <span class="badge">Augmented Reality beyond Vision</span>
-              <span class="badge">Geometric Optical Illusion</span>
-              <span class="badge">Design Principles behind Military Equipment</span>
-            </div>
-          </div>
-          <div class="mobile-mb-30 col-xs-12 col-sm-6 col-md-6">
-            <div class="single-service pt-50 pb-60 plr-20">
-              <i class="zmdi zmdi-book"></i>
-              <h5 class="montserrat weight-medium no-margin"><strong>Learning</strong></h5>
-              <hr class="mtb-15" />
-              <p>A list of my learning journey and recommendations. Feel free to let me know if you recommend anything.</p>
-              <ul class="awards interest-area" style="padding-left: 30%;">
-                <br />
-                <li><a href="" target="_blank">Courses I took</a></li>
-                <li><a href="" target="_blank">Conferences attended</a></li>
-                <li><a href="" target="_blank">Companies & Labs Visited</a></li>
-                <li><a href="" target="_blank">Good sites I found</a></li>
-              </ul>
-            </div>
-          </div>
+        <div class="card-actions">
+          <a class="btn primary" href="ducky-arduino/" target="_blank" rel="noopener">Buka Tools</a>
         </div>
+      </article>
+
+      <!-- Compound Interest -->
+      <article class="card reveal">
+        <div class="card-head">
+          <div class="card-icon calc" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M7 2h10a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3zm0 4v2h10V6H7zm0 5v7h10v-7H7zm2 1h2v2H9v-2zm0 3h2v2H9v-2zm3-3h2v2h-2v-2zm0 3h2v2h-2v-2z"/></svg>
+          </div>
+          <h3 class="card-title">Compound Interest</h3>
+          <p class="card-desc">Kalkulator bunga majemuk sederhana.</p>
+        </div>
+        <div class="card-actions">
+          <a class="btn primary" href="compound-interest/" rel="noopener">Buka Kalkulator</a>
+        </div>
+      </article>
+
+      <!-- Lokasi (wide) -->
+      <article class="card wide reveal">
+        <div class="card-head">
+          <div class="card-icon map" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 14.5 9 2.5 2.5 0 0 1 12 11.5z"/></svg>
+          </div>
+          <h3 class="card-title">Lokasi</h3>
+        </div>
+        <div class="map-frame">
+          <iframe id="mapFrame" src="maps/index.html" title="Peta lokasi" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </article>
+
     </section>
 
-    <!-- Service Section End -->
-    <!-- Award Section Start -->
-    <section class="testimonial-area light-bg section-padding" id="recognitions">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="section-title text-center mb-60">
-              <h2 class="mb-20">Awards</h2>
-              <div class="horizontal-line">
-                <div class="top"></div>
-                <div class="bottom"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-12 col-sm-6">
-            <div class="left">
-              <div class="single-experi mb-50">
-                <h3 class="capitalize font-20 awards"><i class="zmdi zmdi-brush"></i> Product Design & Innovation</h3>
-                <ul class="awards">
-                  <li>B-Locker dari Tim DisVin <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Dokumentasi</a></li>
-                  <li></li>
-                  <li></li>
-                  <li></li>
-                </ul>
-              </div>
-              <div class="single-experi mb-50">
-                <h3 class="capitalize font-20 awards"><i class="zmdi zmdi-code"></i> Computer Science & Engineering</h3>
-                <ul class="awards">
-                  <li></li>
-                  <li></li>
-                  <li></li>
-                  <li></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-6 mobile-mb-30">
-            <div class="right">
-              <div class="single-experi mb-50">
-                <h3 class="capitalize font-20 awards"><i class="zmdi zmdi-settings"></i> Science & Engineering Research</h3>
-                <ul class="awards">
-                  <li></li>
-                  <li></li>
-                  <li></li>
-                  <li></li>
-                </ul>
-              </div>
-              <div class="single-experi mb-50">
-                <h3 class="capitalize font-20 awards"><i class="zmdi zmdi-plus"></i> Other</h3>
-                  <ul class="awards">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="section-title text-center mb-60">
-              <h2 class="mb-20">Featured In</h2>
-              <div class="horizontal-line">
-                <div class="top"></div>
-                <div class="bottom"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <br />
-        <div class="row">
-          <div class="col-xs-12 col-sm-6 col-md-2 thumb feature">
-            <a href="https://www.inc.com" target="_blank">
-              <img class="img-responsive img-fluid" src="img/feature/inc.png" alt="Inc">
-            </a>
-          </div>
-        </div>
-        </div>
-        <br />
-        <br />
-    </section>
-
-    <section id="blog">
-      <script async src="https://static.medium.com/embed.js"></script><a class="m-profile" data-width="100%" data-border="true" href="https://medium.com/@muhsigit">Muh. Sigit Nugroho</a>
-    </section>
-    <div class="text-center mt-30">
-      <a class="btn" href="https://medium.com/@muhsigit" target="_blank"> <i class="fa fa-medium" style="padding-right: 12px;"></i>View All Blogs</a>
-    </div>
-
-    <!-- Contact Section Start -->
-    <section class="contact-area light-bg section-padding" id="contact">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12 col-sm-6 col-md-4">
-            <div class="left">
-              <div class="section-title mb-30">
-                <h2 class="mb-15">Contact Me</h2>
-                <div class="horizontal-line mb-20">
-                  <div class="top"></div>
-                  <div class="bottom"></div>
-                </div>
-                <p>Feel free to contact me.
-              </div>
-              <ul class="contact-text clearfix">
-                <li> 
-                  <i class="zmdi zmdi-email"></i>
-                  <h4 class="montserrat weight-regular no-margin capitalize">Email</h4>
-                  <span><a class="montserrat weight-regular" href="mailto:muhammadsigitnugroho@students.amikom.ac.id">muhammadsigitnugroho@students.amikom.ac.id</a></span>
-                </li>
-                <li>
-                  <i class="zmdi zmdi-pin"></i>
-                  <h4 class="montserrat weight-regular capitalize no-margin">Location</h4>
-                  <span class="montserrat weight-regular capitalize">Sleman, Yogyakarta, Indonesia</span>
-                </li>
-                <li><a href="https://www.linkedin.com/in/muhammad-sigit-nugroho/" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
-                <li><a href="https://twitter.com/sigit.n12" target="_blank"><i class="fab fa-twitter"></i></a></li>
-                <li><a href="https://github.com/sigit3329" target="_blank"><i class="fab fa-github"></i></a></li>
-                <li><a href="https://devpost.com/msigit" target="_blank"><i class="fas fa-code"></i></a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-8">
-            <div class="right">
-              <div class="contact-form pt-40">
-                <form class="custom-input contact_form" method="POST" action="https://formspree.io/f/xzbwrbdk">
-                  <div class="row name-email">
-                    <div class="col-xs-12 col-sm-6">
-                      <input type="name" name="name" placeholder="Your name">
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                      <input type="email" name="email" placeholder="Your email">
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-xs-12">
-                      <textarea class="mt-50" name="message" placeholder="Your message"></textarea>
-                      <button class="btn montserrat weight-regular uppercase mt-30" type="submit" name="submit" data-complete-text="Thank you!">
-  												Send Message
-  											</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-
-              <!-- Begin MailChimp Signup Form -->
-              <div id="mc_embed_signup contact-form pt-40">
-              <form action="https://sigitberkarya.us10.list-manage.com/subscribe/post?u=5248b192ef63680bce02c9262&amp;id=0eb44e445a&amp;f_id=00c63ae2f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate contact-form custom-input pt-40" target="_blank" novalidate>
-                  <div id="mc_embed_signup_scroll">
-                    <div class="section-title mb-30">
-                      <p>Subscribe to my updates to see what I've been up to.</p>
-                    </div>
-                    <div class="mc-field-group row">
-                      <div class="col-xs-12 col-sm-8">
-                    	   <input type="email" placeholder="Your Email" name="EMAIL" class="required email name-email" id="mce-EMAIL" style="margin-bottom: 30px">
-                       </div>
-                      <div class="col-xs-12 col-sm-4">
-                        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d9a910459a11fb098d3759220_16e691afaf" tabindex="-1" value=""></div>
-                        <button class="btn montserrat weight-regular uppercase mt-30" type="submit" name="submit" data-complete-text="Thank you!" style="margin-top:0px; height:45px">
-                            Subscribe
-                        </button>
-                      </div>
-                    </div>
-                  	<div id="mce-responses" class="clear">
-                  		<div class="response" id="mce-error-response" style="display:none"></div>
-                  		<div class="response" id="mce-success-response" style="display:none"></div>
-                  	</div>
-                    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d9a910459a11fb098d3759220_16e691afaf" tabindex="-1" value=""></div>
-              </form>
-              </div>
-              <!--End mc_embed_signup-->
-
-            </div>
-          </div>
-        </div>
+    <!-- ABOUT ME — Diletakkan PALING AKHIR -->
+    <section id="about" class="about-section reveal">
+      <h2>Tentang Saya</h2>
+      <p>Halo! Saya Sigit. Fokus pada pengembangan perangkat IoT – desain hardware, firmware (ESP32/STM32), BLE/Wi-Fi/MQTT, hingga integrasi cloud & web.</p>
+      <ul class="bullets">
+        <li>Embedded: ESP32, FreeRTOS, OTA, sensor TDS, kalibrasi</li>
+        <li>Web: Laravel/Next.js, REST API, WebSocket</li>
+        <li>Data: Kalman Filter, smoothing sinyal, logging</li>
+      </ul>
+      <div class="about-actions">
+        <a class="btn primary" href="mailto:msigit.n12@gmail.com">Hubungi Saya</a>
+        <a class="btn" href="cv.pdf" target="_blank" rel="noopener">Unduh CV</a>
       </div>
     </section>
-    <!-- Contact Section End -->
-    <!-- Footer Section Start -->
-    <footer class="footer bg-color-1 ptb-20">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="left floatleft">
-              <p>Copyright &copy; 2022 Muh. Sigit Nugroho.</p>
-            </div>
-            <div class="right social-link floatright">
-              Made by Muh. Sigit Nugroho, on <a href="https://github.com/sigit3329/sigit3329.github.io" target="_blank" style="color: #393939"><i class="fab fa-github"></i></a> with <i class="fa fa-code"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-    <!-- Footer Section End -->
+  </main>
 
-    <!-- All JS Here -->
-    <!-- jQuery Latest Version -->
-    <script src="js/vendor/jquery-1.12.4.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- One Page Nav JS -->
-    <script src="js/one-page-nav.js"></script>
-    <!-- Waypoints JS -->
-    <script src="js/waypoints.min.js"></script>
-    <!-- Progressbar JS -->
-    <script src="js/progressbar.js"></script>
-    <!-- Isotope -->
-    <script src="js/isotope.pkgd.js"></script>
-    <!-- Isotope -->
-    <script src="js/jquery.validate.min.js"></script>
-    <!-- Slick Slider JS -->
-    <script src="js/slick.min.js"></script>
-    <!-- Fancybox JS -->
-    <script src="js/jquery.fancybox.pack.js"></script>
-    <!-- Plugins JS -->
-    <script src="js/plugins.js"></script>
-    <!-- main JS -->
-    <script src="js/main.js"></script>
-    <!-- Google Analytics -->
-    <script>
-      (function(i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function() {
-          (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-          m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-      })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-      ga('create', 'UA-96110124-1', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/5248b192ef63680bce02c9262/cac1f983567c80974434ee58a.js");</script>
-  </body>
+  <footer class="site-footer container">
+    <p>© <span id="year"></span> Muhammad Sigit Nugroho. Ringan, cepat, tanpa dependensi berat.</p>
+  </footer>
+</body>
 </html>

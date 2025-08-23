@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="system">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kalkulator Bunga Majemuk (Rp) — Plus</title>
+  <meta name="description" content="Kalkulator bunga majemuk (Rupiah) dengan setoran bulanan, target dana (hitung setoran), pilih frekuensi penggandaan (harian/bulanan/tahunan), grafik & ekspor CSV.">
+  <meta name="theme-color" content="#0ea5e9" />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <div class="brand">
+        <div class="avatar">Rp</div>
+        <div>
+          <h1 class="title">Kalkulator Bunga Majemuk</h1>
+          <p class="subtitle">Mode <b>Nilai Akhir</b> & <b>Target Dana</b> • Frekuensi penggandaan • Grafik • CSV</p>
+        </div>
+      </div>
+      <nav class="actions">
+        <button id="themeToggle" class="btn ghost" title="Ganti tema">🌓</button>
+        <a class="btn ghost" href="../" aria-label="Kembali">← Kembali</a>
+      </nav>
+    </header>
+
+    <!-- Pengaturan -->
+    <section class="card">
+      <form id="form" class="grid grid-3">
+        <label class="field">
+          <span>Mode kalkulasi</span>
+          <select id="mode">
+            <option value="forward" selected>Hitung nilai akhir</option>
+            <option value="target">Target dana (hitung setoran)</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Frekuensi penggandaan</span>
+          <select id="compound">
+            <option value="12" selected>Bulanan (12×/tahun)</option>
+            <option value="365">Harian (365×/tahun)</option>
+            <option value="1">Tahunan (1×/tahun)</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Waktu setoran</span>
+          <select id="timing">
+            <option value="end" selected>Akhir bulan (umum)</option>
+            <option value="start">Awal bulan</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Modal awal</span>
+          <input id="principal" type="text" inputmode="numeric" placeholder="cth: 10.000.000" value="10000000" data-currency />
+        </label>
+
+        <label class="field">
+          <span>Setoran bulanan</span>
+          <input id="monthly" type="text" inputmode="numeric" placeholder="cth: 1.000.000" value="1000000" data-currency />
+        </label>
+
+        <label class="field hidden" id="targetWrap">
+          <span>Target dana (akhir periode)</span>
+          <input id="target" type="text" inputmode="numeric" placeholder="cth: 500.000.000" value="500000000" data-currency />
+        </label>
+
+        <label class="field">
+          <span>Suku bunga (per tahun)</span>
+          <div class="addon">
+            <input id="rate" type="number" step="0.1" min="0" max="200" value="10" />
+            <span class="suffix">%</span>
+          </div>
+        </label>
+
+        <label class="field">
+          <span>Jangka waktu</span>
+          <div class="addon">
+            <input id="years" type="number" min="1" max="60" value="10" />
+            <span class="suffix">tahun</span>
+          </div>
+        </label>
+
+        <label class="field">
+          <span>Inflasi (opsional)</span>
+          <div class="addon">
+            <input id="inflation" type="number" step="0.1" min="0" max="100" value="3.0" />
+            <span class="suffix">%</span>
+          </div>
+          <small class="muted">Untuk estimasi nilai riil (daya beli).</small>
+        </label>
+
+        <div class="field full actions-row">
+          <button id="calc" class="btn primary" type="submit">Hitung</button>
+          <button id="reset" class="btn" type="button">Reset</button>
+          <button id="csv" class="btn" type="button">Unduh CSV</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Hasil ringkas -->
+    <section class="grid grid-3">
+      <article class="stat card">
+        <h3 id="labelInvested">Total disetor</h3>
+        <p id="invested" class="num">–</p>
+        <small class="muted">Modal awal + seluruh setoran bulanan</small>
+      </article>
+      <article class="stat card">
+        <h3 id="labelInterest">Total bunga</h3>
+        <p id="interest" class="num">–</p>
+        <small class="muted">Akumulasi bunga/balikan</small>
+      </article>
+      <article class="stat card">
+        <h3 id="labelFuture">Nilai akhir (nominal)</h3>
+        <p id="future" class="num">–</p>
+        <small class="muted">Tanpa penyesuaian inflasi</small>
+      </article>
+      <article class="stat card full">
+        <h3 id="labelFutureReal">Nilai akhir riil (setelah inflasi)</h3>
+        <p id="futureReal" class="num">–</p>
+        <small class="muted">Estimasi daya beli saat ini</small>
+      </article>
+
+      <!-- Hasil target -->
+      <article class="stat card full hidden" id="needWrap">
+        <h3>Setoran bulanan yang dibutuhkan</h3>
+        <p id="needMonthly" class="num accent">–</p>
+        <small class="muted">Agar modal awal mencapai target dalam waktu & bunga yang ditentukan.</small>
+      </article>
+    </section>
+
+    <!-- Grafik -->
+    <section class="card">
+      <h3 class="card-title" id="chartTitle">Grafik Pertumbuhan</h3>
+      <div style="height:320px"><canvas id="chart"></canvas></div>
+    </section>
+
+    <!-- Tabel jadwal -->
+    <section class="card">
+      <div class="table-head">
+        <h3 class="card-title">Jadwal Pertumbuhan Bulanan</h3>
+        <div class="table-actions">
+          <label class="muted"><input id="showOnlyYears" type="checkbox" /> Tampilkan hanya akhir tahun</label>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table id="schedule">
+          <thead>
+            <tr>
+              <th>Bulan</th>
+              <th>Setoran</th>
+              <th>Bunga</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p>© <span id="year"></span> Kalkulator Bunga Majemuk (IDR)</p>
+    </footer>
+  </div>
+</body>
+</html>

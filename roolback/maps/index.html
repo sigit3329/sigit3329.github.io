@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Direction Google Maps</title>
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+    
+    .direction-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    
+    .direction-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4285f4;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    
+    .direction-button:hover {
+      background-color: #3367d6;
+    }
+  </style>
+</head>
+<body>
+  <h1>Peta Statis Google Maps</h1>
+  <div id="map"></div>
+  
+  <div class="direction-container">
+    <a class="direction-button" href="https://www.google.com/maps/dir//-7.755604,110.411669" target="_blank">Arahkan Saya</a>
+  </div>
+
+  <script src="https://maps.googleapis.com/maps/api/js"></script>
+  <script>
+    function initMap() {
+      // Koordinat lokasi yang akan ditampilkan
+      var location = { lat: -7.755604, lng: 110.411669 };
+
+      // Membuat peta dengan koordinat dan zoom level tertentu
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: location,
+        zoom: 12
+      });
+
+      // Menambahkan marker/pin ke peta
+      var marker = new google.maps.Marker({
+        position: location,
+        map: map
+      });
+    }
+
+    // Memanggil fungsi initMap setelah API Google Maps dimuat
+    google.maps.event.addDomListener(window, 'load', initMap);
+  </script>
+</body>
+</html>

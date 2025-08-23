@@ -1,274 +1,369 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id" data-theme="system">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asmaul Husna</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Asmaul Husna — Nadzom & Doa</title>
+  <meta name="description" content="Halaman Asmaul Husna berisi Nadzom & Doa dengan tampilan bersih, responsif, dan dukungan mode terang/gelap.">
+  <!-- Fonts (opsional, aman dipakai di GitHub Pages) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ========== Theme & base ========== */
+    :root{
+      --bg:#0b1220; --panel:#0f172a; --card:#0b1220; --text:#e5e7eb; --muted:#9aa3b2;
+      --primary:#0ea5e9; --ring:rgba(14,165,233,.45); --bd:rgba(148,163,184,.18);
+      --shadow:0 12px 30px rgba(0,0,0,.35);
+      --fs: 18px; /* ukuran dasar bisa diubah via kontrol A-/A+ */
+    }
+    :root[data-theme="light"]{
+      --bg:#f8fafc; --panel:#ffffff; --card:#ffffff; --text:#0f172a; --muted:#475569;
+      --primary:#0ea5e9; --ring:rgba(14,165,233,.35); --bd:rgba(2,6,23,.12);
+      --shadow:0 12px 30px rgba(2,6,23,.08);
+    }
+    html,body{height:100%}
+    html{color-scheme:dark}
+    :root[data-theme="light"] html{color-scheme:light}
+    body{
+      margin:0; background:
+        radial-gradient(50rem 50rem at 20% -10%, rgba(56,189,248,.10), transparent 45%),
+        radial-gradient(30rem 30rem at 100% 0%, rgba(14,165,233,.08), transparent 50%),
+        var(--bg);
+      color:var(--text);
+      font: var(--fs)/1.7 "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Naskh Arabic", sans-serif;
+    }
+    .container{max-width: 900px; margin: 0 auto; padding: 20px}
+    .header{
+      display:flex; align-items:center; justify-content:space-between; gap:12px; padding-top:14px;
+    }
+    .title{margin:0; font-weight:800; letter-spacing:.2px; font-size: clamp(22px, 3.2vw, 30px)}
+    .subtitle{margin:6px 0 0; color:var(--muted); font-size:14px}
+    .left{display:flex; align-items:flex-start; gap:12px}
+    .avatar{width:42px; height:42px; border-radius:12px; background:linear-gradient(135deg, var(--primary), #22d3ee); display:grid; place-items:center; color:white; font-weight:700; box-shadow:var(--shadow)}
+    .actions{display:flex; gap:8px; flex-wrap:wrap}
+    .btn{
+      appearance:none; border:1px solid var(--bd); background:var(--panel); color:var(--text);
+      padding:10px 14px; border-radius:12px; font-weight:600; text-decoration:none; cursor:pointer;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .btn.primary{ background:var(--primary); border-color:transparent; color:white }
+    .btn.ghost{ background:transparent }
+    .btn:focus-visible{ outline:2px solid var(--ring); outline-offset:2px }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.03), transparent 40%), var(--card);
+      border:1px solid var(--bd); border-radius:16px; box-shadow:var(--shadow);
+      padding:16px 18px; margin-top:16px;
+    }
+    details.card{overflow:hidden}
+    details.card > summary{
+      list-style:none; cursor:pointer; display:flex; align-items:center; gap:10px; font-weight:700;
+      padding:8px 0; position:relative;
+    }
+    details.card > summary::-webkit-details-marker{display:none}
+    details.card[open] > summary .chev{ transform: rotate(90deg) }
+    .chev{ transition: transform .2s ease; opacity:.9 }
+    .toolbar{
+      display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;
+    }
+    .block{
+      margin-top:8px;
+      border:1px dashed var(--bd); border-radius:12px; padding:14px;
+      background: linear-gradient(180deg, rgba(255,255,255,.02), transparent 70%);
+    }
+    /* Teks Arab & tata letak */
+    .text{
+      white-space:pre-wrap; /* supaya baris panjang tetap melipat */
+      overflow-wrap:anywhere;
+    }
+    .text .ar{ font-family: "Noto Naskh Arabic", "Amiri", serif; font-size: 1.2em; line-height: 1.9; direction: rtl; unicode-bidi: isolate; }
+    .muted{ color:var(--muted) }
+
+    /* Footer kecil */
+    .foot{ text-align:center; color:var(--muted); padding:30px 0 40px }
+
+    /* Badge kecil kembali */
+    .back{ text-decoration:none; color:inherit; }
+    .back:hover{ text-decoration:underline; }
+
+    /* Controls font size badges */
+    .chip{ padding:6px 10px; border-radius:9999px; border:1px solid var(--bd); background:var(--panel); }
+  </style>
 </head>
-<body style="font-size:2.5vw;" overflow-wrap: break-word; >
-    <!-- <body> -->
-    <center>
-    <h4>NADLOM ASMAUL HUSNA</h4>
-    <br>
-    <p><pre>
-بِسْـمِ الله بَدَ ئْـنَا - وَالْحَمْدُ لِـرَ بِّـنَا
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="left">
+        <div class="avatar" aria-hidden="true">AH</div>
+        <div>
+          <h1 class="title">Asmaul Husna</h1>
+          <p class="subtitle">Nadzom & Doa — tampilan nyaman dibaca, dengan mode terang/gelap</p>
+        </div>
+      </div>
+      <nav class="actions">
+        <a class="btn ghost back" href="../" aria-label="Kembali ke beranda">← Kembali</a>
+        <button id="btnSmaller" class="btn ghost" title="Perkecil teks">A−</button>
+        <span id="sizeLabel" class="chip" aria-live="polite">Ukuran: 100%</span>
+        <button id="btnReset" class="btn ghost" title="Reset ukuran">Reset</button>
+        <button id="btnBigger" class="btn ghost" title="Perbesar teks">A+</button>
+        <button id="themeToggle" class="btn" title="Ganti tema">🌓</button>
+      </nav>
+    </header>
+
+    <!-- Nadzom -->
+    <details class="card" open>
+      <summary>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 6l6 6-6 6"/></svg>
+        Nadzom Asmaul Husna
+      </summary>
+      <div class="toolbar muted">Bacaan dibawah dikelompokkan per baris (Arab • latin • terjemah).</div>
+      <div class="block text">
+<span class="ar">بِسْـمِ الله بَدَ ئْـنَا - وَالْحَمْدُ لِـرَ بِّـنَا</span>
 Bismillaahi bada’na - Wal khamdu lirabbina
-Dengan nama Allah, kami memulai (membaca). Segala puji bagi 
-Tuhan kami. 
+Dengan nama Allah, kami memulai (membaca). Segala puji bagi Tuhan kami.
 
-
-وَالصَّلاَةُ وَالسَّلامُ - لِلنـَّبِيْ حَبِـيْبِـنَا
+<span class="ar">وَالصَّلاَةُ وَالسَّلامُ - لِلنـَّبِيْ حَبِـيْبِـنَا</span>
 Wash sholaatu wassalaam - Linnabii khabiibina
 Shalawat dan salam untuk Nabi Kekasih kami.
 
-
-يَا اَللهُ يَارَ بَّــنَـا - اَ نْتَ مَـقْصُـوْدُنَا
+<span class="ar">يَا اَللهُ يَارَ بَّــنَـا - اَ نْتَ مَـقْصُـوْدُنَا</span>
 Yaa Allah yaa Robbanaa - Anta Maqshuudunaa
 Ya Allah ya Tuhan Kami. Engkau Tujuan Kami
 
-
-رِضَاكَ مَطْـلُوْ بُـنَا - دُنْـيَانَا وَاُخْــرَانَا
+<span class="ar">رِضَاكَ مَطْـلُوْ بُـنَا - دُنْـيَانَا وَاُخْــرَانَا</span>
 Ridhooka math luubunaa - Dun yaana wa uhraanaa
-RidhaMu yang Kami Cari. Di Dunia dan Akherat Kami
+RidhaMu yang Kami Cari. Di Dunia dan Akhirat Kami
 
-
-يَا رَحْمَنُ يَارَحِيْـمُ - يَامَلِـكُ يَاقُـدُّوْسُ
+<span class="ar">يَا رَحْمَنُ يَارَحِيْـمُ - يَامَلِـكُ يَاقُـدُّوْسُ</span>
 Yaa Rohmaanu ya Rokhiim - Yaa Maliku yaa Qudduus
-Wahai Yang Maha Pengasih, Wahai Yang Maha Penyayang.
-Wahai Yang Maha Raja, Wahai Yang Yang Maha Suci.
+Wahai Yang Maha Pengasih, Wahai Yang Maha Penyayang. Wahai Yang Maha Raja, Wahai Yang Maha Suci.
 
-
-يَاسَلاَمُ يَامُـؤْمـِنُ - يَامُهَيْمِـنُ يَاعَـزِيْزُ
+<span class="ar">يَاسَلاَمُ يَامُـؤْمـِنُ - يَامُهَيْمِـنُ يَاعَـزِيْزُ</span>
 Yaa Salaamu yaa Mukmin - Yaa Muhaiminu yaa Aziiz
-Wahai Yang Maha Sejahtera, Wahai Yang Maha Terpercaya.
-Wahai Yang Maha Memelihara, Wahai Yang Maha Perkasa.
+Wahai Yang Maha Sejahtera, Wahai Yang Maha Terpercaya. Wahai Yang Maha Memelihara, Wahai Yang Maha Perkasa.
 
-
-يَاجَـبَّارُ مُـتَكـَبِّرُ - يَاخَالِـقُ يَا بَـارِئُ
+<span class="ar">يَاجَـبَّارُ مُـتَكـَبِّرُ - يَاخَالِـقُ يَا بَـارِئُ</span>
 Yaa Jabbar yaa Mutakabbir - Yaa Hooliqu yaa Baarik
-Wahai Yang Kehendak-Nya Tak Dapat Diingkari, Yang Memiliki Kebesaran.
-Wahai Yang Maha Menciptakan, Wahai Yang Mengadakan dari Tiada.
+Wahai Yang Kehendak-Nya Tak Dapat Diingkari, Yang Memiliki Kebesaran. Wahai Yang Maha Menciptakan, Wahai Yang Mengadakan dari Tiada.
 
-
-يَامُصَوِّرُ يَاغَـفَّـارُ - يَا قَـهَّـارُ يَاوَهَّابُ
+<span class="ar">يَامُصَوِّرُ يَاغَـفَّـارُ - يَا قَـهَّـارُ يَاوَهَّابُ</span>
 Yaa Mushowwiru yaa Ghoffaar - Yaa Qohhaaru yaa Wahhaab
-Wahai Yang Maha Membentuk, Wahai Yang Maha Pengampun.
-Wahai Yang Maha Perkasa, Wahai Yang Maha Pemberi
+Wahai Yang Maha Membentuk, Wahai Yang Maha Pengampun. Wahai Yang Maha Perkasa, Wahai Yang Maha Pemberi.
 
-
-يَارَزَّاقُ يَا فَــتَّاحُ - يَاعَـلِيْمُ يَا قَابـِضُ
+<span class="ar">يَارَزَّاقُ يَا فَــتَّاحُ - يَاعَـلِيْمُ يَا قَابـِضُ</span>
 Yaa Rozzaaqu yaa Fattaakh - Yaa Aliimu yaa Qobiidh
-Wahai Yang Maha Pemberi Rezeki, Wahai Yang Maha Pembuka.
-Wahai Yang Maha Mengetahui, Wahai Yang Maha Menyempitkan.
+Wahai Yang Maha Pemberi Rezeki, Wahai Yang Maha Pembuka. Wahai Yang Maha Mengetahui, Wahai Yang Maha Menyempitkan.
 
-
-يَا بَاسِطُ يَاخَافِـضُ - يَارَافِـعُ يَا مُـعِـزُّ
+<span class="ar">يَا بَاسِطُ يَاخَافِـضُ - يَارَافِـعُ يَا مُـعِـزُّ</span>
 Yaa Baasithu yaa Hofiidh - Yaa Roofi’u ya Mu’izz
-Wahai Yang Maha Melapangkan, Wahai Yang Maha Merendahkan.
-Wahai Yang Maha Meninggikan, Wahai Yang Maha Memuliakan
+Wahai Yang Maha Melapangkan, Wahai Yang Maha Merendahkan. Wahai Yang Maha Meninggikan, Wahai Yang Maha Memuliakan.
 
-
-يَامُـذِلُّ يَاسَامِـعُ - يَابَصِـيْرُ يَا حَكَـمُ
+<span class="ar">يَامُـذِلُّ يَاسَامِـعُ - يَابَصِـيْرُ يَا حَكَـمُ</span>
 Yaa Mudzillu yaa Samii’ - Yaa Bashiiru yaa Khakam
-Wahai Yang Maha Menghinakan, Yang Maha Mendengar.
-Wahai Yang Maha Melihat, Wahai Yang Memutuskan Hukum.
+Wahai Yang Maha Menghinakan, Yang Maha Mendengar. Wahai Yang Maha Melihat, Wahai Yang Memutuskan Hukum.
 
-
-يَاعَدْلُ يَا لَطِـيْفُ - يَا خَبِـيْرُ يَاحَـلِيْمُ
+<span class="ar">يَاعَدْلُ يَا لَطِـيْفُ - يَا خَبِـيْرُ يَاحَـلِيْمُ</span>
 Yaa ‘Adlu yaa Lathiif - Yaa Khobiiru yaa Khaliim
-Wahai Yang Maha Adil, Wahai Yang Maha Lembut.
-Wahai Yang Maha Mengetahui, Wahai Yang Maha Penyantun
+Wahai Yang Maha Adil, Wahai Yang Maha Lembut. Wahai Yang Maha Mengetahui, Wahai Yang Maha Penyantun.
 
-
-يَاعَـظِيْمُ يَاغَـفُوْرُ - يَا شَكُوْرُ يَا عَلِـيُّ 
+<span class="ar">يَاعَـظِيْمُ يَاغَـفُوْرُ - يَا شَكُوْرُ يَا عَلِـيُّ</span>
 Yaa ‘Adhiimu yaa Ghofuur - Yaa Syakuuru yaa ‘Aliyy
-Wahai Yang Maha Agung, Wahai Yang Maha Pengampun.
-Wahai Yang Maha Menerima Syukur, Wahai Yang Maha Tinggi.
+Wahai Yang Maha Agung, Wahai Yang Maha Pengampun. Wahai Yang Maha Menerima Syukur, Wahai Yang Maha Tinggi.
 
-
-يَاكَبِيْرُ يَاحَـفِيْـظُ - يَامُقِيْتُ يَاحَسِيْبُ
+<span class="ar">يَاكَبِيْرُ يَاحَـفِيْـظُ - يَامُقِيْتُ يَاحَسِيْبُ</span>
 Yaa Kabiiru yaa Khafiidh - Yaa Muqiitu yaa Khasiib
-Wahai Yang Maha Besar, Wahai Yang Maha Pemelihara.
-Wahai Yang Maha Pemberi Kekuatan, Wahai Yang Maha 
-Mencukupi/Maha Pembuat Perhitungan
+Wahai Yang Maha Besar, Wahai Yang Maha Pemelihara. Wahai Yang Maha Pemberi Kekuatan, Wahai Yang Maha Mencukupi/Maha Pembuat Perhitungan.
 
-
-يَاجَلِيْـلُ يَاكَـرِيْمُ - يَارَقِـيْبُ يَامُجِيْبُ
+<span class="ar">يَاجَلِيْـلُ يَاكَـرِيْمُ - يَارَقِـيْبُ يَامُجِيْبُ</span>
 Yaa Jaliilu yaa Kariim - Yaa Roqiibu yaa Mujiib
-Wahai Yang Maha Agung, Wahai Yang Maha Mulia.
-Wahai Yang Maha Mengawasi, Wahai Yang Maha Memperkenankan.
+Wahai Yang Maha Agung, Wahai Yang Maha Mulia. Wahai Yang Maha Mengawasi, Wahai Yang Maha Memperkenankan.
 
-
-يَاوَاسِعُ يَاحَكِـيْمُ - يَاوَدُوْدُ يَامَجِـيْدُ
+<span class="ar">يَاوَاسِعُ يَاحَكِـيْمُ - يَاوَدُوْدُ يَامَجِـيْدُ</span>
 Yaa Waasi’u yaa Khakiim - Yaa Waduudu yaa Majiid
-Wahai Yang Maha Luas, Wahai Yang Maha Bijaksana.
-Wahai Yang Maha Membuat Rasa Kasih Sayang, Wahai 
-Yang Maha Luhur.
+Wahai Yang Maha Luas, Wahai Yang Maha Bijaksana. Wahai Yang Maha Membuat Rasa Kasih Sayang, Wahai Yang Maha Luhur.
 
-
-يَابَاعِثُ يَاشَهِـيْـدُ - يَاحَـقُّ يَاوَكِـيْلُ
+<span class="ar">يَابَاعِثُ يَاشَهِـيْـدُ - يَاحَـقُّ يَاوَكِـيْلُ</span>
 Yaa Baa’itsu yaa Syahiid - Yaa Khaqqu yaa Wakiil
-Wahai Yang Maha Membangkitkan, Wahai Yang Maha Menyaksikan.
-Wahai Yang Maha Benar, Wahai Yang Maha Mengurusi.
+Wahai Yang Maha Membangkitkan, Wahai Yang Maha Menyaksikan. Wahai Yang Maha Benar, Wahai Yang Maha Mengurusi.
 
-
-يَاقَـوِيُّ يَامَتِـيْنُ - يَاوَلِيُّ يَاحَـمِـيْدُ
+<span class="ar">يَاقَـوِيُّ يَامَتِـيْنُ - يَاوَلِيُّ يَاحَـمِـيْدُ</span>
 Yaa Qowiyyu yaa Matiin - Yaa Waliyyu yaa Khamiid
-Wahai Yang Maha Kuat, Wahai Yang Maha Kokoh.
-Wahai Yang Maha Melindungi, Wahai Yang Maha Terpuji
+Wahai Yang Maha Kuat, Wahai Yang Maha Kokoh. Wahai Yang Maha Melindungi, Wahai Yang Maha Terpuji.
 
-
-يَامُحْصِى يَامُبْدِئُ - يَامُـعِيْدُ يَامُحْـيِى
+<span class="ar">يَامُحْصِى يَامُبْدِئُ - يَامُـعِيْدُ يَامُحْـيِى</span>
 Yaa Mukhshii yaa Mubdik - Yaa Mu’iidu yaa Mukhyii
-Wahai Yang Maha Menghitung, Wahai Yang Maha Memulai.
-Wahai Yang Maha Mengembalikan, Wahai Yang Maha Menghidupkan.
+Wahai Yang Maha Menghitung, Wahai Yang Maha Memulai. Wahai Yang Maha Mengembalikan, Wahai Yang Maha Menghidupkan.
 
-
-يَامُـمـِيْتُ يَاحَيُّ - يَاقَـيُّوْمُ يَاوَاجِـدُ
+<span class="ar">يَامُـمـِيْتُ يَاحَيُّ - يَاقَـيُّوْمُ يَاوَاجِـدُ</span>
 Yaa Mumiitu yaa Khayyu - Yaa Qoyyumu yaa Waajiid
-Wahai Yang Maha Mematikan, Wahai Yang Maha Hidup.
-Wahai Yang Maha Berdiri Sendiri, Wahai Yang Maha Menemukan
+Wahai Yang Maha Mematikan, Wahai Yang Maha Hidup. Wahai Yang Maha Berdiri Sendiri, Wahai Yang Maha Menemukan.
 
-
-يَامَاجِـدُ يَاوَاحِدُ - يَااَحَـدُ يَاصَمَـدُ
+<span class="ar">يَامَاجِـدُ يَاوَاحِدُ - يَااَحَـدُ يَاصَمَـدُ</span>
 Yaa Maajidu yaa Waakhiid - Yaa Akhadu yaa Shomad
-Wahai Yang Maha Mermiliki Kemuliaan, Wahai Yang Maha Esa.
-Wahai Yang Maha Satu, Wahai Yang Maha Dibutuhkan.
+Wahai Yang Maha Memiliki Kemuliaan, Wahai Yang Maha Esa. Wahai Yang Maha Satu, Wahai Yang Maha Dibutuhkan.
 
-
-يَاقَـدِيْرُ يَامُقْتَـدِرُ - يَامُـقَدِّمُ يَامُؤَخِّـرُ
+<span class="ar">يَاقَـدِيْرُ يَامُقْتَـدِرُ - يَامُـقَدِّمُ يَامُؤَخِّـرُ</span>
 Yaa Qoodir yaa Muqtadir - Yaa Muqoddim yaa Mu-akhir
-Wahai Yang Maha Kuasa, Wahai Yang Maha Menentukan.
-Wahai Yang Maha Mendahulukan, Wahai Yang Maha Mengakhirkan
+Wahai Yang Maha Kuasa, Wahai Yang Maha Menentukan. Wahai Yang Maha Mendahulukan, Wahai Yang Maha Mengakhirkan.
 
+<span class="ar">يَااَوَّلُ يَااَخِـــرُ - يَاظَاهِـرُ يَابَاطِـنُ</span>
+Yaa Awwalu yaa Aakhir - Yaa Dhoohiru yaa Baathin
+Wahai Yang Maha Awal, Wahai Yang Maha Akhir. Wahai Yang Maha Nyata, Wahai Yang Maha Tersembunyi.
 
-يَااَوَّلُ يَااَخِـــرُ - يَاظَاهِـرُ يَابَاطِـنُ
-Yaa Awwalu yaa Aakhir - Yaa dhoohiru yaa Baathin
-Wahai Yang Maha Awal, Wahai Yang Maha Akhir.
-Wahai Yang Maha Nyata, Wahai Yang Maha Tersembunyi.
-
-
-يَاوَالِى يَامُتَـعَـالِى - يَا بَـرُّ يَا تَــوَّابُ
+<span class="ar">يَاوَالِى يَامُتَـعَـالِى - يَا بَـرُّ يَا تَــوَّابُ</span>
 Yaa Waalii Muta’alii - Yaa Barru yaa Tawwaab
-Wahai Yang Maha Memerintah, Wahai Yang Maha Tinggi.
-Wahai Yang Maha Dermawan, Wahai Yang Penerima Tobat
+Wahai Yang Maha Memerintah, Wahai Yang Maha Tinggi. Wahai Yang Maha Dermawan, Wahai Yang Penerima Tobat.
 
-
-يَامُنْتَـقِمُ يَاعَـفُـوُّ - يَارَؤُوْفُ يَامَالِــكُ
+<span class="ar">يَامُنْتَـقِمُ يَاعَـفُـوُّ - يَارَؤُوْفُ يَامَالِــكُ</span>
 Yaa Muntaqimu yaa ‘Afuww - Yaa Ro-uufu yaa Maalik
-Wahai Yang Maha Pembalas, Wahai Yang Maha Pemaaf.
-Wahai Yang Maha Pelimpah Kasih, Wahai Pemilik Kerajaan.
+Wahai Yang Maha Pembalas, Wahai Yang Maha Pemaaf. Wahai Yang Maha Pelimpah Kasih, Wahai Pemilik Kerajaan.
 
-
-مَــلِكَ الْمُـلْكِ - ذَاالجْـَلاَلِ وَالاِكْرَامِ
+<span class="ar">مَــلِكَ الْمُـلْكِ - ذَاالجْـَلاَلِ وَالاِكْرَامِ</span>
 Maalikal Mulki - Dhal jalaali wal Ikroom
-Yang Memiliki Kerajaan
-Pemilik Keagungan dan Kemuliaan.
+Yang Memiliki Kerajaan, Pemilik Keagungan dan Kemuliaan.
 
-
-يَامُقْسِطُ يَاجَامِـعُ - يَاغَـنِيُّ يَامُـغْـنِي
+<span class="ar">يَامُقْسِطُ يَاجَامِـعُ - يَاغَـنِيُّ يَامُـغْـنِي</span>
 Yaa Muqsitu yaa Jaami’ - Yaa Ghoniyyu yaa Mughnii
-Wahai Yang Maha Adil, Wahai Yang Maha Penghimpun.
-Wahai Yang Maha Kaya, Wahai Yang Maha Pemberi Kekayaan.
+Wahai Yang Maha Adil, Wahai Yang Maha Penghimpun. Wahai Yang Maha Kaya, Wahai Yang Maha Pemberi Kekayaan.
 
-
-يَامَانِــعُ يَاضَـارُّ - يَا نَافِـعُ يَا نُــوْرُ
+<span class="ar">يَامَانِــعُ يَاضَـارُّ - يَا نَافِـعُ يَا نُــوْرُ</span>
 Yaa Maani’u yaa Dhoor - Yaa Naafi’u yaa Nuur
-Wahai Yang Maha Mencegah, Wahai Yang Maha Pemberi Bahaya.
-Wahai Yang Maha Pemberi Manfaat, Wahai Yang Maha Menjadikan 
-Cahaya
+Wahai Yang Maha Mencegah, Wahai Yang Maha Memberi Bahaya. Wahai Yang Maha Memberi Manfaat, Wahai Yang Maha Menjadikan Cahaya.
 
-
-يَاهَـادِى يَابَدِيْـعُ - يَا بَاقِــى يَا وَارِثُ
+<span class="ar">يَاهَـادِى يَابَدِيْـعُ - يَا بَاقِــى يَا وَارِثُ</span>
 Yaa Hadii yaa Badii’ - Yaa Baaqii yaa Waarits
-Wahai Yang Maha Pemberi Petunjuk, Wahai Yang Maha Pencipta.
-Wahai Yang Maha Kekal, Wahai Yang Maha Mewarisi.
+Wahai Yang Maha Pemberi Petunjuk, Wahai Yang Maha Pencipta. Wahai Yang Maha Kekal, Wahai Yang Maha Mewarisi.
 
-
-يَارَشِـيْدُ يَاصَبُوْرُ - عَـزَّجَـلَّ ذِكْـرُهُ
+<span class="ar">يَارَشِـيْدُ يَاصَبُوْرُ - عَـزَّجَـلَّ ذِكْـرُهُ</span>
 Yaa Rosyiidu yaa Shobuur - Azza Jalla Dzikruhu
-Wahai Yang Maha Tepat Tindakan-Nya, Wahai Yang Maha Sabar
-Yang Maha Perkasa Maha Mulia Sebutannya.</pre>
-    </p>
-    <br><br>
-    <h4>DOA ASMAUL HUSNA</h4>
-    <p><pre>
-بِاَسْمَاءِكَ الْحُسْنَىْ - اِغْـفِرْلَنَا ذُنُوْ بَـنَا
+Wahai Yang Maha Tepat Tindakan-Nya, Wahai Yang Maha Sabar. Yang Maha Perkasa, Maha Mulia Sebutannya.
+      </div>
+    </details>
+
+    <!-- Doa -->
+    <details class="card" open>
+      <summary>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 6l6 6-6 6"/></svg>
+        Doa Asmaul Husna
+      </summary>
+      <div class="block text">
+<span class="ar">بِاَسْمَاءِكَ الْحُسْنَىْ - اِغْـفِرْلَنَا ذُنُوْ بَـنَا</span>
 Bi ‘asmaa ‘ikal khusnaa - Ighfir lanaa dhunuubanaa
-Dengan Asma Ul Khusna - Ampunilah Dosa Kami
+Dengan Asma-ul Husna — ampunilah dosa kami.
 
-
-وَلِــوَالِــدِنَـا - وَذُ رِّ يَّا تِـــنَا
+<span class="ar">وَلِــوَالِــدِنَـا - وَذُ رِّ يَّا تِـــنَا</span>
 Waliwalidiinaa - Wa dhurriyaa tinaa
-Dan Dosa Kedua Orang Tua Kami - Dan Keturunan Kami
+Dan dosa kedua orang tua kami — serta keturunan kami.
 
-
-كَفِّـِرْعَنْ سَيِّئَاتِنَا - وَاسْـتُرْعَلَى عُيُوْبِنَا
+<span class="ar">كَفِّـِرْعَنْ سَيِّئَاتِنَا - وَاسْـتُرْعَلَى عُيُوْبِنَا</span>
 Kaffir ‘an sayyi’a tinaa - Waastur ‘alaa ‘uyuu binaa
-Hapuskanlah Kejelekan Kami - Dan Tutuplah Cacat Kami
+Hapuskanlah kejelekan kami — dan tutupilah aib kami.
 
-
-وَاجْبُرْعَلَى نُقْصَانِنَا - وَارْفَـعْ دَرَجَاتِـنَا
+<span class="ar">وَاجْبُرْعَلَى نُقْصَانِنَا - وَارْفَـعْ دَرَجَاتِـنَا</span>
 Waajbur ‘alaa nuq shoo ninaa - Waarfa’ darojaa tinaa
-Tambahlah Kekurangan Kami - Naikkanlah Derajat Kami
+Tambahlah kekurangan kami — naikkanlah derajat kami.
 
+<span class="ar">وَزِدْ نَا عِلْمًا نَافِـعًا - وَرِزْ قاً وَّاسِــعًا</span>
+Wa zidnaa ‘ilman naafi’aan - Warizqon waasi’aan
+Tambahilah ilmu yang bermanfaat — serta rezeki yang luas.
 
-وَزِدْ نَا عِلْمًا نَافِـعًا - وَرِزْ قاً وَّاسِــعًا
-Wa zidnaa ‘ilmaannaa fi’aan - Warizqon Waasi’aan
-Dan Tambahilah Kami Ilmu Yang Bermanfaat - Dan Rezki
-Yang Luas
-
-
-حَـلاَلاً طَـيِّــبًا - وَعَـمَـلاً صَالِحًا
+<span class="ar">حَـلاَلاً طَـيِّــبًا - وَعَـمَـلاً صَالِحًا</span>
 Khalaalan thoyyiban - Wa’amalan sholikhaan
-Yang Halal dan Bagus - Dan Amalan Yang Sholeh
+Yang halal lagi baik — dan amal yang saleh.
 
-
-وَنَـوِّرْ قُلُـوْ بَـنَا - وَيَـسِّـرْ اُمُـوْرَنَا
+<span class="ar">وَنَـوِّرْ قُلُـوْ بَـنَا - وَيَـسِّـرْ اُمُـوْرَنَا</span>
 Wanawwir quluu banaa - Wayassir umuu ronaa
-Dan Terangkanlah Hati Kami - Dan Mudahkanlah Urusan Kami
+Terangkanlah hati kami — dan mudahkanlah urusan kami.
 
+<span class="ar">وَصَحِّـحْ اَجْسَادَناَ - دَائِـمَ حَـيَاتِــنَا</span>
+Wa shohhih ajsaadanaa - Daa’ima khayaatinaa
+Sehatkanlah badan kami — sepanjang hidup kami.
 
-وَصَحِّـحْ اَجْسَادَناَ - دَائِـمَ حَـيَاتِــنَا
-Wa shokhi’ ajsaa danaa - Daaa’ima khayaatinaa
-Dan Sehatkanlah Badan Kami - Selama Hidup Kami
-
-
-اِلَى الْخَـيْرِقَرِبْـنَا - عَنِ الشَّـرِّ بَاعِـدْنَا
+<span class="ar">اِلَى الْخَـيْرِقَرِبْـنَا - عَنِ الشَّـرِّ بَاعِـدْنَا</span>
 Ilâl khoiri qorribnâ - ‘Anisy syarri baa’idnaa
-Ke Kebaikan Dekatkanlah Kami - Dari Kejelekan Jauhkanlah 
-Kami
+Dekatkan kami kepada kebaikan — jauhkan dari keburukan.
 
+<span class="ar">وَقُـرْبَى رَجَـائُنَا - اَخِـرًا نِلْنَا الْمُـنَى</span>
+Walqurbâ rojâ’unâ - Âkhiron nilnal munâ
+Kedekatan kepada-Mu harapan kami — akhirnya anugerahi kami keinginan yang utama.
 
-وَقُـرْبَى رَجَـائُنَا - اَخِـرًا نِلْنَا الْمُـنَى
-Waalqurbaa rojaaa ‘una - Akhiiroon nilnalmunaa
-Dan Dekat Pada Allah Harapan Kami - Akhirnya Kami 
-Memperoleh Kenikmatan
+<span class="ar">بَلِـغْ مَـقَاصِـدَنَا - وَاقْـضِ حَوَائِجَـنَا</span>
+Balligh maqâshidana - Waqdhi hawâ’ijanaa
+Sampaikan maksud-maksud kami — dan penuhilah hajat kami.
 
+<span class="ar">وَالْحَمْـدُ ِلا ِلَهِـنَا - اَلَّـذِى هَــدَا نَا</span>
+Walhamdu li ilâhinâ - Alladzî hadânâ
+Segala puji bagi Tuhan kami — yang telah memberi petunjuk kepada kami.
 
-بَلِـغْ مَـقَاصِـدَنَا - وَاقْـضِ حَوَائِجَـنَا
-Balligh maqooshidanaa - Waqdhi khawaa ‘ijanaa
-Sampaikanlah Maksud-maksud Kami - Dan Penuhilah 
-Hajat-Hajat Kebutuhan Kami
+<span class="ar">صَلِّ وَسَلِّمْ عَـلَى - طَهَ خَلِيْلِ الرَّحْمَنْ</span>
+Sholli wa sallim ‘alâ - Thohâ khalîlir rahmân
+Shalawat dan salam atas Nabi Muhammad — kekasih Tuhan Yang Maha Pengasih.
 
+<span class="ar">وَاَلِـهِ وَصَـحْبِـهِ - اِلَى اَخِرِ الزَّمَـانْ</span>
+Wa âlihî wa shohbihî - Ilâ âkhirizzamân
+Kepada keluarganya dan sahabatnya — sampai akhir zaman.
+      </div>
+    </details>
 
-وَالْحَمْـدُ ِلا ِلَهِـنَا - اَلَّـذِى هَــدَا نَا
-Walkhamdu li’ilaahinaa - Alladhii hadaanaa
-Segala Puji Untuk Tuhan Kami - Yang Telah Menunjukkan 
-Kepada Kami
+    <p class="foot">© <span id="year"></span> — Halaman Asmaul Husna. Semoga bermanfaat.</p>
+  </div>
 
+  <script>
+    (function(){
+      const html = document.documentElement;
+      const stored = localStorage.getItem('theme');
+      if (stored === 'light' || stored === 'dark') html.setAttribute('data-theme', stored);
+      else html.setAttribute('data-theme', 'system');
 
-صَلِّ وَسَلِّمْ عَـلَى - طَهَ خَلِيْلِ الرَّحْمَنْ
-Sholli wasalim ‘alaa - Thoohaa kholiilir rokhmaan
-Semoga Allah Memberikan Rahmat dan Keselamatan - 
-Atas Thoha/Nabi Muhammad menjadi Kekasih
+      function setTheme(mode){
+        html.setAttribute('data-theme', mode);
+        if (mode === 'system') localStorage.removeItem('theme');
+        else localStorage.setItem('theme', mode);
+      }
+      function resolvedTheme(){
+        const curr = html.getAttribute('data-theme') || 'system';
+        if (curr === 'light') return 'light';
+        if (curr === 'dark') return 'dark';
+        return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+      }
 
+      // Theme toggle: system -> light -> dark
+      const themeBtn = document.getElementById('themeToggle');
+      let order = ['system','light','dark'];
+      themeBtn.addEventListener('click', ()=>{
+        const curr = html.getAttribute('data-theme') || 'system';
+        const next = order[(order.indexOf(curr)+1)%order.length];
+        setTheme(next);
+        themeBtn.title = 'Tema: ' + next;
+      });
 
-وَاَلِـهِ وَصَـحْبِـهِ - اِلَى اَخِرِ الزَّمَـانْ
-Wa ‘aa lihii washokhbihii - ’Ilaa aakhirizzamaan
-Dan Keluarganya dan Sahabatnya - Sampai Akhir Masa
-    </pre>
-    </p>
-</center>
+      // Font size controls
+      const sizeLabel = document.getElementById('sizeLabel');
+      const root = document.documentElement;
+      function getNum(px){ return Number(String(px).replace('px','')) }
+      function updateLabel(){
+        const fs = getComputedStyle(root).getPropertyValue('--fs').trim();
+        const base = 18; const cur = getNum(fs)||18;
+        sizeLabel.textContent = 'Ukuran: ' + Math.round(cur/base*100) + '%';
+      }
+      function setFs(px){ root.style.setProperty('--fs', px + 'px'); updateLabel(); }
+      document.getElementById('btnSmaller').onclick = ()=> setFs(Math.max(14, (parseFloat(getComputedStyle(root).getPropertyValue('--fs'))||18) - 2));
+      document.getElementById('btnBigger').onclick  = ()=> setFs(Math.min(28, (parseFloat(getComputedStyle(root).getPropertyValue('--fs'))||18) + 2));
+      document.getElementById('btnReset').onclick   = ()=> setFs(18);
+      updateLabel();
+
+      // Tahun
+      const y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();
+
+      // Improve keyboard accessibility on <summary>
+      document.querySelectorAll('summary').forEach(s=>{
+        s.setAttribute('tabindex','0');
+        s.addEventListener('keypress', e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); s.click(); }});
+      });
+    })();
+  </script>
 </body>
 </html>
