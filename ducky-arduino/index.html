@@ -1,6 +1,29 @@
 <!DOCTYPE html>
 <html lang="id" data-theme="system">
 <head>
+  <!-- LOCK: pre-hide -->
+<style>
+  html.locked .container { display:none !important; }
+  #lockOverlay{ position:fixed; inset:0; display:grid; place-items:center;
+    background: radial-gradient(60rem 60rem at 20% -10%, rgba(56,189,248,.10), transparent 40%),
+                radial-gradient(30rem 30rem at 100% 0%, rgba(14,165,233,.08), transparent 50%),
+                var(--bg);
+    z-index:9999;
+  }
+  .lock-card{ width:min(440px,92%); background:var(--card); border:1px solid var(--bd);
+    border-radius:16px; padding:18px; box-shadow:var(--shadow); }
+  .lock-card h2{ margin:0 0 6px; }
+  .lock-card p{ margin:0 0 12px; color:var(--muted); }
+  .lock-row{ display:flex; gap:8px; }
+  .lock-input{ flex:1; padding:10px 12px; border-radius:12px; border:1px solid var(--bd);
+    background:var(--panel); color:var(--text); }
+  .btn{ appearance:none; border:1px solid var(--bd); background:var(--panel); color:var(--text);
+    padding:10px 14px; border-radius:12px; font-weight:600; cursor:pointer; }
+  .btn.primary{ border-color:transparent; background:var(--primary); color:#fff; }
+  .lock-error{ color:#ef4444; font-size:13px; min-height:18px; margin-top:8px; }
+</style>
+<script>document.documentElement.classList.add('locked');</script>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ducky Script → Arduino IDE</title>
@@ -86,5 +109,82 @@ ENTER"></textarea>
       <p>© <span id="year"></span> Ducky → Arduino • Gunakan secara etis & minta izin di perangkat yang Anda kelola.</p>
     </footer>
   </div>
+
+
+  <script>
+  // ====== Konfigurasi ======
+  // Cara 1 (paling gampang): isi sandi biasa di sini
+  const PASSWORD_PLAIN = ""; // GANTI sesuai keinginan
+
+  // Cara 2 (lebih rapi): pakai hash SHA-256
+  //  - set PASSWORD_PLAIN = "" (kosong)
+  //  - isi ALLOWED_HASH dengan hasil hash hex (lihat catatan di bawah)
+  const ALLOWED_HASH = "b16cf61b83d1ec3e52269379a9f6704219b3668643070a7b44974d3dcd50ac73"; // contoh: "2bb80d537b1da3e38bd30361aa855686bde0..."
+
+  // ====== Util ======
+  async function sha256Hex(str){
+    const buf = new TextEncoder().encode(str);
+    const hash = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }
+  function h(el, attrs={}, children=[]){
+    const e = document.createElement(el);
+    Object.entries(attrs).forEach(([k,v])=>{
+      if (k==='class') e.className = v;
+      else if (k==='text') e.textContent = v;
+      else e.setAttribute(k,v);
+    });
+    (Array.isArray(children)?children:[children]).forEach(c=>c && e.append(c));
+    return e;
+  }
+
+  // ====== Build overlay ======
+  async function unlockIfNeeded(){
+    // skip kalau sudah unlock di session
+    if (sessionStorage.getItem('ducky_unlock')==='ok'){
+      document.documentElement.classList.remove('locked'); return;
+    }
+
+    const ov = h('div', {id:'lockOverlay'});
+    const card = h('div', {class:'lock-card'});
+    const title = h('h2', {text:'Kata Sandi Diperlukan'});
+    const desc  = h('p', {text:'Halaman ini dilindungi. Masukkan password untuk melanjutkan.'});
+    const inp   = h('input', {type:'password', class:'lock-input', placeholder:'Password...'});
+    const btn   = h('button', {class:'btn primary', text:'Buka'});
+    const row   = h('div', {class:'lock-row'}, [inp, btn]);
+    const err   = h('div', {class:'lock-error'});
+
+    card.append(title, desc, row, err);
+    ov.append(card);
+    document.body.append(ov);
+
+    async function tryUnlock(){
+      const pass = inp.value.trim();
+      if (!pass) { err.textContent = 'Isi password.'; return; }
+
+      const hashToCompare = ALLOWED_HASH
+        ? ALLOWED_HASH.toLowerCase()
+        : await sha256Hex(PASSWORD_PLAIN);
+
+      const typedHash = await sha256Hex(pass);
+      if (typedHash === hashToCompare){
+        sessionStorage.setItem('ducky_unlock','ok');
+        document.documentElement.classList.remove('locked');
+        ov.remove();
+      } else {
+        err.textContent = 'Password salah.';
+        inp.select();
+      }
+    }
+
+    btn.addEventListener('click', tryUnlock);
+    inp.addEventListener('keydown', (e)=>{ if(e.key==='Enter') tryUnlock(); });
+    setTimeout(()=>inp.focus(),50);
+  }
+
+  unlockIfNeeded();
+</script>
+
+
 </body>
 </html>
