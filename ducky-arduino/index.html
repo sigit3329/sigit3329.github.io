@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="system">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ducky Script → Arduino IDE</title>
+  <meta name="description" content="Ubah bahasa Ducky Script menjadi sketch Arduino (Keyboard.h) dengan UI modern.">
+  <meta name="theme-color" content="#0ea5e9" />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <div class="brand">
+        <div class="avatar">DA</div>
+        <div>
+          <h1 class="title">Ducky Script → Arduino</h1>
+          <p class="subtitle">Konversi otomatis ke <b>Keyboard.h</b> • Dark/Light • Salin & Unduh</p>
+        </div>
+      </div>
+      <nav class="actions">
+        <button id="themeToggle" class="btn ghost" title="Ganti tema">🌓</button>
+        <a class="btn ghost" href="../" aria-label="Kembali">← Kembali</a>
+      </nav>
+    </header>
+
+    <section class="grid grid-2">
+      <article class="card">
+        <div class="card-head">
+          <h3 class="card-title">Ducky Script</h3>
+          <div class="row-actions">
+            <label class="btn"><input type="file" id="file" accept=".txt,.ds" hidden>📄 Impor</label>
+            <button id="clear" class="btn">Hapus</button>
+          </div>
+        </div>
+        <textarea id="ducky" spellcheck="false" placeholder="Contoh:
+REM Buka Run
+GUI r
+DELAY 500
+STRING notepad
+ENTER
+DELAY 300
+STRING Halo dari Arduino!
+ENTER"></textarea>
+
+        <div class="options">
+          <label>Default delay (ms)
+            <input id="defaultDelay" type="number" min="0" value="50">
+          </label>
+          <label>Waktu setelan ENTER (ms)
+            <input id="enterDelay" type="number" min="0" value="20">
+          </label>
+          <label>Tambahkan komentar baris sumber
+            <input id="includeComments" type="checkbox" checked>
+          </label>
+        </div>
+        <div class="note muted">Catatan: Sketch menggunakan <b>Keyboard.h</b>. Pakai board dengan ATmega32u4 (Leonardo/Micro/Pro Micro) atau yang kompatibel HID.</div>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h3 class="card-title">Arduino Sketch (output)</h3>
+          <div class="row-actions">
+            <button id="copy" class="btn">📋 Salin</button>
+            <button id="download" class="btn">⬇️ Unduh .ino</button>
+          </div>
+        </div>
+        <textarea id="arduino" spellcheck="false" readonly></textarea>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h3 class="card-title">Preset Cepat</h3>
+        <div class="row-actions"></div>
+      </div>
+      <div class="presets">
+        <button class="chip" data-demo="run_notepad">Buka Notepad</button>
+        <button class="chip" data-demo="admin_cmd">CMD Administrator</button>
+        <button class="chip" data-demo="type_text">Tulis Teks</button>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p>© <span id="year"></span> Ducky → Arduino • Gunakan secara etis & minta izin di perangkat yang Anda kelola.</p>
+    </footer>
+  </div>
+</body>
+</html>

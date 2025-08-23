@@ -205,27 +205,40 @@
   document.getElementById('compound').addEventListener('change', run);
 
   
-  // ===== CSV Download =====
-  document.getElementById('csv').addEventListener('click', () => {
-    // Pastikan data terbaru
-    run();
-    const rows = document.querySelectorAll('#schedule tbody tr');
-    let csv = 'Bulan,Setoran,Bunga,Total\n';
-    rows.forEach(r => {
-      const tds = r.querySelectorAll('td');
-      if (tds.length === 4){
-        csv += `${tds[0].textContent},${tds[1].textContent},${tds[2].textContent},${tds[3].textContent}\n`;
-      }
-    });
-    const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'schedule.csv';
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+// CSV Download — aman, tidak ganggu kalkulator/grafik
+document.getElementById('csv').addEventListener('click', () => {
+  // pastikan data terbaru
+  run();
+
+  const rows = document.querySelectorAll('#schedule tbody tr');
+
+  // Pakai ';' biar Excel Indonesia langsung kepisah kolom.
+  // Ubah ke ',' kalau mau delimiter koma.
+  const SEP = ';';
+
+  let csv = `Bulan${SEP}Setoran${SEP}Bunga${SEP}Total\n`;
+
+  rows.forEach(r => {
+    const tds = r.querySelectorAll('td');
+    if (tds.length === 4) {
+      const vals = [
+        tds[0].textContent.trim(),
+        tds[1].textContent.trim(),
+        tds[2].textContent.trim(),
+        tds[3].textContent.trim()
+      ];
+      csv += vals.join(SEP) + '\n';
+    }
   });
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'schedule.csv';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 0);
+});
+
 
   run();
 })();
