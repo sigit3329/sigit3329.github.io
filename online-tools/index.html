@@ -40,6 +40,7 @@ if (location.hostname != 'localhost') {
   })();
 }
 
+  // Default = DARK. Hanya kalau user pernah memilih light (DARK === '0') baru pakai light.
   var pref = localStorage.getItem('DARK');
   if (pref !== '0') {
     document.documentElement.classList.add('dark-theme');
