@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Perencana Dana Pendidikan</title>
+  <meta name="theme-color" content="#0ea5e9" />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <div class="brand">
+        <div class="avatar">EDU</div>
+        <div>
+          <h1 class="title">Perencana Dana Pendidikan</h1>
+          <p class="subtitle">Proyeksi biaya TK–S2 + kebutuhan nabung bulanan (Rupiah)</p>
+        </div>
+      </div>
+      <nav class="actions">
+        <button id="themeToggle" class="btn ghost" title="Ganti tema">🌓</button>
+        <a class="btn ghost" href="../">← Kembali</a>
+      </nav>
+    </header>
+
+    <section class="grid grid-2">
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Input Utama</h3></div>
+        <div class="form-grid">
+          <label>Usia anak saat ini (tahun)
+            <input id="ageNow" type="number" step="0.1" min="0" value="0">
+          </label>
+          <label>Inflasi pendidikan (%/th)
+            <input id="inflation" type="number" step="0.1" min="0" value="7">
+          </label>
+          <label>Imbal hasil investasi (%/th)
+            <input id="returnRate" type="number" step="0.1" min="0" value="8">
+          </label>
+        </div>
+        <p class="muted small">Default usia mulai: TK 4, SD 7, SMP 13, SMA 16, S1 19, S2 23. Lama: 2/6/3/3/4/2 th. Bisa disunting di tabel.</p>
+      </article>
+
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Ringkasan</h3></div>
+        <div class="summary">
+          <div><span>Total nominal (saat bayar)</span><strong id="sumNominal">Rp 0</strong></div>
+          <div><span>Total nilai sekarang (PV)</span><strong id="sumPV">Rp 0</strong></div>
+          <div><span>Nabung/bulan sampai pembayaran terakhir</span><strong id="perMonth">Rp 0</strong></div>
+          <div><span>Tahun pembayaran terakhir</span><strong id="lastYear">-</strong></div>
+        </div>
+        <div class="row">
+          <button id="calc" class="btn primary">Hitung</button>
+          <button id="csv" class="btn">Unduh CSV</button>
+        </div>
+      </article>
+    </section>
+
+    <article class="card">
+      <div class="card-head"><h3 class="card-title">Biaya Saat Ini & Usia Mulai</h3></div>
+      <div class="table-wrap">
+        <table class="table" id="stageTable">
+          <thead><tr><th>Jenjang</th><th>Usia mulai</th><th>Lama (th)</th><th>Biaya tahunan saat ini (Rp)</th></tr></thead>
+          <tbody>
+            <tr data-key="TK"><td>TK</td><td contenteditable data-field="startAge">4</td><td>2</td><td><input data-currency data-field="costNow" value="5.000.000"></td></tr>
+            <tr data-key="SD"><td>SD</td><td contenteditable data-field="startAge">7</td><td>6</td><td><input data-currency data-field="costNow" value="8.000.000"></td></tr>
+            <tr data-key="SMP"><td>SMP</td><td contenteditable data-field="startAge">13</td><td>3</td><td><input data-currency data-field="costNow" value="10.000.000"></td></tr>
+            <tr data-key="SMA"><td>SMA</td><td contenteditable data-field="startAge">16</td><td>3</td><td><input data-currency data-field="costNow" value="12.000.000"></td></tr>
+            <tr data-key="S1"><td>S1</td><td contenteditable data-field="startAge">19</td><td>4</td><td><input data-currency data-field="costNow" value="18.000.000"></td></tr>
+            <tr data-key="S2"><td>S2</td><td contenteditable data-field="startAge">23</td><td>2</td><td><input data-currency data-field="costNow" value="25.000.000"></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted small">Isi biaya tahunan harga saat ini. Kalkulator akan mengeskalasi dg inflasi sampai tahun pembayaran.</p>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><h3 class="card-title">Jadwal Pembayaran & Proyeksi</h3></div>
+      <div class="table-wrap">
+        <table class="table" id="schedule">
+          <thead><tr><th>#</th><th>Jenjang</th><th>Tahun ke-</th><th>Tahun Kalender</th><th>Biaya/Thn (proyeksi)</th><th>PV saat ini</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </article>
+
+    <footer class="site-footer"><p>© <span id="year"></span> Perencana Dana Pendidikan</p></footer>
+  </div>
+</body>
+</html>
