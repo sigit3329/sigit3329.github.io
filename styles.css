@@ -18,6 +18,12 @@
   border: 1px solid var(--bd);
 }
 
+.card-icon.edu{
+  color:#38bdf8;
+  background:linear-gradient(135deg, rgba(14,165,233,.22), rgba(56,189,248,.16));
+  border:1px solid var(--bd);
+}
+
 
 html,[data-theme="dark"]{ color-scheme: dark; }
 [data-theme="light"]{
