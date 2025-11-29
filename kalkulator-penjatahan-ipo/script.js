@@ -1,14 +1,14 @@
-// ============ UTIL FORMAT ANGKA ============
+// =========== FORMAT ANGKA ===========
 
 function formatNumber(value, decimals) {
   if (value === null || value === undefined || isNaN(value)) return '';
   if (decimals === undefined) decimals = 0;
 
-  var factor = Math.pow(10, decimals);
-  var rounded = Math.round(value * factor) / factor;
+  const factor = Math.pow(10, decimals);
+  const rounded = Math.round(value * factor) / factor;
 
-  var str = decimals > 0 ? rounded.toFixed(decimals) : Math.round(rounded).toString();
-  var parts = str.split('.');
+  let str = decimals > 0 ? rounded.toFixed(decimals) : Math.round(rounded).toString();
+  let parts = str.split('.');
 
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   return decimals > 0 ? parts[0] + ',' + parts[1] : parts[0];
@@ -19,84 +19,100 @@ function formatRupiah(value) {
   return 'Rp' + formatNumber(value, 0);
 }
 
-// Parse string "1.234,56" -> number 1234.56
-function parseLocalizedNumber(str) {
-  if (!str) return NaN;
-  var cleaned = str.replace(/\./g, '').replace(',', '.');
-  return Number(cleaned);
-}
+// =========== PARSER INPUT ===========
 
-function getNumber(id) {
-  var el = document.getElementById(id);
+// integer: titik = ribuan
+function getInt(id) {
+  const el = document.getElementById(id);
   if (!el) return NaN;
-  return parseLocalizedNumber(el.value.trim());
+  let raw = el.value.trim();
+  if (raw === '') return NaN;
+
+  raw = raw.replace(/\./g, '');
+  raw = raw.split(',')[0];
+  const num = parseInt(raw, 10);
+  return isNaN(num) ? NaN : num;
 }
 
-// ============ FORMAT INPUT SAAT LOAD & BLUR ============
+// float: titik/koma = desimal (jangan pakai ribuan di persen)
+function getFloat(id) {
+  const el = document.getElementById(id);
+  if (!el) return NaN;
+  let raw = el.value.trim();
+  if (raw === '') return NaN;
 
-function setupFormattedInputs() {
-  var fields = document.querySelectorAll('[data-decimals]');
-  fields.forEach(function (el) {
-    var decimals = parseInt(el.getAttribute('data-decimals'), 10) || 0;
+  raw = raw.replace(',', '.');
+  const num = parseFloat(raw);
+  return isNaN(num) ? NaN : num;
+}
 
-    // Format nilai awal kalau ada
-    if (el.value) {
-      var n = parseLocalizedNumber(el.value);
-      if (!isNaN(n)) {
-        el.value = formatNumber(n, decimals);
-      }
-    }
-
-    // Saat blur -> reformat jadi pakai titik ribuan
-    el.addEventListener('blur', function () {
-      if (!el.value) return;
-      var n = parseLocalizedNumber(el.value);
-      if (isNaN(n)) return;
-      el.value = formatNumber(n, decimals);
-    });
+// auto format tampilan
+function autoInt(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('blur', () => {
+    const n = getInt(id);
+    if (!isNaN(n)) el.value = formatNumber(n, 0);
   });
 }
 
-window.addEventListener('DOMContentLoaded', setupFormattedInputs);
+function autoFloat(id, decimals) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('blur', () => {
+    const n = getFloat(id);
+    if (!isNaN(n)) el.value = formatNumber(n, decimals);
+  });
+}
 
-// ============ LOGIKA HITUNG ============
+window.addEventListener('DOMContentLoaded', () => {
+  autoInt('lot_offered');
+  autoInt('price');
+  autoInt('n_total');
+  autoInt('alloc_fixed');
+
+  autoFloat('non_ratio', 2);
+  autoFloat('non_fund_ratio', 4);
+  autoFloat('alloc_percent', 2);
+});
+
+// =========== HITUNG ===========
 
 function hitung() {
-  var lotOffered   = getNumber('lot_offered');
-  var price        = getNumber('price');
-  var nTotal       = getNumber('n_total');
-  var nonRatioPct  = getNumber('non_ratio');
-  var nonFundRatioPct = getNumber('non_fund_ratio');
-  var allocPercent = getNumber('alloc_percent');
-  var allocFixed   = getNumber('alloc_fixed');
+  const lotOffered   = getInt('lot_offered');
+  const price        = getInt('price');
+  const nTotal       = getInt('n_total');
+  const nonRatioPct  = getFloat('non_ratio');
+  const nonFundPct   = getFloat('non_fund_ratio');
+  const allocPercent = getFloat('alloc_percent');
+  const allocFixed   = getInt('alloc_fixed');
 
   if (isNaN(lotOffered) || isNaN(price)) {
     alert('Isi dulu: Saham Ditawarkan (LOT) dan Harga Saham per Lembar.');
     return;
   }
 
-  var dana = lotOffered * 100 * price;
+  const dana = lotOffered * 100 * price;
 
-  // asumsi default kalau kosong
-  var nonRatio = isNaN(nonRatioPct) ? 0.25 : nonRatioPct / 100;
-  var retRatio = 1 - nonRatio;
+  const nonRatio = isNaN(nonRatioPct) ? 0.25 : nonRatioPct / 100;
+  const retRatio = 1 - nonRatio;
 
-  var nNon = (isNaN(nTotal) ? 0 : nTotal) * nonRatio;
-  var nRet = (isNaN(nTotal) ? 0 : nTotal) * retRatio;
+  const nNon = (isNaN(nTotal) ? 0 : nTotal) * nonRatio;
+  const nRet = (isNaN(nTotal) ? 0 : nTotal) * retRatio;
 
-  var nonFundRatio = isNaN(nonFundRatioPct) ? (2 / 3) : nonFundRatioPct / 100;
-  var retFundRatio = 1 - nonFundRatio;
+  const nonFundRatio = isNaN(nonFundPct) ? 2/3 : nonFundPct / 100;
+  const retFundRatio = 1 - nonFundRatio;
 
-  // ---------- MODE PERSEN ----------
+  // ---- MODE PERSEN ----
   if (!isNaN(allocPercent) && allocPercent > 0) {
-    var allocT = dana * (allocPercent / 100);
-    var allocNon = allocT * nonFundRatio;
-    var allocRet = allocT * retFundRatio;
+    const allocT   = dana * (allocPercent / 100);
+    const allocNon = allocT * nonFundRatio;
+    const allocRet = allocT * retFundRatio;
 
-    var jNonRp  = nNon > 0 ? allocNon / nNon : 0;
-    var jRetRp  = nRet > 0 ? allocRet / nRet : 0;
-    var jNonLot = price > 0 ? jNonRp / (price * 100) : 0;
-    var jRetLot = price > 0 ? jRetRp / (price * 100) : 0;
+    const jNonRp  = nNon > 0 ? allocNon / nNon : 0;
+    const jRetRp  = nRet > 0 ? allocRet / nRet : 0;
+    const jNonLot = price > 0 ? jNonRp / (price * 100) : 0;
+    const jRetLot = price > 0 ? jRetRp / (price * 100) : 0;
 
     document.getElementById('p_dana').textContent = formatRupiah(dana);
     document.getElementById('p_alloc').textContent = formatRupiah(allocT);
@@ -112,25 +128,19 @@ function hitung() {
     document.getElementById('p_jatah_ret_lot').textContent =
       jRetLot ? formatNumber(jRetLot, 6) + ' LOT' : '';
   } else {
-    var idsP = [
-      'p_dana','p_alloc','p_alloc_pct','p_alloc_non','p_alloc_ret',
-      'p_n_non','p_n_ret','p_jatah_non_rp','p_jatah_ret_rp',
-      'p_jatah_non_lot','p_jatah_ret_lot'
-    ];
-    idsP.forEach(function(id){ document.getElementById(id).textContent = ''; });
     document.getElementById('p_dana').textContent = formatRupiah(dana);
   }
 
-  // ---------- MODE NILAI PASTI ----------
+  // ---- MODE NILAI PASTI ----
   if (!isNaN(allocFixed) && allocFixed > 0) {
-    var fAllocT   = allocFixed;
-    var fAllocNon = fAllocT * nonFundRatio;
-    var fAllocRet = fAllocT * retFundRatio;
+    const fAllocT   = allocFixed;
+    const fAllocNon = fAllocT * nonFundRatio;
+    const fAllocRet = fAllocT * retFundRatio;
 
-    var fJNonRp  = nNon > 0 ? fAllocNon / nNon : 0;
-    var fJRetRp  = nRet > 0 ? fAllocRet / nRet : 0;
-    var fJNonLot = price > 0 ? fJNonRp / (price * 100) : 0;
-    var fJRetLot = price > 0 ? fJRetRp / (price * 100) : 0;
+    const fJNonRp  = nNon > 0 ? fAllocNon / nNon : 0;
+    const fJRetRp  = nRet > 0 ? fAllocRet / nRet : 0;
+    const fJNonLot = price > 0 ? fJNonRp / (price * 100) : 0;
+    const fJRetLot = price > 0 ? fJRetRp / (price * 100) : 0;
 
     document.getElementById('f_dana').textContent = formatRupiah(dana);
     document.getElementById('f_alloc').textContent = formatRupiah(fAllocT);
@@ -145,33 +155,58 @@ function hitung() {
     document.getElementById('f_jatah_ret_lot').textContent =
       fJRetLot ? formatNumber(fJRetLot, 6) + ' LOT' : '';
   } else {
-    var idsF = [
-      'f_dana','f_alloc','f_alloc_non','f_alloc_ret',
-      'f_n_non','f_n_ret','f_jatah_non_rp','f_jatah_ret_rp',
-      'f_jatah_non_lot','f_jatah_ret_lot'
-    ];
-    idsF.forEach(function(id){ document.getElementById(id).textContent = ''; });
     document.getElementById('f_dana').textContent = formatRupiah(dana);
   }
 }
 
-// ============ DOWNLOAD XLSX ============
+// =========== EXPORT EXCEL (.XLS HTML) ===========
 
 function downloadExcel() {
-  if (typeof XLSX === 'undefined') {
-    alert('Library XLSX belum ter-load.');
-    return;
-  }
+  // pastikan sudah dihitung
+  hitung();
 
-  var kode = (document.getElementById('kode').value || 'TANPAKODE').toUpperCase();
+  const kode = (document.getElementById('kode').value || 'TANPAKODE').toUpperCase();
 
-  var wb = XLSX.utils.book_new();
-  var ws1 = XLSX.utils.table_to_sheet(document.getElementById('table-percent'));
-  XLSX.utils.book_append_sheet(wb, ws1, 'Perhitungan Persen');
+  const lotOffered = document.getElementById('lot_offered').value || '';
+  const price      = document.getElementById('price').value || '';
+  const nTotal     = document.getElementById('n_total').value || '';
+  const nonRatio   = document.getElementById('non_ratio').value || '';
+  const nonFund    = document.getElementById('non_fund_ratio').value || '';
+  const allocPct   = document.getElementById('alloc_percent').value || '';
+  const allocFix   = document.getElementById('alloc_fixed').value || '';
 
-  var ws2 = XLSX.utils.table_to_sheet(document.getElementById('table-fixed'));
-  XLSX.utils.book_append_sheet(wb, ws2, 'Perhitungan Nilai Pasti');
+  const tPercent = document.getElementById('table-percent').outerHTML;
+  const tFixed   = document.getElementById('table-fixed').outerHTML;
 
-  var filename = 'Estimasi_Penjatahan_E-IPO_' + kode + '.xlsx';
-  XLSX.writeFile(wb, filename);
+  // layout mirip screenshot: header + data prospektus + 2 tabel
+  const html =
+    '<html><head><meta charset="UTF-8"></head><body>' +
+    '<table border="1" cellspacing="0" cellpadding="4">' +
+      '<tr style="font-weight:bold;background:#ffd966">' +
+        '<td>KODE SAHAM</td><td colspan="3" style="text-align:center;">' + kode + '</td>' +
+      '</tr>' +
+      '<tr><td></td><td></td><td></td><td></td></tr>' +
+      '<tr><td>SAHAM DITAWARKAN</td><td>' + lotOffered + '</td><td colspan="2">LOT</td></tr>' +
+      '<tr><td>HARGA SAHAM</td><td>' + price + '</td><td colspan="2"></td></tr>' +
+      '</table>' +
+      '<br/>' +
+      '<h3>TABEL PERHITUNGAN PERSEN</h3>' +
+      tPercent +
+      '<br/><br/>' +
+      '<h3>TABEL PERHITUNGAN NILAI PASTI</h3>' +
+      tFixed +
+    '</body></html>';
+
+  const blob = new Blob([html], {
+    type: 'application/vnd.ms-excel;charset=utf-8;'
+  });
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Estimasi_Penjatahan_E-IPO_' + kode + '.xls';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }

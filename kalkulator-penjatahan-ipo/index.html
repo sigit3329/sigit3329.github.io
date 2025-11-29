@@ -4,15 +4,13 @@
   <meta charset="UTF-8">
   <title>Kalkulator Penjatahan IPO</title>
   <link rel="stylesheet" href="style.css">
-  <!-- SheetJS untuk generate .xlsx -->
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
 <div class="container">
   <div class="card">
     <h1>
       Kalkulator Penjatahan IPO
-      <span class="badge">E-IPO helper</span>
+      <span class="badge">E-IPO HELPER</span>
     </h1>
     <div class="subtitle">
       Masukkan data prospektus, lalu sesuaikan asumsi investor untuk estimasi penjatahan retail & non-retail.
@@ -26,37 +24,37 @@
 
       <div class="field">
         <label>Saham Ditawarkan (LOT) <span class="tag">Prospektus</span></label>
-        <input type="text" id="lot_offered" data-decimals="0" placeholder="Contoh: 6.250.000">
+        <input type="text" id="lot_offered" placeholder="Contoh: 6.250.000">
       </div>
 
       <div class="field">
         <label>Harga Saham per Lembar (Rp) <span class="tag">Prospektus</span></label>
-        <input type="text" id="price" data-decimals="0" placeholder="Contoh: 168">
+        <input type="text" id="price" placeholder="Contoh: 168">
       </div>
 
       <div class="field">
         <label>Estimasi Jumlah Pemesan IPO</label>
-        <input type="text" id="n_total" data-decimals="0" value="500000">
+        <input type="text" id="n_total" value="500000">
       </div>
 
       <div class="field">
         <label>Persentase Pemesan Non-Retail (%)</label>
-        <input type="text" id="non_ratio" data-decimals="2" value="25">
+        <input type="text" id="non_ratio" value="25">
       </div>
 
       <div class="field">
         <label>Rasio Dana Non-Retail (% dari alokasi terpusat)</label>
-        <input type="text" id="non_fund_ratio" data-decimals="4" value="66.6667">
+        <input type="text" id="non_fund_ratio" value="66.6667">
       </div>
 
       <div class="field">
         <label>Persentase Alokasi Penjatahan Terpusat (%) <span class="tag">Prospektus</span></label>
-        <input type="text" id="alloc_percent" data-decimals="2" placeholder="Contoh: 25">
+        <input type="text" id="alloc_percent" placeholder="Contoh: 25">
       </div>
 
       <div class="field">
         <label>Nilai Pasti Alokasi Penjatahan Terpusat (Rp) <span class="tag">Prospektus</span></label>
-        <input type="text" id="alloc_fixed" data-decimals="0" placeholder="Contoh: 20.000.000.000">
+        <input type="text" id="alloc_fixed" placeholder="Contoh: 20.000.000.000">
       </div>
     </div>
 
@@ -66,6 +64,7 @@
     </div>
 
     <div class="tables-wrapper">
+      <!-- Tabel Persen -->
       <div>
         <div class="muted" style="margin-bottom:6px;">
           <span class="badge-table">Tabel Perhitungan Persen</span>
@@ -123,6 +122,7 @@
         </table>
       </div>
 
+      <!-- Tabel Nilai Pasti -->
       <div>
         <div class="muted" style="margin-bottom:6px;">
           <span class="badge-table">Tabel Perhitungan Nilai Pasti</span>
