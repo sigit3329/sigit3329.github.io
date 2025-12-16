@@ -210,3 +210,22 @@ canvas {
 button {
   touch-action: manipulation;
 }
+
+/* ======================================================
+   FORCE MOBILE STACK (FIX GRID HP)
+====================================================== */
+
+/* HP & Tablet */
+@media (max-width: 768px) {
+  .grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 100%;
+  }
+}
