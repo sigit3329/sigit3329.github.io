@@ -1,143 +1,236 @@
-body {
-  font-family: Inter, system-ui, sans-serif;
-  background: #0f172a;
-  color: #e5e7eb;
-  margin: 0;
+/* ======================================================
+   GLOBAL RESET & BOX MODEL (WAJIB)
+====================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(1200px 600px at 50% -200px, #1e293b 0%, #020617 60%);
+  color: #e5e7eb;
+}
+
+/* ======================================================
+   LAYOUT
+====================================================== */
 .container {
   max-width: 1100px;
-  margin: auto;
+  margin: 0 auto;
   padding: 40px;
+  width: 100%;
 }
 
 h1 {
   font-size: 32px;
-  margin-bottom: 5px;
+  margin: 0 0 6px;
 }
 
 .subtitle {
   color: #94a3b8;
-  margin-bottom: 30px;
+  margin-bottom: 32px;
 }
 
+/* ======================================================
+   GRID (DESKTOP)
+====================================================== */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 24px;
 }
 
+/* ======================================================
+   CARD
+====================================================== */
 .card {
-  background: #020617;
-  border-radius: 14px;
-  padding: 20px;
-  box-shadow: 0 0 20px rgba(0,0,0,.4);
+  background: linear-gradient(180deg, #020617 0%, #020617 100%);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow:
+    0 0 0 1px rgba(148,163,184,0.05),
+    0 20px 40px rgba(0,0,0,0.4);
+  width: 100%;
 }
 
 .card.full {
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 20px;
+}
+
+/* ======================================================
+   FORM
+====================================================== */
 label {
+  display: block;
   font-size: 13px;
   color: #94a3b8;
+  margin-bottom: 6px;
 }
 
-input {
+input,
+select {
   width: 100%;
-  padding: 10px;
-  margin: 5px 0 15px;
-  border-radius: 8px;
-  border: none;
-  background: #020617;
-  color: white;
+  max-width: 100%;
+  padding: 14px;
+  margin-bottom: 16px;
+  border-radius: 12px;
   border: 1px solid #1e293b;
+  background: #020617;
+  color: #e5e7eb;
+  font-size: 16px;
 }
 
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 1px rgba(37,99,235,0.4);
+}
+
+/* ======================================================
+   BUTTON
+====================================================== */
 button {
   width: 100%;
-  padding: 12px;
-  border-radius: 10px;
+  max-width: 100%;
+  padding: 14px;
+  border-radius: 14px;
   border: none;
-  background: #2563eb;
-  color: white;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   margin-top: 10px;
+  background: #2563eb;
+  color: white;
+  touch-action: manipulation;
 }
 
 button.secondary {
   background: #334155;
 }
 
+button:active {
+  transform: scale(0.99);
+}
+
+/* ======================================================
+   SUMMARY
+====================================================== */
 .result {
   display: flex;
   justify-content: space-between;
-  margin: 12px 0;
+  align-items: center;
+  margin: 10px 0;
+  font-size: 14px;
 }
 
-.journal button {
-  width: auto;
-  margin-right: 10px;
-}
-
-.win { background: #16a34a; }
-.loss { background: #dc2626; }
-.reset { background: #475569; }
-
-pre {
-  background: #020617;
-  padding: 15px;
-  border-radius: 10px;
-  max-height: 250px;
-  overflow-y: auto;
-}
-
-
+/* ======================================================
+   RISK STATUS
+====================================================== */
 .safe {
   color: #22c55e;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .warning {
   color: #facc15;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .danger {
   color: #ef4444;
-  font-weight: bold;
+  font-weight: 700;
 }
-
-
-select {
-  padding: 10px;
-  border-radius: 8px;
-  background: #020617;
-  color: white;
-  border: 1px solid #1e293b;
-  margin-right: 10px;
-}
-
-canvas {
-  margin-top: 20px;
-  background: #020617;
-  border-radius: 10px;
-}
-
 
 /* ======================================================
-   RESPONSIVE – MOBILE FIRST
+   JOURNAL
 ====================================================== */
+.journal {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
 
-/* Tablet & HP */
-@media (max-width: 900px) {
-  .container {
-    padding: 20px;
+.journal select {
+  flex: 1;
+}
+
+.journal button {
+  flex: 1;
+}
+
+.win {
+  background: #16a34a;
+}
+
+.loss {
+  background: #dc2626;
+}
+
+.reset {
+  background: #475569;
+}
+
+/* ======================================================
+   CHART & LOG
+====================================================== */
+canvas {
+  width: 100% !important;
+  max-width: 100%;
+  height: 300px !important;
+  margin-top: 16px;
+  background: #020617;
+  border-radius: 12px;
+}
+
+pre {
+  background: #020617;
+  padding: 14px;
+  border-radius: 12px;
+  margin-top: 16px;
+  font-size: 13px;
+  max-height: 220px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ======================================================
+   MOBILE – REAL FIX (NO OVERFLOW, NO SIDE SCROLL)
+====================================================== */
+@media (max-width: 768px) {
+
+  body {
+    overflow-x: hidden;
   }
 
+  .container {
+    max-width: 100%;
+    padding: 16px;
+    overflow-x: hidden;
+  }
+
+  /* FORCE STACK */
   .grid {
-    grid-template-columns: 1fr; /* stack vertical */
+    display: block !important;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 100%;
+    padding: 16px;
+    margin-bottom: 16px;
   }
 
   h1 {
@@ -146,25 +239,7 @@ canvas {
 
   .subtitle {
     font-size: 14px;
-  }
-
-  .card {
-    padding: 16px;
-  }
-}
-
-/* HP kecil */
-@media (max-width: 600px) {
-  body {
-    font-size: 14px;
-  }
-
-  h1 {
-    font-size: 22px;
-  }
-
-  .card h2 {
-    font-size: 18px;
+    margin-bottom: 24px;
   }
 
   label {
@@ -174,104 +249,16 @@ canvas {
   input,
   select,
   button {
-    font-size: 16px; /* penting: cegah zoom otomatis iOS */
-    padding: 12px;
-  }
-
-  button {
-    margin-top: 12px;
-  }
-
-  .result {
-    font-size: 14px;
+    font-size: 16px;
+    padding: 14px;
   }
 
   .journal {
-    display: flex;
     flex-direction: column;
     gap: 10px;
   }
 
-  .journal button,
-  .journal select {
-    width: 100%;
-  }
-
   canvas {
-    height: 260px !important;
-  }
-
-  pre {
-    font-size: 12px;
-    max-height: 200px;
-  }
-}
-
-button {
-  touch-action: manipulation;
-}
-
-/* ======================================================
-   MOBILE FIX – REAL MOBILE LAYOUT
-====================================================== */
-@media (max-width: 768px) {
-  body {
-    padding: 0;
-  }
-
-  .container {
-    max-width: 100%;
-    padding: 16px;
-  }
-}
-
-@media (max-width: 768px) {
-  .grid {
-    display: block !important;
-  }
-
-  .card {
-    width: 100%;
-    margin-bottom: 16px;
-    padding: 16px;
-    border-radius: 14px;
-  }
-}
-
-@media (max-width: 768px) {
-  label {
-    font-size: 12px;
-    margin-bottom: 4px;
-  }
-
-  input,
-  select {
-    font-size: 16px;
-    padding: 12px;
-    margin-bottom: 12px;
-  }
-}
-
-
-@media (max-width: 768px) {
-  button {
-    font-size: 16px;
-    padding: 14px;
-    border-radius: 12px;
-  }
-
-  .journal {
-    gap: 12px;
-  }
-
-  .journal button {
-    width: 100%;
-  }
-}
-
-@media (max-width: 768px) {
-  canvas {
-    width: 100% !important;
     height: 240px !important;
   }
 
