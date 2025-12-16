@@ -212,20 +212,71 @@ button {
 }
 
 /* ======================================================
-   FORCE MOBILE STACK (FIX GRID HP)
+   MOBILE FIX – REAL MOBILE LAYOUT
 ====================================================== */
-
-/* HP & Tablet */
 @media (max-width: 768px) {
-  .grid {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 20px;
+  body {
+    padding: 0;
+  }
+
+  .container {
+    max-width: 100%;
+    padding: 16px;
   }
 }
 
 @media (max-width: 768px) {
+  .grid {
+    display: block !important;
+  }
+
   .card {
     width: 100%;
+    margin-bottom: 16px;
+    padding: 16px;
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  label {
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+
+  input,
+  select {
+    font-size: 16px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  button {
+    font-size: 16px;
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .journal {
+    gap: 12px;
+  }
+
+  .journal button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  canvas {
+    width: 100% !important;
+    height: 240px !important;
+  }
+
+  pre {
+    font-size: 12px;
+    max-height: 180px;
   }
 }
