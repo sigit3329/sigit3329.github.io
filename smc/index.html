@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SMC Trading Simulator</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h1>SMC Trading Simulator</h1>
+  <p class="subtitle">Expectancy • Equity Curve • SMC Journal</p>
+
+  <div class="grid">
+    <!-- INPUT -->
+    <div class="card">
+      <h2>Input</h2>
+
+      <label>Starting Equity ($)</label>
+      <input id="equity" type="number" value="100000">
+
+      <label>Risk per Trade (%)</label>
+      <input id="risk" type="number" step="0.01" value="0.5">
+
+      <label>Risk Reward (RR)</label>
+      <input id="rr" type="number" step="0.1" value="2">
+
+      <label>Win Rate (%)</label>
+      <input id="wr" type="number" value="65">
+
+      <label>Trades / Month</label>
+      <input id="trades" type="number" value="20">
+
+      <label>Profit Split (%)</label>
+      <input id="split" type="number" value="80">
+
+      <label>Accounts</label>
+      <input id="accounts" type="number" value="1">
+
+      <label>Daily Loss Limit (%)</label>
+      <input id="dailyLoss" type="number" value="5">
+
+      <label>Daily Warning (%)</label>
+      <input id="dailyWarning" type="number" value="3">
+
+      <button onclick="calculate()">Calculate</button>
+      <button class="secondary" onclick="exportExcel()">Export Excel</button>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="card">
+      <h2>Summary</h2>
+      <div class="result"><span>Expectancy (R)</span><strong id="expectancy">-</strong></div>
+      <div class="result"><span>Monthly Return</span><strong id="monthlyReturn">-</strong></div>
+      <div class="result"><span>Monthly Profit</span><strong id="monthlyProfit">-</strong></div>
+      <div class="result"><span>Yearly Profit</span><strong id="yearlyProfit">-</strong></div>
+      <div class="result"><span>Total Equity</span><strong id="totalEquity">-</strong></div>
+    </div>
+  </div>
+
+  <!-- RISK STATUS -->
+  <div class="card full">
+    <h2>Risk Guard</h2>
+    <p id="riskStatus" class="safe">SAFE</p>
+  </div>
+
+  <!-- TRADE JOURNAL -->
+  <div class="card full">
+    <h2>Trade Journal</h2>
+
+    <div class="journal">
+      <select id="smcTag">
+        <option value="Order Block">Order Block</option>
+        <option value="Liquidity Sweep">Liquidity Sweep</option>
+        <option value="CHoCH">CHoCH</option>
+      </select>
+
+      <button class="win" onclick="addTrade('W')">WIN</button>
+      <button class="loss" onclick="addTrade('L')">LOSS</button>
+      <button class="reset" onclick="resetTrades()">RESET</button>
+    </div>
+
+    <canvas id="equityChart"></canvas>
+    <pre id="equityLog"></pre>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

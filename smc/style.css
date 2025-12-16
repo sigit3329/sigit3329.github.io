@@ -1,0 +1,126 @@
+body {
+  font-family: Inter, system-ui, sans-serif;
+  background: #0f172a;
+  color: #e5e7eb;
+  margin: 0;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px;
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: #94a3b8;
+  margin-bottom: 30px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.card {
+  background: #020617;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,.4);
+}
+
+.card.full {
+  margin-top: 20px;
+}
+
+label {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0 15px;
+  border-radius: 8px;
+  border: none;
+  background: #020617;
+  color: white;
+  border: 1px solid #1e293b;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button.secondary {
+  background: #334155;
+}
+
+.result {
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0;
+}
+
+.journal button {
+  width: auto;
+  margin-right: 10px;
+}
+
+.win { background: #16a34a; }
+.loss { background: #dc2626; }
+.reset { background: #475569; }
+
+pre {
+  background: #020617;
+  padding: 15px;
+  border-radius: 10px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+
+.safe {
+  color: #22c55e;
+  font-weight: bold;
+}
+
+.warning {
+  color: #facc15;
+  font-weight: bold;
+}
+
+.danger {
+  color: #ef4444;
+  font-weight: bold;
+}
+
+
+select {
+  padding: 10px;
+  border-radius: 8px;
+  background: #020617;
+  color: white;
+  border: 1px solid #1e293b;
+  margin-right: 10px;
+}
+
+canvas {
+  margin-top: 20px;
+  background: #020617;
+  border-radius: 10px;
+}
