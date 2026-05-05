@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Materi OSN Informatika</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'osn-bg': '#FDFBF7',
+                        'osn-surface': '#FFFFFF',
+                        'osn-primary': '#D97706',
+                        'osn-primary-light': '#FEF3C7',
+                        'osn-text': '#292524',
+                        'osn-text-muted': '#57534E',
+                        'osn-accent': '#0D9488',
+                        'osn-accent-light': '#CCFBF1'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Fira Code', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #FDFBF7; color: #292524; overflow-x: hidden; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (max-width: 768px) {
+            .chart-container { height: 250px; }
+            .mobile-nav { overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+        }
+        .grid-cell { transition: all 0.2s ease-in-out; }
+        .grid-cell.active { background-color: #0D9488; transform: scale(1.1); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #FDFBF7; }
+        ::-webkit-scrollbar-thumb { background: #D6D3D1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #A8A29E; }
+    </style>
+</head>
+<body class="font-sans antialiased flex flex-col h-screen">
+
+<!-- Chosen Palette: Warm Neutrals with Amber and Teal Accents -->
+<!-- Application Structure Plan: The SPA uses a "Learning Dashboard" structure. A sidebar (horizontal on mobile) acts as a learning path map, guiding students through the 11 modules sequentially or non-linearly. The main content area dynamically updates based on the selected module. This structure was chosen because OSN prep is a journey; breaking it into distinct, focused modules prevents cognitive overload and allows interactive elements to be isolated and highlighted effectively without cluttering a single long scroll. -->
+<!-- Visualization & Content Choices: 
+1. Logika Dasar -> Inform/Interact -> Interactive Logic Gates (Buttons toggling Truth Table) -> Hands-on validation of AND/OR logic. Vanilla JS, HTML/CSS.
+2. Simulasi & State -> Organize/Interact -> Interactive 5x5 Grid -> Teaches coordinate tracking and state changes dynamically. Vanilla JS, HTML Grid.
+3. Greedy Strategy -> Compare/Interact -> Interactive Coin Change Calculator -> Visualizes the greedy choice property step-by-step. Vanilla JS.
+4. Brute Force vs Efisiensi -> Compare -> Line Chart (O(N) vs O(N^2)) -> Visually proves why brute force fails at scale. Chart.js (Canvas).
+All chosen to adhere to NO SVG/Mermaid constraints while providing high engagement. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+<header class="bg-osn-surface border-b border-stone-200 sticky top-0 z-20 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded bg-osn-primary text-white flex items-center justify-center font-bold text-xl">
+                O
+            </div>
+            <h1 class="text-xl font-bold text-osn-text tracking-tight">Master OSN Informatika</h1>
+        </div>
+        <div class="text-sm font-medium text-osn-text-muted bg-stone-100 px-3 py-1 rounded-full">
+            Dari Nol Menuju Ahli
+        </div>
+    </div>
+</header>
+
+<div class="flex flex-1 overflow-hidden">
+    <nav class="mobile-nav w-full md:w-72 bg-osn-surface border-r border-stone-200 flex-shrink-0 flex md:flex-col p-4 gap-2 overflow-y-auto border-b md:border-b-0">
+        <button onclick="nav(0)" id="btn-0" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-osn-primary-light text-osn-primary border border-osn-primary/20">0. Pengantar</button>
+        <button onclick="nav(1)" id="btn-1" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">1. Dasar Logika Berpikir</button>
+        <button onclick="nav(2)" id="btn-2" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">2. Dasar Pemrograman</button>
+        <button onclick="nav(3)" id="btn-3" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">3. Simulasi & State</button>
+        <button onclick="nav(4)" id="btn-4" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">4. Pattern Recognition</button>
+        <button onclick="nav(5)" id="btn-5" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">5. Matematika Dasar OSN</button>
+        <button onclick="nav(6)" id="btn-6" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">6. Greedy (Strategi)</button>
+        <button onclick="nav(7)" id="btn-7" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">7. Graph Dasar</button>
+        <button onclick="nav(8)" id="btn-8" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">8. String & Representasi</button>
+        <button onclick="nav(9)" id="btn-9" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">9. Brute Force vs Efisiensi</button>
+        <button onclick="nav(10)" id="btn-10" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">10. Problem Solving</button>
+        <button onclick="nav(11)" id="btn-11" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">11. Latihan & Evaluasi</button>
+    </nav>
+
+    <main class="flex-1 overflow-y-auto p-4 md:p-8 relative scroll-smooth" id="main-content">
+        
+        <section id="sec-0" class="content-section max-w-4xl mx-auto block">
+            <p class="text-lg text-osn-text-muted mb-8 leading-relaxed">Bagian ini memberikan gambaran umum tentang tujuan dan pola pikir yang dibutuhkan sebelum memulai materi teknis OSN Informatika. Siswa akan memahami hakikat sebenarnya dari kompetisi ini.</p>
+            
+            <div class="bg-osn-surface border border-stone-200 rounded-2xl p-6 md:p-10 shadow-sm">
+                <h2 class="text-3xl font-bold mb-6 text-osn-text">Pengantar untuk Siswa</h2>
+                <p class="text-lg mb-6 leading-relaxed">
+                    Selamat datang di dunia OSN Informatika! Banyak yang mengira OSN Informatika adalah lomba "mengetik kode paling cepat" atau "menghafal bahasa pemrograman". Itu salah besar. 
+                </p>
+                <div class="bg-osn-primary-light border-l-4 border-osn-primary p-6 rounded-r-lg mb-6">
+                    <p class="text-lg font-medium text-osn-primary-dark">
+                        OSN Informatika adalah lomba <strong>berpikir, menyelesaikan masalah (problem solving), dan menemukan pola</strong>. Komputer dan bahasa pemrograman hanyalah "alat" yang kita suruh untuk menghitung apa yang sudah kita pikirkan.
+                    </p>
+                </div>
+                <p class="text-lg leading-relaxed">
+                    Mari kita mulai perjalanan ini dari dasar hingga tingkat mahir. Gunakan menu di sebelah kiri untuk menavigasi modul pembelajaran.
+                </p>
+                <button onclick="nav(1)" class="mt-8 bg-osn-primary hover:bg-amber-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all flex items-center gap-2">
+                    Mulai Belajar Logika Dasar <span>&#8594;</span>
+                </button>
+            </div>
+        </section>
+
+        <section id="sec-1" class="content-section max-w-4xl mx-auto hidden">
+            <p class="text-lg text-osn-text-muted mb-8 leading-relaxed">Modul ini melatih pola pikir sistematis. Siswa akan belajar konsep gerbang logika (AND, OR, NOT) dan cara mengeliminasi kemungkinan, yang merupakan fondasi sebelum menulis kode apapun.</p>
+            
+            <div class="bg-osn-surface border border-stone-200 rounded-2xl p-6 md:p-10 shadow-sm">
+                <h2 class="text-3xl font-bold mb-4">1. Dasar Logika Berpikir</h2>
+                <div class="inline-block bg-stone-100 px-3 py-1 rounded-full text-sm font-semibold text-stone-600 mb-6">
+                    Tujuan: Melatih pola pikir sistematis dan analitis. Ini adalah fondasi utama!
+                </div>
+
+                <div class="bg-amber-50 rounded-xl p-5 border border-amber-200 mb-8 flex gap-4 items-start">
+                    <div class="text-2xl">&#128269;</div>
+                    <div>
+                        <h4 class="font-bold text-amber-900 mb-1">Analogi Sederhana: Menjadi Detektif</h4>
+                        <p class="text-amber-800">Seorang detektif tidak menebak-nebak siapa pelakunya, ia menggunakan petunjuk, menyusun fakta, dan mencoret orang yang tidak mungkin menjadi pelaku sampai tersisa satu kebenaran.</p>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">A. Logika Dasar (AND, OR, NOT)</h3>
+                <p class="mb-4">Di dalam komputer, segalanya bernilai <strong>Benar (True/1)</strong> atau <strong>Salah (False/0)</strong>.</p>
+                
+                <ul class="space-y-4 mb-8 list-none">
+                    <li class="flex gap-3">
+                        <div class="bg-stone-800 text-white font-mono px-2 py-1 rounded text-xs h-fit mt-1">AND</div>
+                        <div>
+                            <strong>Syarat ketat.</strong> Analogi: "Kamu boleh naik wahana JIKA tinggi badan > 150 cm AND punya tiket." Jika salah satu saja tidak terpenuhi, kamu tidak boleh naik.
+                        </div>
+                    </li>
+                    <li class="flex gap-3">
+                        <div class="bg-stone-800 text-white font-mono px-2 py-1 rounded text-xs h-fit mt-1">OR</div>
+                        <div>
+                            <strong>Syarat longgar.</strong> Analogi: "Kamu dapat diskon JIKA punya kartu member OR sedang ulang tahun." Punya salah satu saja sudah cukup.
+                        </div>
+                    </li>
+                    <li class="flex gap-3">
+                        <div class="bg-stone-800 text-white font-mono px-2 py-1 rounded text-xs h-fit mt-1">NOT</div>
+                        <div>
+                            <strong>Membalik keadaan.</strong> Analogi: Saklar lampu. NOT Nyala = Mati. NOT Benar = Salah.
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="bg-stone-50 border border-stone-200 rounded-xl p-6 mb-8">
+                    <h4 class="font-bold mb-4 text-center">Simulator Logika Interaktif</h4>
+                    <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                        <div class="flex flex-col gap-4">
+                            <button id="btn-logic-a" onclick="toggleLogic('A')" class="w-24 h-12 rounded bg-red-100 border-2 border-red-400 text-red-700 font-bold transition-colors">A: FALSE</button>
+                            <button id="btn-logic-b" onclick="toggleLogic('B')" class="w-24 h-12 rounded bg-red-100 border-2 border-red-400 text-red-700 font-bold transition-colors">B: FALSE</button>
+                        </div>
+                        <div class="text-4xl text-stone-300">&#10142;</div>
+                        <div class="flex flex-col gap-3 w-48">
+                            <div class="flex justify-between items-center bg-white p-3 rounded border shadow-sm">
+                                <span class="font-mono text-sm font-bold">A AND B</span>
+                                <span id="res-and" class="text-red-600 font-bold">FALSE</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-white p-3 rounded border shadow-sm">
+                                <span class="font-mono text-sm font-bold">A OR B</span>
+                                <span id="res-or" class="text-red-600 font-bold">FALSE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">B. Implikasi dan Negasi</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-stone-50 p-5 rounded-lg border border-stone-200">
+                        <h4 class="font-bold text-osn-primary mb-2">Implikasi (Jika P maka Q)</h4>
+                        <p class="text-sm mb-2">Analogi: "JIKA hari hujan, MAKA lantai basah."</p>
+                        <p class="text-sm bg-yellow-100 p-2 rounded text-yellow-800"><em>Catatan OSN:</em> Jika lantai basah, apakah PASTI karena hujan? Belum tentu! Jangan terbalik logikanya.</p>
+                    </div>
+                    <div class="bg-stone-50 p-5 rounded-lg border border-stone-200">
+                        <h4 class="font-bold text-osn-accent mb-2">Negasi (Bantahan)</h4>
+                        <p class="text-sm mb-2">Janji: "Jika kamu juara, aku belikan es krim".</p>
+                        <p class="text-sm font-bold mt-2">Bantahannya:</p>
+                        <p class="text-sm">"Kamu juara, TETAPI aku tidak membelikan es krim." (P AND NOT Q).</p>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">C. Penalaran Benar/Salah & Eliminasi</h3>
+                <p class="mb-4">Soal OSN sering berbentuk: "Si A bilang B bohong, B bilang C bohong".</p>
+                <div class="bg-osn-accent-light text-teal-900 p-4 rounded-lg">
+                    <strong>Cara mengerjakannya:</strong> Jangan dipikir sekaligus! Buatlah asumsi sementara. "Misalkan A jujur, apa akibatnya? Oh, ternyata bertentangan. Berarti asumsi salah. Coret asumsi A jujur. Lanjut ke kemungkinan lain." Ini disebut penalaran deduktif.
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-2" class="content-section max-w-4xl mx-auto hidden">
+            <p class="text-lg text-osn-text-muted mb-8 leading-relaxed">Di sini siswa dikenalkan pada pemrograman sebagai alat. Fokusnya bukan pada hafalan sintaks, melainkan pada konsep variabel, operator matematika dasar (termasuk modulo), percabangan, dan perulangan.</p>
+            
+            <div class="bg-osn-surface border border-stone-200 rounded-2xl p-6 md:p-10 shadow-sm">
+                <h2 class="text-3xl font-bold mb-4">2. Dasar Pemrograman</h2>
+                <div class="inline-block bg-stone-100 px-3 py-1 rounded-full text-sm font-semibold text-stone-600 mb-6">
+                    Tujuan: Memahami cara menyuruh komputer menyelesaikan masalah.
+                </div>
+
+                <div class="bg-amber-50 rounded-xl p-5 border border-amber-200 mb-8 flex gap-4 items-start">
+                    <div class="text-2xl">&#129302;</div>
+                    <div>
+                        <h4 class="font-bold text-amber-900 mb-1">Analogi Sederhana: Robot Koki</h4>
+                        <p class="text-amber-800">Menulis kode seperti menulis resep masakan. Beri tahu bahan-bahannya (Variabel), langkah-langkahnya (Proses), dan hasil masakannya (Output).</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 pb-2 border-b border-stone-100">A. Variabel & Tipe Data</h3>
+                        <p class="text-sm mb-4">Variabel adalah "kotak" penyimpan. Tipe data adalah "label" kotaknya.</p>
+                        <ul class="space-y-2 text-sm">
+                            <li><span class="font-mono bg-stone-100 px-1 rounded text-blue-600">int</span> : Bilangan bulat (1, -10)</li>
+                            <li><span class="font-mono bg-stone-100 px-1 rounded text-blue-600">float</span> : Desimal (3.14)</li>
+                            <li><span class="font-mono bg-stone-100 px-1 rounded text-blue-600">string</span> : Teks ("Halo")</li>
+                            <li><span class="font-mono bg-stone-100 px-1 rounded text-blue-600">boolean</span> : True/False</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 pb-2 border-b border-stone-100">B. Operator Dasar</h3>
+                        <p class="text-sm mb-4"><code>+ - * /</code> adalah operasi biasa.</p>
+                        <div class="bg-red-50 border border-red-200 p-3 rounded-lg">
+                            <strong class="text-red-700 block mb-1">Hati-hati dengan Modulo (%)</strong>
+                            <p class="text-sm text-red-800">Sisa bagi. Contoh: <code>10 % 3 = 1</code> (10 dibagi 3 hasil 9, sisa 1). Sangat sering keluar di OSN!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">C. Percabangan (If-Else)</h3>
+                <p class="mb-4">Analogi persimpangan jalan: JIKA lampu merah, MAKA berhenti. SELAIN ITU (hijau), jalan.</p>
+                <div class="bg-stone-900 rounded-lg p-4 font-mono text-green-400 text-sm overflow-x-auto mb-8 shadow-inner">
+                    if (kondisi) {<br>
+                    &nbsp;&nbsp;lakukan_ini();<br>
+                    } else if (kondisi_lain) {<br>
+                    &nbsp;&nbsp;lakukan_itu();<br>
+                    } else {<br>
+                    &nbsp;&nbsp;lakukan_sisanya();<br>
+                    }
+                </div>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">D. Perulangan (For, While)</h3>
+                <p class="mb-4">Analogi: Dihukum menulis 100 kali. Jangan tulis 100 baris, gunakan perulangan.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="border border-stone-200 p-4 rounded-lg bg-stone-50">
+                        <strong class="block mb-2">For Loop</strong>
+                        <p class="text-sm">Dipakai jika TAHU berapa kali akan mengulang (misal: pasti 100 kali).</p>
+                    </div>
+                    <div class="border border-stone-200 p-4 rounded-lg bg-stone-50">
+                        <strong class="block mb-2">While Loop</strong>
+                        <p class="text-sm">Dipakai jika TIDAK TAHU berapa kali, tapi tahu kapan berhenti (misal: lari sampai finish).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-3" class="content-section max-w-4xl mx-auto hidden">
+            <p class="text-lg text-osn-text-muted mb-8 leading-relaxed">Siswa diajak untuk memodelkan proses yang terjadi dalam soal ke dalam "state" atau keadaan tertentu. Disertai simulasi grid 2D untuk memvisualisasikan bagaimana perubahan state direkam langkah demi langkah.</p>
+            
+            <div class="bg-osn-surface border border-stone-200 rounded-2xl p-6 md:p-10 shadow-sm">
+                <h2 class="text-3xl font-bold mb-4">3. Simulasi & State</h2>
+                <div class="inline-block bg-stone-100 px-3 py-1 rounded-full text-sm font-semibold text-stone-600 mb-6">
+                    Tujuan: Melatih ketelitian membaca soal selangkah demi selangkah.
+                </div>
+
+                <div class="bg-amber-50 rounded-xl p-5 border border-amber-200 mb-8 flex gap-4 items-start">
+                    <div class="text-2xl">&#9823;</div>
+                    <div>
+                        <h4 class="font-bold text-amber-900 mb-1">Analogi Sederhana: Bermain Catur di Pikiran</h4>
+                        <p class="text-amber-800">Menyelesaikan simulasi sama seperti memantau perubahan darah (HP) karakter saat diserang, atau mengingat posisi pion catur tanpa memegang papannya.</p>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">A. State (Kondisi/Status)</h3>
+                <p class="mb-6 text-sm md:text-base">Dalam setiap titik waktu, sistem memiliki "State". Contoh mesin minuman: State 1 (Rp 0) &rarr; Masuk koin &rarr; State 2 (Rp 500) &rarr; Minuman keluar.</p>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">B. Pergerakan Grid & Koordinat</h3>
+                <p class="mb-4">Visualisasi pergerakan robot pada Grid. Koordinat asal (0,0) ada di ujung kiri atas.</p>
+                
+                <div class="bg-stone-50 border border-stone-200 rounded-xl p-6 mb-8 flex flex-col md:flex-row gap-8 items-center justify-center">
+                    <div class="flex flex-col gap-2 items-center">
+                        <button onclick="moveGrid(0, -1)" class="w-12 h-12 bg-stone-200 hover:bg-stone-300 rounded font-bold transition-colors">U</button>
+                        <div class="flex gap-2">
+                            <button onclick="moveGrid(-1, 0)" class="w-12 h-12 bg-stone-200 hover:bg-stone-300 rounded font-bold transition-colors">B</button>
+                            <div class="w-12 h-12 flex items-center justify-center font-bold text-stone-400 border-2 border-dashed border-stone-300 rounded">&#10011;</div>
+                            <button onclick="moveGrid(1, 0)" class="w-12 h-12 bg-stone-200 hover:bg-stone-300 rounded font-bold transition-colors">T</button>
+                        </div>
+                        <button onclick="moveGrid(0, 1)" class="w-12 h-12 bg-stone-200 hover:bg-stone-300 rounded font-bold transition-colors">S</button>
+                    </div>
+                    
+                    <div>
+                        <div class="mb-2 text-center font-mono font-bold text-sm" id="grid-status">Posisi (X: 2, Y: 2)</div>
+                        <div class="grid grid-cols-5 gap-1 bg-stone-300 border-4 border-stone-400 p-1 w-fit rounded">
+                            <script>
+                                for(let i=0; i<25; i++) {
+                                    document.write(`<div id="cell-${i}" class="grid-cell w-10 h-10 bg-white rounded-sm"></div>`);
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-osn-primary-light border-l-4 border-osn-primary p-4 rounded-r-lg">
+                    <strong class="block mb-1 text-osn-primary-dark">Tips OSN: Baca dengan teliti!</strong>
+                    <p class="text-sm text-amber-900">Apakah robot menghadap Utara lalu "maju", atau "bergerak ke Utara"? Jika "menghadap", saat disuruh "belok kanan", state arahnya yang berubah jadi Timur, bukan posisinya!</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-4" class="content-section max-w-4xl mx-auto hidden">
+            <p class="text-lg text-osn-text-muted mb-8 leading-relaxed">Sesi ini mengajarkan siswa bahwa tidak semua masalah harus diselesaikan dengan komputasi berat. Mencari pola (pattern recognition) adalah kunci memecahkan kasus dengan batas data (constraints) jutaan.</p>
+            
+            <div class="bg-osn-surface border border-stone-200 rounded-2xl p-6 md:p-10 shadow-sm">
+                <h2 class="text-3xl font-bold mb-4">4. Pattern Recognition (Pengenalan Pola)</h2>
+                <div class="inline-block bg-stone-100 px-3 py-1 rounded-full text-sm font-semibold text-stone-600 mb-6">
+                    Tujuan: Menemukan rahasia di balik data jutaan.
+                </div>
+
+                <div class="bg-amber-50 rounded-xl p-5 border border-amber-200 mb-8 flex gap-4 items-start">
+                    <div class="text-2xl">&#128197;</div>
+                    <div>
+                        <h4 class="font-bold text-amber-900 mb-1">Analogi: Prediksi Hari</h4>
+                        <p class="text-amber-800">Jika sekarang Senin, hari apa 1000 hari lagi? Pakai Modulo! 1000 dibagi 7 sisa 6. Hitung 6 hari dari Senin = Minggu. Tidak perlu menghitung manual 1000 kali.</p>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">A. Barisan dan Pola Pertumbuhan</h3>
+                <p class="mb-4">Cari tahu selisih angkanya. Apakah:</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                    <div class="bg-stone-50 p-4 border border-stone-200 rounded-lg text-center">
+                        <strong class="block mb-2 text-osn-accent">Aritmatika</strong>
+                        <p class="text-sm text-stone-600">Ditambah konstan (+2)</p>
+                        <p class="font-mono text-sm mt-2">2, 4, 6, 8...</p>
+                    </div>
+                    <div class="bg-stone-50 p-4 border border-stone-200 rounded-lg text-center">
+                        <strong class="block mb-2 text-osn-primary">Geometri</strong>
+                        <p class="text-sm text-stone-600">Dikali konstan (x2)</p>
+                        <p class="font-mono text-sm mt-2">2, 4, 8, 16...</p>
+                    </div>
+                    <div class="bg-stone-50 p-4 border border-stone-200 rounded-lg text-center">
+                        <strong class="block mb-2 text-indigo-600">Fibonacci</strong>
+                        <p class="text-sm text-stone-600">Jumlahan 2 sebelumnya</p>
+                        <p class="font-mono text-sm mt-2">1, 1, 2, 3, 5, 8...</p>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">B. Generalisasi & Segitiga Pascal</h3>
+                <p class="mb-4">Generalisasi artinya membuat rumus umum. <br>Misal: <code class="bg-stone-100 px-1 rounded">1 + 2 + 3 + ... + 100</code></p>
+                <div class="bg-osn-accent-light text-teal-900 p-4 rounded-lg mb-6">
+                    Daripada dilooping 100 kali, pakai pola Gauss:<br>
+                    <strong>(Ujung Kiri + Ujung Kanan) x (Setengah Jumlah Angka)</strong><br>
+                    <code class="font-bold text-teal-800">(1 + 100) x 50 = 5050</code>
+                </div>
+                <p class="text-sm">Segitiga Pascal sangat penting di OSN karena berhubungan langsung dengan hitungan kombinasi (Kombinatorik).</p>
+            </div>
+        </section>
+
+        <section id="sec-5" class="content-section max-w-4xl mx-auto hidden">
+            <p class="text-lg text-osn-text-muted mb-8 leading-relaxed">Matematika di sini diajarkan sebagai 'alat tukang'. Fokusnya adalah kombinatorik, peluang, dan sifat modulo yang esensial untuk memecahkan teka-teki logika OSN tingkat lanjut tanpa membuat komputer kewalahan.</p>
+            
+            <div class="bg-osn-surface border border-stone-200 rounded-2xl p-6 md:p-10 shadow-sm">
+                <h2 class="text-3xl font-bold mb-4">5. Matematika Dasar OSN</h2>
+                <div class="inline-block bg-stone-100 px-3 py-1 rounded-full text-sm font-semibold text-stone-600 mb-6">
+                    Tujuan: Menggunakan matematika sebagai "alat tukang" membongkar logika.
+                </div>
+
+                <div class="bg-amber-50 rounded-xl p-5 border border-amber-200 mb-8 flex gap-4 items-start">
+                    <div class="text-2xl">&#128736;</div>
+                    <div>
+                        <h4 class="font-bold text-amber-900 mb-1">Analogi: Gergaji Mesin</h4>
+                        <p class="text-amber-800">Kamu bisa memotong kayu dengan pisau lipat (cara simulasi), tapi dengan gergaji mesin (rumus matematika), kamu selesai dalam 1 detik.</p>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">A. Kombinatorik & Faktorial</h3>
+                <div class="space-y-4 mb-8">
+                    <div class="flex gap-4 items-center bg-stone-50 p-4 rounded-lg border border-stone-200">
+                        <div class="text-3xl font-bold text-osn-primary shrink-0 w-12 text-center">&#215;</div>
+                        <div>
+                            <strong class="block mb-1">Aturan Perkalian</strong>
+                            <p class="text-sm">Punya 3 baju dan 2 celana. Berapa gaya? <strong>3 x 2 = 6 kombinasi</strong>.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 items-center bg-stone-50 p-4 rounded-lg border border-stone-200">
+                        <div class="text-3xl font-bold text-osn-accent shrink-0 w-12 text-center">!</div>
+                        <div>
+                            <strong class="block mb-1">Faktorial</strong>
+                            <p class="text-sm">Menyusun 5 orang berbaris? <strong>5 x 4 x 3 x 2 x 1 = 120 cara</strong>. Karena 1 kursi diisi, sisa kursi berkurang.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">B. Peluang Sederhana</h3>
+                <p class="mb-4 text-center p-4 bg-blue-50 text-blue-900 font-medium rounded-lg">
+                    Peluang = (Banyaknya kejadian diinginkan) / (Total semua kemungkinan)
+                </p>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">C. Bilangan (Modulo Lanjutan)</h3>
+                <div class="bg-red-50 border border-red-200 p-5 rounded-lg">
+                    <strong class="block mb-2 text-red-800">Misteri Modulo 1.000.000.007</strong>
+                    <p class="text-sm text-red-900 leading-relaxed">Banyak soal meminta "Keluarkan jawaban dalam Modulo 10<sup>9</sup>+7". Kenapa? Karena jawaban aslinya terlalu besar hingga memori komputer meledak (Integer Overflow). Menghitung secara bertahap dan me-modulo setiap operasi sangat krusial!</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-6" class="content-section max-w-4xl mx-auto hidden">
+            <p class="text-lg text-osn-text-muted mb-8 leading-relaxed">Algoritma Greedy diperkenalkan lewat simulasi pertukaran koin. Ini membantu siswa memahami konsep mengambil keputusan optimum lokal secara instan, serta mengetahui kapan strategi ini gagal.</p>
+            
+            <div class="bg-osn-surface border border-stone-200 rounded-2xl p-6 md:p-10 shadow-sm">
+                <h2 class="text-3xl font-bold mb-4">6. Greedy (Strategi)</h2>
+                <div class="inline-block bg-stone-100 px-3 py-1 rounded-full text-sm font-semibold text-stone-600 mb-6">
+                    Tujuan: Mengambil langkah terbaik saat ini juga tanpa pusing memikirkan masa depan.
+                </div>
+
+                <div class="bg-amber-50 rounded-xl p-5 border border-amber-200 mb-8 flex gap-4 items-start">
+                    <div class="text-2xl">&#128181;</div>
+                    <div>
+                        <h4 class="font-bold text-amber-900 mb-1">Analogi: Memberi Kembalian</h4>
+                        <p class="text-amber-800">Diminta kembalian Rp 17.000 dengan koin/kertas sesedikit mungkin? Secara natural kamu ambil terbesar dulu: Rp 10.000, lalu Rp 5.000, lalu Rp 2.000. Itulah Greedy!</p>
+                    </div>
+                </div>
+
+                <div class="bg-stone-50 border border-stone-200 rounded-xl p-6 mb-8">
+                    <h4 class="font-bold mb-4 text-center">Simulator Kasir Greedy</h4>
+                    <div class="flex flex-col items-center gap-4">
+                        <div class="flex gap-2 items-center">
+                            <label class="font-medium text-sm">Target Kembalian (Rp):</label>
+                            <input type="number" id="greedy-input" value="17000" class="border border-stone-300 rounded px-3 py-2 w-32 focus:outline-none focus:border-osn-primary">
+                            <button onclick="runGreedy()" class="bg-osn-primary text-white px-4 py-2 rounded hover:bg-amber-600 transition-colors font-medium">Hitung</button>
+                        </div>
+                        <p class="text-xs text-stone-500">Pecahan tersedia: 10k, 5k, 2k, 1k, 500</p>
+                        <div id="greedy-result" class="flex flex-wrap gap-2 mt-4 min-h-[50px] justify-center w-full">
+                            <!-- JS will populate coins here -->
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">Kapan Greedy Gagal? (Jebakan OSN)</h3>
+                <div class="bg-red-50 p-5 rounded-lg border border-red-200">
+                    <p class="text-sm mb-2 text-red-900">Misal pecahan yang tersedia adalah: <strong>12k, 10k, 2k</strong>. Target: <strong>14k</strong>.</p>
+                    <ul class="text-sm list-disc pl-5 space-y-2 text-red-900 mb-4">
+                        <li><strong>Pakai Greedy:</strong> Ambil 12k. Sisa 2k. Ambil 2k. Total butuh <strong>2 koin</strong>. (Optimal!)</li>
+                    </ul>
+                    <p class="text-sm mb-2 text-red-900">TAPI, misal targetnya <strong>15k</strong> (dengan koin 12k, 10k, 5k):</p>
+                    <ul class="text-sm list-disc pl-5 space-y-2 text-red-900">
+                        <li><strong>Pakai Greedy:</strong> Ambil 12k, sisa 3k. BUNTU! (Tidak ada koin 3k).</li>
+                        <li><strong>Padahal bisa:</strong> 10k + 5k (2 koin).</li>
+                    </ul>
+                    <p class="text-sm font-bold mt-4 text-red-800">Mengenali apakah soal bisa pakai Greedy atau butuh algoritma lebih kompleks (Dynamic Programming) adalah skill tingkat dewa di OSN!</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-7" class="content-section max-w-4xl mx-auto hidden">
+            <p class="text-lg text-osn-text-muted mb-8 leading-relaxed">Struktur data Graph divisualisasikan untuk memahami jaringan dan rute. Siswa membedakan pendekatan BFS (menyebar) dan DFS (mendalam) secara intuitif tanpa memikirkan kode graf rumit dahulu.</p>
+            
+            <div class="bg-osn-surface border border-stone-200 rounded-2xl p-6 md:p-10 shadow-sm">
+                <h2 class="text-3xl font-bold mb-4">7. Graph Dasar</h2>
+                <div class="inline-block bg-stone-100 px-3 py-1 rounded-full text-sm font-semibold text-stone-600 mb-6">
+                    Tujuan: Menyelesaikan soal tentang jaringan, rute, dan peta.
+                </div>
+
+                <div class="bg-amber-50 rounded-xl p-5 border border-amber-200 mb-8 flex gap-4 items-start">
+                    <div class="text-2xl">&#128506;</div>
+                    <div>
+                        <h4 class="font-bold text-amber-900 mb-1">Analogi: Peta Angkot / Jaringan Teman</h4>
+                        <p class="text-amber-800">Graph adalah kumpulan kota (Node) yang dihubungkan oleh jalan/rute angkot (Edge).</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 items-center">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 pb-2 border-b border-stone-100">A. Node dan Edge</h3>
+                        <ul class="space-y-3 text-sm">
+                            <li><strong class="text-osn-primary">Node (Titik):</strong> Kotanya / Orangnya.</li>
+                            <li><strong class="text-osn-accent">Edge (Garis):</strong> Hubungannya. Bisa searah (jalan 1 arah), dua arah, atau punya bobot jarak (panjang aspal).</li>
+                        </ul>
+                    </div>
+                    <div class="flex justify-center relative w-full h-40 bg-stone-50 rounded border border-stone-200">
+                        <div class="absolute w-10 h-10 rounded-full bg-osn-primary text-white flex items-center justify-center font-bold" style="top: 20%; left: 20%">A</div>
+                        <div class="absolute w-10 h-10 rounded-full bg-osn-primary text-white flex items-center justify-center font-bold" style="top: 60%; left: 50%">B</div>
+                        <div class="absolute w-10 h-10 rounded-full bg-osn-primary text-white flex items-center justify-center font-bold" style="top: 20%; left: 80%">C</div>
+                        
+                        <!-- Pseudo-SVG using rotated borders for edges -->
+                        <div class="absolute h-0.5 bg-osn-text-muted transform origin-left" style="width: 35%; top: 32%; left: 30%; transform: rotate(35deg);"></div>
+                        <div class="absolute h-0.5 bg-osn-text-muted transform origin-left" style="width: 35%; top: 32%; right: 30%; transform: rotate(145deg);"></div>
+                        <div class="absolute h-0.5 bg-osn-text-muted transform origin-left" style="width: 50%; top: 25%; left: 30%; transform: rotate(0deg);"></div>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">B. Cara Menelusuri Peta (BFS vs DFS)</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-teal-50 p-5 rounded border border-teal-200">
+                        <h4 class="font-bold text-teal-900 mb-2">BFS (Melebar)</h4>
+                        <p class="text-sm text-teal-800">Analogi: Jatuhkan batu ke kolam, riak menyebar rata. Cek jarak 1 dulu, baru jarak 2.</p>
+                        <p class="text-sm text-teal-900 font-bold mt-2">Fungsi: Mencari jalan terpendek.</p>
+                    </div>
+                    <div class="bg-indigo-50 p-5 rounded border border-indigo-200">
+                        <h4 class="font-bold text-indigo-900 mb-2">DFS (Mendalam)</h4>
+                        <p class="text-sm text-indigo-800">Analogi: Masuk labirin. Jalan terus ke satu arah sampai buntu, mundur 1 langkah, belok.</p>
+                        <p class="text-sm text-indigo-900 font-bold mt-2">Fungsi: Mengecek konektivitas/terhubung.</p>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">C. Shortest Path & MST</h3>
+                <ul class="space-y-4 text-sm">
+                    <li><strong>Shortest Path:</strong> Algoritma Dijkstra. Mencari rute A ke B tercepat ala Google Maps.</li>
+                    <li><strong>Minimum Spanning Tree (MST):</strong> Analogi Presiden aspal jalan. Hubungkan semua kota dengan biaya semurah mungkin. Tidak boleh ada jalan memutar (loop).</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="sec-8" class="content-section max-w-4xl mx-auto hidden">
+            <p class="text-lg text-osn-text-muted mb-8 leading-relaxed">Berisi pengolahan teks. Fokus interaktif pada cara komputer mengurutkan huruf dan menerjemahkan sistem bilangan basis-26, yang sangat khas pada soal-soal kompetisi.</p>
+            
+            <div class="bg-osn-surface border border-stone-200 rounded-2xl p-6 md:p-10 shadow-sm">
+                <h2 class="text-3xl font-bold mb-4">8. String & Representasi</h2>
+                <div class="inline-block bg-stone-100 px-3 py-1 rounded-full text-sm font-semibold text-stone-600 mb-6">
+                    Tujuan: Mengolah data berupa teks dan huruf.
+                </div>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">A. Manipulasi & Lexicographical Order</h3>
+                <p class="text-sm mb-4">Memotong string, membalik, dll. Komputer mengurutkan seperti kamus (Lexicographical).</p>
+                <div class="bg-stone-50 p-4 rounded border border-stone-200 font-mono text-sm mb-8">
+                    "AAA" &lt; "AAB" <br>
+                    "B" &gt; "AZZZZ" (B dibanding A dulu)
+                </div>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">B. Encoding (Base-26)</h3>
+                <p class="text-sm mb-4">Sistem angka manusia Base-10 (0-9). Kolom Excel Base-26 (A-Z). Habis Z &rarr; AA, AB, AC.</p>
+                
+                <div class="bg-stone-100 p-6 rounded-xl border border-stone-200 flex flex-col items-center">
+                    <p class="font-bold mb-4">Ubah Angka ke Label Excel (Base-26)</p>
+                    <div class="flex gap-4 items-center">
+                        <input type="number" id="base26-in" value="28" class="w-20 px-3 py-2 border rounded">
+                        <span class="text-xl">&#10142;</span>
+                        <div id="base26-out" class="bg-osn-primary text-white font-bold font-mono px-6 py-2 rounded text-lg">AB</div>
+                    </div>
+                    <button onclick="calcBase26()" class="mt-4 text-sm underline text-osn-text-muted hover:text-osn-primary">Konversi</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-9" class="content-section max-w-4xl mx-auto hidden">
+            <p class="text-lg text-osn-text-muted mb-8 leading-relaxed">Puncak dari materi teknis. Menggunakan visualisasi grafik untuk membuktikan mengapa efisiensi algoritma (Big-O) sangat diuji di OSN ketika input (N) menjadi sangat besar.</p>
+            
+            <div class="bg-osn-surface border border-stone-200 rounded-2xl p-6 md:p-10 shadow-sm">
+                <h2 class="text-3xl font-bold mb-4">9. Brute Force vs Efisiensi</h2>
+                <div class="inline-block bg-stone-100 px-3 py-1 rounded-full text-sm font-semibold text-stone-600 mb-6">
+                    Tujuan: Mengetahui batas kemampuan komputer.
+                </div>
+
+                <div class="bg-amber-50 rounded-xl p-5 border border-amber-200 mb-8 flex gap-4 items-start">
+                    <div class="text-2xl">&#128274;</div>
+                    <div>
+                        <h4 class="font-bold text-amber-900 mb-1">Analogi: Membuka Gembok</h4>
+                        <p class="text-amber-800"><strong>Brute Force:</strong> Coba semua kunci di dunia satu per satu. <br><strong>Efisiensi:</strong> Lihat merk gemboknya, lalu ke toko spesifik.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="border border-stone-200 p-5 rounded bg-stone-50">
+                        <h4 class="font-bold mb-2">Kapan Pakai Brute Force?</h4>
+                        <p class="text-sm">Jika batas data (Constraint / N) kecil, misal N &lt; 10. Silakan mencoba semua kemungkinan. Aman dan pasti benar.</p>
+                    </div>
+                    <div class="border border-stone-200 p-5 rounded bg-stone-50">
+                        <h4 class="font-bold mb-2">Kapan Butuh Efisiensi?</h4>
+                        <p class="text-sm">Jika N = 100.000. Juri cuma kasih 1 detik. Harus pakai rumus Matematika atau Binary Search (Kompleksitas Waktu / Big-O).</p>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 text-center">Visualisasi: Waktu Eksekusi saat N Membesar</h3>
+                <div class="chart-container">
+                    <canvas id="efficiencyChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-10" class="content-section max-w-4xl mx-auto hidden">
+            <p class="text-lg text-osn-text-muted mb-8 leading-relaxed">Bagian penggabungan seluruh materi. Memberikan strategi taktis saat berhadapan dengan soal OSN sungguhan, dari menerjemahkan cerita hingga menangani edge cases.</p>
+            
+            <div class="bg-osn-surface border border-stone-200 rounded-2xl p-6 md:p-10 shadow-sm">
+                <h2 class="text-3xl font-bold mb-4">10. Problem Solving OSN</h2>
+                <div class="inline-block bg-stone-100 px-3 py-1 rounded-full text-sm font-semibold text-stone-600 mb-6">
+                    Tujuan: Menggabungkan semua kekuatan ke simulasi perang.
+                </div>
+
+                <h3 class="text-xl font-bold mb-6 mt-4 pb-2 border-b border-stone-100">Langkah Menganalisis Soal</h3>
+                
+                <div class="space-y-4">
+                    <div class="flex gap-4 p-4 border border-stone-200 rounded-lg hover:border-osn-primary transition-colors">
+                        <div class="w-8 h-8 rounded-full bg-stone-200 flex items-center justify-center font-bold text-stone-600 shrink-0">1</div>
+                        <div>
+                            <strong class="block mb-1">Baca Soalnya, Buang Dongengnya</strong>
+                            <p class="text-sm text-stone-600">Pembuat soal suka bercerita soal Pak Dengklek dan bebeknya. Abstraksikan! Terjemahkan jadi bentuk "Graph", "Array", atau "Matematika".</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 p-4 border border-stone-200 rounded-lg hover:border-osn-primary transition-colors">
+                        <div class="w-8 h-8 rounded-full bg-stone-200 flex items-center justify-center font-bold text-stone-600 shrink-0">2</div>
+                        <div>
+                            <strong class="block mb-1">Lihat Batasannya (Constraints)</strong>
+                            <p class="text-sm text-stone-600">N kecil = Brute force. N sedang = Simulasi. N sangat besar (Satu Miliar) = Pasti rumus pola/matematika O(1) atau O(log N).</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 p-4 border border-stone-200 rounded-lg hover:border-osn-primary transition-colors">
+                        <div class="w-8 h-8 rounded-full bg-stone-200 flex items-center justify-center font-bold text-stone-600 shrink-0">3</div>
+                        <div>
+                            <strong class="block mb-1">Temukan Edge Cases (Kasus Ekstrem)</strong>
+                            <p class="text-sm text-stone-600">Apa terjadi jika N=0? Jika jumlah negatif? Program bagus tahan banting terhadap <em>Edge Cases</em>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-11" class="content-section max-w-4xl mx-auto hidden pb-20">
+            <p class="text-lg text-osn-text-muted mb-8 leading-relaxed">Penutup panduan master ini, menguraikan peran latihan konsisten (upsolving) dan membagi porsi tanggung jawab antara penguatan dasar mandiri dan bimbingan mentor.</p>
+            
+            <div class="bg-osn-surface border border-stone-200 rounded-2xl p-6 md:p-10 shadow-sm mb-8">
+                <h2 class="text-3xl font-bold mb-4">11. Latihan, Evaluasi & Implementasi</h2>
+                
+                <h3 class="text-xl font-bold mb-4 mt-6 pb-2 border-b border-stone-100">Tips Latihan Juara</h3>
+                <ul class="space-y-4 mb-8 text-sm">
+                    <li class="flex gap-2">
+                        <span class="text-osn-primary">&#10003;</span>
+                        <div><strong>Fokus Per Topik:</strong> Jangan campur aduk di awal. Latih array khusus array.</div>
+                    </li>
+                    <li class="flex gap-2">
+                        <span class="text-osn-primary">&#10003;</span>
+                        <div><strong>Upsolving (WAJIB!):</strong> Jika gagal saat kontes, kerjakan ulang setelah kontes selesai (lihat pembahasan). Jangan ditinggal.</div>
+                    </li>
+                    <li class="flex gap-2">
+                        <span class="text-osn-primary">&#10003;</span>
+                        <div><strong>Evaluasi Error:</strong> <em>Time Limit</em> = kurang efisien. <em>Wrong Answer</em> = logika salah/kasus ekstrem terlewat.</div>
+                    </li>
+                </ul>
+
+                <h3 class="text-xl font-bold mb-4 mt-8 pb-2 border-b border-stone-100">Catatan Ekosistem Pembelajaran</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-stone-50 p-5 rounded border border-stone-200">
+                        <h4 class="font-bold mb-2">Tahap 1 (Mandiri/Sekolah)</h4>
+                        <p class="text-sm text-stone-600">Fokus bangun pondasi logika dan syntax dasar (11 poin ini). Jangan hafal baris kode.</p>
+                    </div>
+                    <div class="bg-stone-50 p-5 rounded border border-stone-200">
+                        <h4 class="font-bold mb-2">Tahap 2 (Sesi Mentor)</h4>
+                        <p class="text-sm text-stone-600">Fokus bedah soal, strategi, dan optimasi. Bukan belajar <code>if-else</code> lagi.</p>
+                    </div>
+                </div>
+
+                <div class="mt-10 p-6 bg-osn-primary text-white rounded-xl text-center shadow-lg">
+                    <h3 class="text-2xl font-bold mb-2">Selamat belajar!</h3>
+                    <p>Waktu bersama Mentor menjadi efisien. Bersiaplah meraih medali!</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script>
+    // State management and navigation
+    let currentModule = 0;
+    let chartInstance = null;
+    
+    function nav(moduleId) {
+        document.querySelectorAll('.content-section').forEach(el => el.classList.add('hidden'));
+        document.getElementById(`sec-${moduleId}`).classList.remove('hidden');
+        document.getElementById(`sec-${moduleId}`).classList.add('block');
+        
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.remove('bg-osn-primary-light', 'text-osn-primary', 'border-osn-primary/20');
+            btn.classList.add('text-osn-text-muted', 'hover:bg-stone-50');
+            btn.classList.remove('border');
+        });
+        
+        const activeBtn = document.getElementById(`btn-${moduleId}`);
+        activeBtn.classList.remove('text-osn-text-muted', 'hover:bg-stone-50');
+        activeBtn.classList.add('bg-osn-primary-light', 'text-osn-primary', 'border', 'border-osn-primary/20');
+
+        currentModule = moduleId;
+        document.getElementById('main-content').scrollTop = 0;
+
+        if(moduleId === 9) renderChart();
+    }
+
+    // Logic Simulator
+    let logicState = { A: false, B: false };
+    function toggleLogic(gate) {
+        logicState[gate] = !logicState[gate];
+        const btn = document.getElementById(`btn-logic-${gate.toLowerCase()}`);
+        btn.innerText = `${gate}: ${logicState[gate] ? 'TRUE' : 'FALSE'}`;
+        btn.className = logicState[gate] 
+            ? 'w-24 h-12 rounded bg-green-100 border-2 border-green-400 text-green-700 font-bold transition-colors' 
+            : 'w-24 h-12 rounded bg-red-100 border-2 border-red-400 text-red-700 font-bold transition-colors';
+        updateLogicResults();
+    }
+    
+    function updateLogicResults() {
+        const resAnd = logicState.A && logicState.B;
+        const resOr = logicState.A || logicState.B;
+        
+        const elAnd = document.getElementById('res-and');
+        elAnd.innerText = resAnd ? 'TRUE' : 'FALSE';
+        elAnd.className = resAnd ? 'text-green-600 font-bold' : 'text-red-600 font-bold';
+
+        const elOr = document.getElementById('res-or');
+        elOr.innerText = resOr ? 'TRUE' : 'FALSE';
+        elOr.className = resOr ? 'text-green-600 font-bold' : 'text-red-600 font-bold';
+    }
+
+    // Grid Simulator
+    let pos = {x: 2, y: 2};
+    function renderGrid() {
+        for(let i=0; i<25; i++) {
+            document.getElementById(`cell-${i}`).className = "grid-cell w-10 h-10 bg-white rounded-sm";
+        }
+        const index = pos.y * 5 + pos.x;
+        document.getElementById(`cell-${index}`).className = "grid-cell w-10 h-10 bg-white rounded-sm active";
+        document.getElementById('grid-status').innerText = `Posisi (X: ${pos.x}, Y: ${pos.y})`;
+    }
+    function moveGrid(dx, dy) {
+        let newX = pos.x + dx;
+        let newY = pos.y + dy;
+        if(newX >= 0 && newX < 5 && newY >= 0 && newY < 5) {
+            pos.x = newX; pos.y = newY;
+            renderGrid();
+        }
+    }
+
+    // Greedy Simulator
+    function runGreedy() {
+        const coins = [10000, 5000, 2000, 1000, 500];
+        let target = parseInt(document.getElementById('greedy-input').value) || 0;
+        let originalTarget = target;
+        let used = [];
+        
+        for(let c of coins) {
+            while(target >= c) {
+                used.push(c);
+                target -= c;
+            }
+        }
+        
+        const resDiv = document.getElementById('greedy-result');
+        resDiv.innerHTML = '';
+        if (target > 0) {
+            resDiv.innerHTML = `<span class="text-red-600 font-bold">Gagal! Sisa ${target} tidak bisa dikembalikan.</span>`;
+        } else {
+            used.forEach(val => {
+                const el = document.createElement('div');
+                el.className = 'bg-stone-800 text-white font-bold px-3 py-1 rounded text-sm';
+                el.innerText = `${val/1000}k`;
+                if(val<1000) el.innerText = val;
+                resDiv.appendChild(el);
+            });
+        }
+    }
+
+    // Base26 (Excel Label)
+    function calcBase26() {
+        let num = parseInt(document.getElementById('base26-in').value);
+        if(!num || num < 1) return;
+        let label = '';
+        while (num > 0) {
+            let rem = (num - 1) % 26;
+            label = String.fromCharCode(65 + rem) + label;
+            num = Math.floor((num - 1) / 26);
+        }
+        document.getElementById('base26-out').innerText = label;
+    }
+
+    // Chart.js initialization
+    function renderChart() {
+        if(chartInstance) return;
+        const ctx = document.getElementById('efficiencyChart').getContext('2d');
+        const labels = [10, 50, 100, 200, 500];
+        const dataN = labels.map(n => n);
+        const dataN2 = labels.map(n => n * n);
+
+        chartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'O(N) - Efisien',
+                        data: dataN,
+                        borderColor: '#0D9488',
+                        backgroundColor: '#0D9488',
+                        borderWidth: 3,
+                        tension: 0.3
+                    },
+                    {
+                        label: 'O(N²) - Brute Force',
+                        data: dataN2,
+                        borderColor: '#DC2626',
+                        backgroundColor: '#DC2626',
+                        borderWidth: 3,
+                        tension: 0.3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) label += ': ';
+                                if (context.parsed.y !== null) label += context.parsed.y + ' operasi';
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Jumlah Operasi (Waktu)' },
+                        type: 'logarithmic'
+                    },
+                    x: {
+                        title: { display: true, text: 'Ukuran Data (N)' }
+                    }
+                }
+            }
+        });
+    }
+
+    // Init
+    setTimeout(renderGrid, 100);
+</script>
+
+</body>
+</html>
