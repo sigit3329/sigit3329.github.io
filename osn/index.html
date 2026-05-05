@@ -51,7 +51,7 @@
         ::-webkit-scrollbar-thumb:hover { background: #A8A29E; }
     </style>
 </head>
-<body class="font-sans antialiased flex flex-col h-screen">
+<body class="font-sans antialiased flex flex-col min-h-screen">
 
 <!-- Chosen Palette: Warm Neutrals with Amber and Teal Accents -->
 <!-- Application Structure Plan: The SPA uses a "Learning Dashboard" structure. A sidebar (horizontal on mobile) acts as a learning path map, guiding students through the 11 modules sequentially or non-linearly. The main content area dynamically updates based on the selected module. This structure was chosen because OSN prep is a journey; breaking it into distinct, focused modules prevents cognitive overload and allows interactive elements to be isolated and highlighted effectively without cluttering a single long scroll. -->
@@ -77,23 +77,34 @@ All chosen to adhere to NO SVG/Mermaid constraints while providing high engageme
     </div>
 </header>
 
-<div class="flex flex-1 overflow-hidden">
-    <nav class="mobile-nav w-full md:w-72 bg-osn-surface border-r border-stone-200 flex-shrink-0 flex md:flex-col p-4 gap-2 overflow-y-auto border-b md:border-b-0">
-        <button onclick="nav(0)" id="btn-0" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-osn-primary-light text-osn-primary border border-osn-primary/20">0. Pengantar</button>
-        <button onclick="nav(1)" id="btn-1" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">1. Dasar Logika Berpikir</button>
-        <button onclick="nav(2)" id="btn-2" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">2. Dasar Pemrograman</button>
-        <button onclick="nav(3)" id="btn-3" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">3. Simulasi & State</button>
-        <button onclick="nav(4)" id="btn-4" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">4. Pattern Recognition</button>
-        <button onclick="nav(5)" id="btn-5" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">5. Matematika Dasar OSN</button>
-        <button onclick="nav(6)" id="btn-6" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">6. Greedy (Strategi)</button>
-        <button onclick="nav(7)" id="btn-7" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">7. Graph Dasar</button>
-        <button onclick="nav(8)" id="btn-8" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">8. String & Representasi</button>
-        <button onclick="nav(9)" id="btn-9" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">9. Brute Force vs Efisiensi</button>
-        <button onclick="nav(10)" id="btn-10" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">10. Problem Solving</button>
-        <button onclick="nav(11)" id="btn-11" class="nav-btn w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">11. Latihan & Evaluasi</button>
+<div class="flex flex-1 flex-col md:flex-row">
+    <nav class="hidden md:flex w-72 bg-osn-surface border-r border-stone-200 flex-col p-4 gap-2 overflow-y-auto">
+        <button onclick="nav(0)" id="btn-0" class="nav-btn shrink-0 md:w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors bg-osn-primary-light text-osn-primary border border-osn-primary/20">0. Pengantar</button>
+
+        <button onclick="nav(1)" id="btn-1" class="nav-btn shrink-0 md:w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">1. Dasar Logika Berpikir</button>
+
+        <button onclick="nav(2)" id="btn-2" class="nav-btn shrink-0 md:w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">2. Dasar Pemrograman</button>
+
+        <button onclick="nav(3)" id="btn-3" class="nav-btn shrink-0 md:w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">3. Simulasi & State</button>
+
+        <button onclick="nav(4)" id="btn-4" class="nav-btn shrink-0 md:w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">4. Pattern Recognition</button>
+
+        <button onclick="nav(5)" id="btn-5" class="nav-btn shrink-0 md:w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">5. Matematika Dasar OSN</button>
+
+        <button onclick="nav(6)" id="btn-6" class="nav-btn shrink-0 md:w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">6. Greedy (Strategi)</button>
+
+        <button onclick="nav(7)" id="btn-7" class="nav-btn shrink-0 md:w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">7. Graph Dasar</button>
+
+        <button onclick="nav(8)" id="btn-8" class="nav-btn shrink-0 md:w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">8. String & Representasi</button>
+
+        <button onclick="nav(9)" id="btn-9" class="nav-btn shrink-0 md:w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">9. Brute Force vs Efisiensi</button>
+
+        <button onclick="nav(10)" id="btn-10" class="nav-btn shrink-0 md:w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">10. Problem Solving</button>
+
+        <button onclick="nav(11)" id="btn-11" class="nav-btn shrink-0 md:w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-osn-text-muted hover:bg-stone-50 transition-colors">11. Latihan & Evaluasi</button>
     </nav>
 
-    <main class="flex-1 overflow-y-auto p-4 md:p-8 relative scroll-smooth" id="main-content">
+    <main class="flex-1 overflow-y-auto p-4 md:p-8 pb-20 md:pb-8 w-full" id="main-content">
         
         <section id="sec-0" class="content-section max-w-4xl mx-auto block">
             <p class="text-lg text-osn-text-muted mb-8 leading-relaxed">Bagian ini memberikan gambaran umum tentang tujuan dan pola pikir yang dibutuhkan sebelum memulai materi teknis OSN Informatika. Siswa akan memahami hakikat sebenarnya dari kompetisi ini.</p>
@@ -706,6 +717,27 @@ All chosen to adhere to NO SVG/Mermaid constraints while providing high engageme
         if(moduleId === 9) renderChart();
     }
 
+    function toggleMenu() {
+    const menu = document.getElementById("fullMenu");
+    const panel = document.getElementById("menuPanel");
+
+    if (menu.classList.contains("hidden")) {
+        menu.classList.remove("hidden");
+
+        setTimeout(() => {
+        menu.classList.remove("opacity-0");
+        panel.classList.remove("translate-y-full");
+        }, 10);
+    } else {
+        menu.classList.add("opacity-0");
+        panel.classList.add("translate-y-full");
+
+        setTimeout(() => {
+        menu.classList.add("hidden");
+        }, 300);
+    }
+    }
+
     // Logic Simulator
     let logicState = { A: false, B: false };
     function toggleLogic(gate) {
@@ -856,6 +888,66 @@ All chosen to adhere to NO SVG/Mermaid constraints while providing high engageme
     // Init
     setTimeout(renderGrid, 100);
 </script>
+
+<div class="fixed bottom-0 left-0 right-0 bg-white border-t border-stone-200 flex justify-around items-center h-16 md:hidden z-50">
+
+    <button onclick="nav(0)" class="flex flex-col items-center text-xs">
+        <span>🏁</span>
+        <span>Intro</span>
+    </button>
+
+    <button onclick="nav(1)" class="flex flex-col items-center text-xs">
+        <span>🧠</span>
+        <span>Logika</span>
+    </button>
+
+    <button onclick="nav(2)" class="flex flex-col items-center text-xs">
+        <span>💻</span>
+        <span>Code</span>
+    </button>
+
+    <button onclick="nav(7)" class="flex flex-col items-center text-xs">
+        <span>🕸️</span>
+        <span>Graph</span>
+    </button>
+
+    <!-- INI YANG DITAMBAH -->
+    <button onclick="toggleMenu()" class="flex flex-col items-center text-xs">
+        <span>📚</span>
+        <span>Semua</span>
+    </button>
+
+</div>
+
+<div id="fullMenu" class="fixed inset-0 bg-black/50 hidden z-50 opacity-0 transition-opacity duration-300">
+  <div id="menuPanel" class="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl p-4 max-h-[70vh] overflow-y-auto transform translate-y-full transition-transform duration-300">
+
+    <h3 class="font-bold text-lg mb-3">Semua Materi</h3>
+
+        <div class="flex flex-wrap gap-3 text-sm">
+
+        <button onclick="nav(0);toggleMenu()" class="w-[48%] bg-amber-100 text-amber-800 rounded-lg py-3 px-4 text-left font-medium">0. Pengantar</button>
+        <button onclick="nav(1);toggleMenu()" class="w-[48%] bg-teal-100 text-teal-800 rounded-lg py-3 px-4 text-left font-medium">1. Logika</button>
+
+        <button onclick="nav(2);toggleMenu()" class="w-[48%] bg-blue-100 text-blue-800 rounded-lg py-3 px-4 text-left font-medium">2. Programming</button>
+        <button onclick="nav(3);toggleMenu()" class="w-[48%] bg-purple-100 text-purple-800 rounded-lg py-3 px-4 text-left font-medium">3. Simulasi</button>
+
+        <button onclick="nav(4);toggleMenu()" class="w-[48%] bg-pink-100 text-pink-800 rounded-lg py-3 px-4 text-left font-medium">4. Pattern</button>
+        <button onclick="nav(5);toggleMenu()" class="w-[48%] bg-yellow-100 text-yellow-800 rounded-lg py-3 px-4 text-left font-medium">5. Matematika</button>
+
+        <button onclick="nav(6);toggleMenu()" class="w-[48%] bg-orange-100 text-orange-800 rounded-lg py-3 px-4 text-left font-medium">6. Greedy</button>
+        <button onclick="nav(7);toggleMenu()" class="w-[48%] bg-cyan-100 text-cyan-800 rounded-lg py-3 px-4 text-left font-medium">7. Graph</button>
+
+        <button onclick="nav(8);toggleMenu()" class="w-[48%] bg-indigo-100 text-indigo-800 rounded-lg py-3 px-4 text-left font-medium">8. String</button>
+        <button onclick="nav(9);toggleMenu()" class="w-[48%] bg-red-100 text-red-800 rounded-lg py-3 px-4 text-left font-medium">9. Efisiensi</button>
+
+        <button onclick="nav(10);toggleMenu()" class="w-[48%] bg-lime-100 text-lime-800 rounded-lg py-3 px-4 text-left font-medium">10. Problem</button>
+        <button onclick="nav(11);toggleMenu()" class="w-[48%] bg-emerald-100 text-emerald-800 rounded-lg py-3 px-4 text-left font-medium">11. Latihan</button>
+
+        </div>
+
+  </div>
+</div>
 
 </body>
 </html>
