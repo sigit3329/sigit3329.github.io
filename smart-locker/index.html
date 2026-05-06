@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Locker System - Secure & Modular</title>
+    <!-- Script untuk mencegah FOUC (Flash of Unstyled Content) saat load halaman -->
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {}
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Light Mode Patterns */
+        .bg-pattern { background-color: #f8fafc; background-image: radial-gradient(#e2e8f0 1px, transparent 1px); background-size: 24px 24px; }
+        .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
+        
+        /* Dark Mode Patterns */
+        .dark .bg-pattern { background-color: #0f172a; background-image: radial-gradient(#1e293b 1px, transparent 1px); }
+        .dark .glass-panel { background: rgba(15, 23, 42, 0.8); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        
+        /* Animasi mengambang untuk gambar hero */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 antialiased selection:bg-yellow-400 selection:text-blue-900 transition-colors duration-300">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 glass-panel transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-3">
+                    <div class="bg-blue-600 p-2 rounded-lg shadow-sm">
+                        <i data-lucide="lock-keyhole" class="text-white w-6 h-6"></i>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-slate-900 dark:text-white transition-colors duration-300">SmartLocker<span class="text-yellow-500">.</span></span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#solusi" class="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-yellow-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">Solusi</a>
+                        <a href="#varian" class="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-yellow-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">Varian</a>
+                        <a href="#fitur" class="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-yellow-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">Fitur</a>
+                        <a href="#konfigurasi" class="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-yellow-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">Konfigurasi</a>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <!-- Toggle Dark Mode Button -->
+                    <button id="theme-toggle" type="button" class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none rounded-lg text-sm p-2.5 transition-colors">
+                        <span id="theme-toggle-dark-icon" class="hidden"><i data-lucide="moon" class="w-5 h-5"></i></span>
+                        <span id="theme-toggle-light-icon" class="hidden"><i data-lucide="sun" class="w-5 h-5"></i></span>
+                    </button>
+                    <a href="#kontak" class="bg-blue-600 text-white hover:bg-blue-700 transition-colors px-5 py-2.5 rounded-lg text-sm font-semibold shadow-md shadow-blue-600/20">Konsultasi</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-pattern transition-colors duration-300">
+        <div class="absolute inset-0 bg-gradient-to-b from-blue-50/50 to-slate-50 dark:from-slate-900/80 dark:to-slate-900 transition-colors duration-300"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-slate-800/80 text-sm text-blue-700 dark:text-blue-400 mb-8 border border-blue-100 dark:border-blue-500/30 shadow-sm transition-colors duration-300">
+                <span class="relative flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
+                </span>
+                Sistem Manajemen Akses Modern
+            </div>
+            <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6 transition-colors duration-300">
+                Bukan Sekadar <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 dark:from-blue-400 dark:to-blue-300">Loker.</span>
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-xl text-slate-600 dark:text-slate-400 mb-10 transition-colors duration-300">
+                Tingkatkan keamanan dan efisiensi bisnis Anda dengan <span class="text-slate-900 dark:text-white font-semibold">Smart Locker System</span>. Modular, Scalable, dan Berbasis IoT.
+            </p>
+            <div class="flex justify-center gap-4">
+                <a href="#varian" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold transition-all shadow-lg shadow-blue-600/30 flex items-center gap-2">
+                    Lihat Varian Produk <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </a>
+            </div>
+            
+            <!-- Hero Image -->
+            <div class="mt-20 max-w-2xl mx-auto relative z-10 animate-float">
+                <div class="absolute inset-0 bg-yellow-400/20 dark:bg-blue-500/20 blur-[100px] rounded-full pointer-events-none transform scale-90 transition-colors duration-300"></div>
+                <img src="loker-bagus-929x1024.png" alt="Desain Kustom Smart Locker System" class="relative z-20 w-full h-auto drop-shadow-2xl">
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem & Solution Section -->
+    <section id="solusi" class="py-24 bg-white dark:bg-slate-900 relative transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 transition-colors duration-300">Mengapa Beralih ke Smart System?</h2>
+                <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto transition-colors duration-300">Loker konvensional memakan biaya maintenance tersembunyi dan berisiko tinggi.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <!-- Problem -->
+                <div class="space-y-4">
+                    <div class="flex items-start gap-4 bg-white dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-sm hover:shadow-md transition-all duration-300">
+                        <div class="bg-red-50 dark:bg-red-500/20 p-3 rounded-xl text-red-500 dark:text-red-400 shrink-0 transition-colors duration-300"><i data-lucide="key-square" class="w-6 h-6"></i></div>
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1 transition-colors duration-300">Kunci Fisik Sering Hilang</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm transition-colors duration-300">Biaya duplikasi kunci dan kerusakan gembok konvensional secara rutin membebani operasional.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 bg-white dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-sm hover:shadow-md transition-all duration-300">
+                        <div class="bg-red-50 dark:bg-red-500/20 p-3 rounded-xl text-red-500 dark:text-red-400 shrink-0 transition-colors duration-300"><i data-lucide="users-round" class="w-6 h-6"></i></div>
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1 transition-colors duration-300">Manajemen User Sulit</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm transition-colors duration-300">Tidak tahu siapa yang menggunakan loker mana. Sulit memberikan atau mencabut akses secara instan.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 bg-white dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/50 shadow-sm hover:shadow-md transition-all duration-300">
+                        <div class="bg-red-50 dark:bg-red-500/20 p-3 rounded-xl text-red-500 dark:text-red-400 shrink-0 transition-colors duration-300"><i data-lucide="shield-alert" class="w-6 h-6"></i></div>
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1 transition-colors duration-300">Keamanan Rendah</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm transition-colors duration-300">Mudah dibobol, tidak ada indikator status pintu terbuka, tidak aman untuk aset berharga.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solution -->
+                <div class="bg-blue-600 p-8 rounded-3xl relative overflow-hidden shadow-2xl shadow-blue-600/20">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-yellow-400/20 rounded-full blur-3xl"></div>
+                    <h3 class="text-2xl font-bold text-white mb-6">Solusi Kami</h3>
+                    <ul class="space-y-5 relative z-10">
+                        <li class="flex items-center gap-4">
+                            <i data-lucide="check-circle-2" class="text-yellow-400 w-6 h-6 shrink-0"></i>
+                            <span class="text-blue-50">Akses modern via <strong class="text-white">RFID / Kartu / Sidik Jari</strong></span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <i data-lucide="check-circle-2" class="text-yellow-400 w-6 h-6 shrink-0"></i>
+                            <span class="text-blue-50">Manajemen akses terpusat (Tambah, Hapus, Edit akses instan)</span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <i data-lucide="check-circle-2" class="text-yellow-400 w-6 h-6 shrink-0"></i>
+                            <span class="text-blue-50">Fleksibel: 1 ID untuk banyak pintu, atau sebaliknya.</span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <i data-lucide="check-circle-2" class="text-yellow-400 w-6 h-6 shrink-0"></i>
+                            <span class="text-blue-50">Sistem Scalable, bisa ditambah unit kapan saja.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Tiers -->
+    <section id="varian" class="py-24 bg-slate-50 dark:bg-slate-950 relative border-y border-slate-200 dark:border-slate-800/50 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 transition-colors duration-300">Pilih Sesuai Skala Bisnis Anda</h2>
+                <p class="text-slate-600 dark:text-slate-400 transition-colors duration-300">Dari kebutuhan sederhana hingga skala enterprise.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8 items-center">
+                
+                <!-- BASIC TIER -->
+                <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all duration-300">
+                    <div class="text-slate-500 dark:text-slate-400 font-bold tracking-wider text-sm mb-2">🥉 ENTRY LEVEL</div>
+                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2 transition-colors duration-300">Basic Series</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-6 h-10 transition-colors duration-300">Kebutuhan esensial untuk loker RFID yang sederhana dan efisien.</p>
+                    <div class="text-3xl font-extrabold text-blue-600 dark:text-blue-400 mb-6 transition-colors duration-300">Mulai belasan juta</div>
+                    <ul class="space-y-4 mb-8 text-sm">
+                        <li class="flex items-center gap-3 text-slate-700 dark:text-slate-300"><i data-lucide="check" class="text-blue-500 w-4 h-4"></i> ESP32 Controller</li>
+                        <li class="flex items-center gap-3 text-slate-700 dark:text-slate-300"><i data-lucide="check" class="text-blue-500 w-4 h-4"></i> Akses RFID Weigand</li>
+                        <li class="flex items-center gap-3 text-slate-700 dark:text-slate-300"><i data-lucide="check" class="text-blue-500 w-4 h-4"></i> Solenoid Lock & Relay</li>
+                        <li class="flex items-center gap-3 text-slate-700 dark:text-slate-300"><i data-lucide="check" class="text-blue-500 w-4 h-4"></i> Fixed: 1 Kartu = 1 Pintu</li>
+                        <li class="flex items-center gap-3 text-slate-700 dark:text-slate-300"><i data-lucide="check" class="text-blue-500 w-4 h-4"></i> UPS & Kunci Manual Backup</li>
+                        <li class="flex items-center gap-3 text-slate-400 dark:text-slate-500 opacity-70"><i data-lucide="minus" class="w-4 h-4"></i> Tanpa Layar Display</li>
+                    </ul>
+                    <div class="pt-4 border-t border-slate-100 dark:border-slate-800 transition-colors duration-300">
+                        <p class="text-xs text-slate-500 dark:text-slate-500 mb-4 transition-colors duration-300">Cocok untuk: Sekolah, Tempat Penitipan Sederhana, Gym Skala Kecil.</p>
+                        <a href="#kontak" class="block w-full py-3 px-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-white text-center rounded-xl font-bold transition-colors">Tanya Detail</a>
+                    </div>
+                </div>
+
+                <!-- PLUS TIER (BEST SELLER) -->
+                <div class="bg-blue-600 dark:bg-slate-900 dark:bg-gradient-to-b dark:from-blue-900/40 dark:to-slate-900 rounded-3xl p-8 shadow-2xl shadow-blue-600/30 dark:shadow-none relative transform lg:-translate-y-4 border-2 border-blue-500 dark:border-blue-700 transition-all duration-300">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-yellow-400 text-slate-900 px-5 py-1.5 rounded-full text-sm font-extrabold shadow-lg flex items-center gap-1">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i> BEST SELLER
+                    </div>
+                    <div class="text-yellow-300 font-bold tracking-wider text-sm mb-2 mt-2">🥈 SMART CONTROLLER</div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Plus Series</h3>
+                    <p class="text-sm text-blue-100 dark:text-slate-300 mb-6 h-10 transition-colors duration-300">Feel "Smart System" sesungguhnya dengan manajemen langsung di mesin.</p>
+                    <div class="text-3xl font-extrabold text-yellow-400 mb-6">Mulai 18+ juta</div>
+                    <ul class="space-y-4 mb-8 text-sm">
+                        <li class="flex items-center gap-3 text-white"><i data-lucide="check" class="text-yellow-400 w-5 h-5"></i> <span class="font-semibold text-white">TFT LCD Display + Encoder</span></li>
+                        <li class="flex items-center gap-3 text-white"><i data-lucide="check" class="text-yellow-400 w-5 h-5"></i> <span class="font-semibold text-white">Menu Manajemen User (Tambah/Hapus)</span></li>
+                        <li class="flex items-center gap-3 text-blue-50 dark:text-slate-300 transition-colors duration-300"><i data-lucide="check" class="text-yellow-400 w-4 h-4"></i> Flexible: 1 Kartu Multi-Pintu</li>
+                        <li class="flex items-center gap-3 text-blue-50 dark:text-slate-300 transition-colors duration-300"><i data-lucide="check" class="text-yellow-400 w-4 h-4"></i> Mode Admin & Buzzer Feedback</li>
+                        <li class="flex items-center gap-3 text-blue-50 dark:text-slate-300 transition-colors duration-300"><i data-lucide="check" class="text-yellow-400 w-4 h-4"></i> Clean UI (Maks 3 klik ke fitur)</li>
+                        <li class="flex items-center gap-3 text-blue-50 dark:text-slate-300 transition-colors duration-300"><i data-lucide="check" class="text-yellow-400 w-4 h-4"></i> UPS & Kunci Manual Backup</li>
+                    </ul>
+                    <div class="pt-4 border-t border-blue-500 dark:border-slate-700 transition-colors duration-300">
+                        <p class="text-xs text-blue-200 dark:text-slate-400 mb-4 transition-colors duration-300">Cocok untuk: Gym Komersial, Kantor, Coworking Space, Workshop/Pabrik.</p>
+                        <a href="#kontak" class="block w-full py-3 px-4 bg-yellow-400 hover:bg-yellow-500 text-slate-900 text-center rounded-xl font-extrabold transition-colors shadow-lg">Penawaran Spesial</a>
+                    </div>
+                </div>
+
+                <!-- PRO TIER -->
+                <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all duration-300">
+                    <div class="text-purple-600 dark:text-purple-400 font-bold tracking-wider text-sm mb-2 transition-colors duration-300">🥇 ENTERPRISE</div>
+                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2 transition-colors duration-300">Pro Series</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-6 h-10 transition-colors duration-300">Sistem manajemen sentuh premium dengan arsitektur data terpisah.</p>
+                    <div class="text-3xl font-extrabold text-blue-600 dark:text-blue-400 mb-6 transition-colors duration-300">Mulai 25+ juta</div>
+                    <ul class="space-y-4 mb-8 text-sm">
+                        <li class="flex items-center gap-3 text-slate-900 dark:text-white transition-colors duration-300"><i data-lucide="check" class="text-purple-500 w-4 h-4"></i> <strong class="font-bold">Android Tablet Touchscreen</strong></li>
+                        <li class="flex items-center gap-3 text-slate-900 dark:text-white transition-colors duration-300"><i data-lucide="check" class="text-purple-500 w-4 h-4"></i> <strong class="font-bold">Full CRUD Database (UI)</strong></li>
+                        <li class="flex items-center gap-3 text-slate-700 dark:text-slate-300 transition-colors duration-300"><i data-lucide="check" class="text-purple-500 w-4 h-4"></i> Role System (Admin/User)</li>
+                        <li class="flex items-center gap-3 text-slate-700 dark:text-slate-300 transition-colors duration-300"><i data-lucide="check" class="text-purple-500 w-4 h-4"></i> Komunikasi stabil via USB TTL</li>
+                        <li class="flex items-center gap-3 text-slate-700 dark:text-slate-300 transition-colors duration-300"><i data-lucide="check" class="text-purple-500 w-4 h-4"></i> Siap untuk API/Web Dashboard</li>
+                        <li class="flex items-center gap-3 text-slate-700 dark:text-slate-300 transition-colors duration-300"><i data-lucide="check" class="text-purple-500 w-4 h-4"></i> UPS & Kunci Manual Backup</li>
+                    </ul>
+                    <div class="pt-4 border-t border-slate-100 dark:border-slate-800 transition-colors duration-300">
+                        <p class="text-xs text-slate-500 dark:text-slate-500 mb-4 transition-colors duration-300">Cocok untuk: Perusahaan Besar, Industri, Coworking Premium, Proyek BUMN.</p>
+                        <a href="#kontak" class="block w-full py-3 px-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-white text-center rounded-xl font-bold transition-colors">Tanya Detail</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-center text-slate-900 dark:text-white mb-10 transition-colors duration-300">Perbandingan Fitur Utama</h2>
+            <div class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors duration-300">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 dark:bg-slate-800/80 transition-colors duration-300">
+                            <th class="p-4 text-slate-700 dark:text-slate-300 font-bold border-b border-slate-200 dark:border-slate-700 transition-colors duration-300">Fitur</th>
+                            <th class="p-4 text-center text-slate-700 dark:text-slate-300 font-bold border-b border-slate-200 dark:border-slate-700 transition-colors duration-300">Basic</th>
+                            <th class="p-4 text-center text-blue-700 dark:text-blue-400 font-bold border-b border-blue-200 dark:border-blue-900/50 bg-blue-50/50 dark:bg-blue-900/10 transition-colors duration-300">Plus <i data-lucide="star" class="w-3 h-3 inline text-yellow-500 fill-current"></i></th>
+                            <th class="p-4 text-center text-purple-700 dark:text-purple-400 font-bold border-b border-slate-200 dark:border-slate-700 transition-colors duration-300">Pro</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                            <td class="p-4 border-b border-slate-100 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-medium transition-colors duration-300">Akses Utama</td>
+                            <td class="p-4 text-center border-b border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400 transition-colors duration-300">RFID Only</td>
+                            <td class="p-4 text-center border-b border-blue-100 dark:border-slate-800 text-blue-900 dark:text-blue-200 bg-blue-50/50 dark:bg-blue-900/5 font-semibold transition-colors duration-300">RFID + Encoder</td>
+                            <td class="p-4 text-center border-b border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400 transition-colors duration-300">RFID + Touchscreen</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                            <td class="p-4 border-b border-slate-100 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-medium transition-colors duration-300">User Interface</td>
+                            <td class="p-4 text-center border-b border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-500 transition-colors duration-300"><i data-lucide="minus" class="w-4 h-4 mx-auto"></i></td>
+                            <td class="p-4 text-center border-b border-blue-100 dark:border-slate-800 text-blue-600 dark:text-emerald-400 bg-blue-50/50 dark:bg-blue-900/5 font-semibold transition-colors duration-300">TFT LCD</td>
+                            <td class="p-4 text-center border-b border-slate-100 dark:border-slate-800 text-slate-800 dark:text-emerald-400 font-semibold transition-colors duration-300">Tablet Android</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                            <td class="p-4 border-b border-slate-100 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-medium transition-colors duration-300">Manajemen User (CRUD)</td>
+                            <td class="p-4 text-center border-b border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-500 transition-colors duration-300"><i data-lucide="minus" class="w-4 h-4 mx-auto"></i></td>
+                            <td class="p-4 text-center border-b border-blue-100 dark:border-slate-800 text-blue-600 dark:text-emerald-400 bg-blue-50/50 dark:bg-blue-900/5 transition-colors duration-300"><i data-lucide="check" class="w-5 h-5 mx-auto text-blue-600 dark:text-emerald-400"></i></td>
+                            <td class="p-4 text-center border-b border-slate-100 dark:border-slate-800 text-slate-800 dark:text-emerald-400 font-semibold transition-colors duration-300">Full + Database</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                            <td class="p-4 border-b border-slate-100 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-medium transition-colors duration-300">Pemetaan Akses (Mapping)</td>
+                            <td class="p-4 text-center border-b border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400 transition-colors duration-300">Fixed (1:1)</td>
+                            <td class="p-4 text-center border-b border-blue-100 dark:border-slate-800 text-blue-900 dark:text-emerald-400 bg-blue-50/50 dark:bg-blue-900/5 font-semibold transition-colors duration-300">Fleksibel</td>
+                            <td class="p-4 text-center border-b border-slate-100 dark:border-slate-800 text-slate-800 dark:text-emerald-400 font-semibold transition-colors duration-300">Fleksibel + Roles</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                            <td class="p-4 border-b border-slate-100 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-medium transition-colors duration-300">Modular Expansion</td>
+                            <td class="p-4 text-center border-b border-slate-100 dark:border-slate-800 text-emerald-600 dark:text-emerald-400 transition-colors duration-300"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center border-b border-blue-100 dark:border-slate-800 text-blue-600 dark:text-emerald-400 bg-blue-50/50 dark:bg-blue-900/5 transition-colors duration-300"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center border-b border-slate-100 dark:border-slate-800 text-emerald-600 dark:text-emerald-400 transition-colors duration-300"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                            <td class="p-4 border-b border-slate-100 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-medium transition-colors duration-300">UPS & Manual Backup</td>
+                            <td class="p-4 text-center border-b border-slate-100 dark:border-slate-800 text-emerald-600 dark:text-emerald-400 transition-colors duration-300"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center border-b border-blue-100 dark:border-slate-800 text-blue-600 dark:text-emerald-400 bg-blue-50/50 dark:bg-blue-900/5 transition-colors duration-300"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center border-b border-slate-100 dark:border-slate-800 text-emerald-600 dark:text-emerald-400 transition-colors duration-300"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Features / Value Proposition -->
+    <section id="fitur" class="py-24 bg-white dark:bg-slate-900 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-white mb-16 transition-colors duration-300">Standar Kualitas Setiap Varian</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Feature 1 -->
+                <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 hover:shadow-md transition-all duration-300">
+                    <div class="bg-blue-100 dark:bg-blue-500/10 w-12 h-12 rounded-xl flex items-center justify-center mb-4 border border-blue-200 dark:border-blue-500/20 transition-colors duration-300">
+                        <i data-lucide="blocks" class="text-blue-600 dark:text-blue-400 w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2 transition-colors duration-300">Modular Expansion</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 transition-colors duration-300">1 Controller dapat menangani beberapa unit loker sekaligus. Sangat hemat untuk perluasan kapasitas (scalable).</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 hover:shadow-md transition-all duration-300">
+                    <div class="bg-blue-100 dark:bg-blue-500/10 w-12 h-12 rounded-xl flex items-center justify-center mb-4 border border-blue-200 dark:border-blue-500/20 transition-colors duration-300">
+                        <i data-lucide="battery-charging" class="text-blue-600 dark:text-blue-400 w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2 transition-colors duration-300">UPS Backup</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 transition-colors duration-300">Sistem kelistrikan dilengkapi baterai cadangan. Saat mati lampu, akses loker tetap berfungsi normal sementara waktu.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 hover:shadow-md transition-all duration-300">
+                    <div class="bg-blue-100 dark:bg-blue-500/10 w-12 h-12 rounded-xl flex items-center justify-center mb-4 border border-blue-200 dark:border-blue-500/20 transition-colors duration-300">
+                        <i data-lucide="wifi-off" class="text-blue-600 dark:text-blue-400 w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2 transition-colors duration-300">Offline First</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 transition-colors duration-300">Logika dan data tersimpan di lokal (controller/tablet). Sistem tetap bekerja 100% tanpa bergantung pada koneksi internet.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 hover:shadow-md transition-all duration-300">
+                    <div class="bg-blue-100 dark:bg-blue-500/10 w-12 h-12 rounded-xl flex items-center justify-center mb-4 border border-blue-200 dark:border-blue-500/20 transition-colors duration-300">
+                        <i data-lucide="palette" class="text-blue-600 dark:text-blue-400 w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2 transition-colors duration-300">Custom Branding</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 transition-colors duration-300">Mendukung kustomisasi warna, stiker, dan material untuk menyatu sempurna dengan identitas visual interior bisnis Anda.</p>
+                </div>
+            </div>
+            
+            <!-- Security highlight -->
+            <div class="mt-10 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50 rounded-2xl p-6 flex flex-col md:flex-row items-center gap-6 transition-colors duration-300">
+                <div class="bg-emerald-100 dark:bg-emerald-500/20 p-4 rounded-full shrink-0 transition-colors duration-300">
+                    <i data-lucide="shield-check" class="text-emerald-600 dark:text-emerald-400 w-8 h-8"></i>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold text-emerald-900 dark:text-white mb-1 transition-colors duration-300">Keamanan Lapis Ganda (Fail-Safe)</h4>
+                    <p class="text-sm text-emerald-700 dark:text-emerald-300/80 transition-colors duration-300">Selain UPS, sistem dilengkapi mekanisme <strong class="text-emerald-900 dark:text-emerald-400">Manual Key Override</strong>. Jika terjadi kerusakan elektrikal total, administrator tetap dapat membuka pintu secara mekanis (jumper bypass).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Physical Configuration -->
+    <section id="konfigurasi" class="py-24 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800/50 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-white mb-4 transition-colors duration-300">Konfigurasi Fisik</h2>
+            <p class="text-center text-slate-600 dark:text-slate-400 mb-16 max-w-2xl mx-auto transition-colors duration-300">Ukuran kabinet luar seragam, Anda tinggal memilih kepadatan jumlah pintu sesuai volume barang pengguna.</p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
+                
+                <!-- 20 Pintu -->
+                <div class="text-center">
+                    <div class="aspect-[1/2] bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 rounded-lg p-2 flex flex-col gap-1 mb-4 shadow-sm relative transition-colors duration-300">
+                        <div class="absolute inset-0 border-2 border-blue-400 dark:border-blue-500 rounded-lg pointer-events-none animate-pulse"></div>
+                        <!-- Generate 5 rows, 4 cols visual -->
+                        <div class="grid grid-cols-4 grid-rows-5 gap-1 w-full h-full">
+                            <script>
+                                for(let i=0; i<20; i++) document.write('<div class="bg-blue-50 dark:bg-slate-600 rounded-sm border border-blue-200 dark:border-slate-500 transition-colors duration-300"></div>');
+                            </script>
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-slate-900 dark:text-white transition-colors duration-300">20 Pintu <span class="text-[10px] bg-yellow-400 dark:bg-yellow-500 text-slate-900 px-1.5 py-0.5 rounded ml-1 font-bold">POPULER</span></h4>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 transition-colors duration-300">Tas kecil / Sepatu</p>
+                </div>
+
+                <!-- 12 Pintu -->
+                <div class="text-center">
+                    <div class="aspect-[1/2] bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 rounded-lg p-2 flex flex-col gap-1 mb-4 shadow-sm transition-colors duration-300">
+                         <div class="grid grid-cols-3 grid-rows-4 gap-1.5 w-full h-full">
+                            <script>
+                                for(let i=0; i<12; i++) document.write('<div class="bg-slate-100 dark:bg-slate-600 rounded-sm border border-slate-200 dark:border-slate-500 transition-colors duration-300"></div>');
+                            </script>
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-slate-900 dark:text-white transition-colors duration-300">12 Pintu</h4>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 transition-colors duration-300">Ransel standar</p>
+                </div>
+
+                <!-- 9 Pintu -->
+                <div class="text-center">
+                    <div class="aspect-[1/2] bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 rounded-lg p-2 flex flex-col gap-1 mb-4 shadow-sm transition-colors duration-300">
+                         <div class="grid grid-cols-3 grid-rows-3 gap-2 w-full h-full">
+                            <script>
+                                for(let i=0; i<9; i++) document.write('<div class="bg-slate-100 dark:bg-slate-600 rounded border border-slate-200 dark:border-slate-500 transition-colors duration-300"></div>');
+                            </script>
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-slate-900 dark:text-white transition-colors duration-300">9 Pintu</h4>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 transition-colors duration-300">Tas olahraga / Helm</p>
+                </div>
+
+                <!-- 2 Pintu -->
+                <div class="text-center">
+                    <div class="aspect-[1/2] bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 rounded-lg p-2 flex flex-col gap-1 mb-4 shadow-sm transition-colors duration-300">
+                         <div class="grid grid-cols-2 grid-rows-1 gap-3 w-full h-full">
+                            <div class="bg-slate-100 dark:bg-slate-600 rounded border border-slate-200 dark:border-slate-500 transition-colors duration-300"></div>
+                            <div class="bg-slate-100 dark:bg-slate-600 rounded border border-slate-200 dark:border-slate-500 transition-colors duration-300"></div>
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-slate-900 dark:text-white transition-colors duration-300">2 Pintu</h4>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 transition-colors duration-300">Garmen / Pakaian gantung</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section class="py-20 bg-blue-600 dark:bg-slate-950 border-t border-blue-700 dark:border-slate-800/50 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-center text-white dark:text-slate-300 mb-10 transition-colors duration-300">Telah Dipercaya Untuk Kebutuhan</h2>
+            <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+                <div class="flex items-center gap-2 text-blue-900 dark:text-slate-300 font-bold dark:font-medium bg-yellow-400 dark:bg-slate-900 px-5 py-2.5 rounded-full shadow-md dark:border dark:border-slate-800 transition-colors duration-300">
+                    <i data-lucide="dumbbell" class="w-5 h-5 dark:text-slate-400"></i> Gym & Fitness
+                </div>
+                <div class="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold dark:font-medium bg-white dark:bg-slate-900 px-5 py-2.5 rounded-full shadow-md dark:border dark:border-slate-800 transition-colors duration-300">
+                    <i data-lucide="building-2" class="w-5 h-5 text-blue-600 dark:text-slate-400"></i> Kantor & Coworking
+                </div>
+                <div class="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold dark:font-medium bg-white dark:bg-slate-900 px-5 py-2.5 rounded-full shadow-md dark:border dark:border-slate-800 transition-colors duration-300">
+                    <i data-lucide="factory" class="w-5 h-5 text-blue-600 dark:text-slate-400"></i> Pabrik & Industri
+                </div>
+                <div class="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold dark:font-medium bg-white dark:bg-slate-900 px-5 py-2.5 rounded-full shadow-md dark:border dark:border-slate-800 transition-colors duration-300">
+                    <i data-lucide="graduation-cap" class="w-5 h-5 text-blue-600 dark:text-slate-400"></i> Sekolah & Kampus
+                </div>
+                <div class="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold dark:font-medium bg-white dark:bg-slate-900 px-5 py-2.5 rounded-full shadow-md dark:border dark:border-slate-800 transition-colors duration-300">
+                    <i data-lucide="ticket" class="w-5 h-5 text-blue-600 dark:text-slate-400"></i> Tempat Wisata
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / CTA -->
+    <footer id="kontak" class="bg-slate-900 pt-20 pb-10 border-t border-slate-800 relative overflow-hidden">
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px]"></div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Siap Mengamankan Aset Bisnis Anda?</h2>
+            <p class="text-slate-300 mb-10 text-lg">Konsultasikan kebutuhan spesifik, layout ruangan, dan custom logic akses Anda bersama tim kami.</p>
+            
+            <div class="inline-flex flex-col sm:flex-row gap-4 mb-16">
+                <a href="#" class="bg-yellow-400 hover:bg-yellow-500 text-slate-900 px-8 py-4 rounded-xl font-bold transition-colors flex items-center justify-center gap-2 shadow-lg">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i> Hubungi via DM Instagram
+                </a>
+                <a href="#" class="bg-slate-800 hover:bg-slate-700 text-white px-8 py-4 rounded-xl font-bold transition-colors flex items-center justify-center gap-2 border border-slate-700">
+                    <i data-lucide="file-text" class="w-5 h-5 text-slate-400"></i> Minta Penawaran (PDF)
+                </a>
+            </div>
+
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <div class="bg-blue-600 p-1.5 rounded-md">
+                        <i data-lucide="lock-keyhole" class="text-white w-4 h-4"></i>
+                    </div>
+                    <span class="font-bold text-white">SmartLocker<span class="text-yellow-400">.</span></span>
+                </div>
+                <div class="text-sm text-slate-400">
+                    <p>💼 Custom system & scalable</p>
+                    <p class="mt-1">© 2024 Smart Locker System. All rights reserved.</p>
+                </div>
+                <div class="flex gap-4">
+                    <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                    <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="mail" class="w-5 h-5"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Inisialisasi ikon Lucide
+        lucide.createIcons();
+
+        // Logika Toggle Dark Mode
+        var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        // Ganti ikon di dalam tombol berdasarkan pengaturan sebelumnya
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        var themeToggleBtn = document.getElementById('theme-toggle');
+
+        themeToggleBtn.addEventListener('click', function() {
+            // toggle ikon
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            // Set local storage
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+            } else {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
