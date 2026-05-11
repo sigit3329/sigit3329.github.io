@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSN-K Informatika 2025 - Panduan Interaktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Warm Neutrals with Muted Accents (Stone, Amber, Emerald, Sky) -->
+    <!-- Application Structure Plan: A dashboard-style SPA with tabbed navigation to logically separate the overview (with data visualization), detailed syllabus (categorized by difficulty levels), and strategic takeaways. This reduces cognitive overload compared to a linear document and allows students to focus on specific study areas interactively. -->
+    <!-- Visualization & Content Choices: Source: OSN-K Focus Points -> Goal: Inform on relative importance of skills -> Viz: Polar Area Chart (Chart.js) -> Interaction: Hover for details -> Justification: Visually contrasts the high importance of logic/simulation vs the low importance of heavy coding. Source: Syllabus -> Goal: Organize -> Viz: Interactive Accordion Grid -> Justification: Allows drilling down into specific topics without cluttering the screen. -> Library: Vanilla JS/DOM. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fafaf9; 
+            color: #292524; 
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 380px;
+            }
+        }
+        .hidden-view {
+            display: none !important;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+        }
+        .accordion-content.open {
+            max-height: 500px; 
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .nav-btn.active {
+            background-color: #1c1917;
+            color: #ffffff;
+        }
+        .level-btn.active-dasar { background-color: #dcfce7; color: #166534; border-color: #166534; }
+        .level-btn.active-menengah { background-color: #fef3c7; color: #92400e; border-color: #92400e; }
+        .level-btn.active-lanjut { background-color: #fee2e2; color: #991b1b; border-color: #991b1b; }
+    </style>
+</head>
+<body class="overflow-x-hidden antialiased">
+
+    <div class="flex flex-col md:flex-row min-h-screen w-full">
+        
+        <nav class="w-full md:w-64 bg-stone-200 border-b md:border-b-0 md:border-r border-stone-300 flex flex-col shadow-sm shrink-0">
+            <div class="p-6">
+                <h1 class="text-2xl font-bold tracking-tight text-stone-800">OSN-K 2025</h1>
+                <p class="text-sm text-stone-500 mt-1 font-medium">Informatika Fundamental</p>
+            </div>
+            <div class="flex md:flex-col px-4 md:px-0 pb-4 md:pb-0 gap-2 overflow-x-auto">
+                <button onclick="app.switchView('dashboard')" id="nav-dashboard" class="nav-btn active text-left px-6 py-3 font-semibold rounded-md md:rounded-none transition-colors whitespace-nowrap">Ikhtisar & Fokus</button>
+                <button onclick="app.switchView('materi')" id="nav-materi" class="nav-btn text-left px-6 py-3 font-semibold rounded-md md:rounded-none transition-colors whitespace-nowrap">Materi Silabus</button>
+                <button onclick="app.switchView('strategi')" id="nav-strategi" class="nav-btn text-left px-6 py-3 font-semibold rounded-md md:rounded-none transition-colors whitespace-nowrap">Strategi & Kesimpulan</button>
+            </div>
+        </nav>
+
+        <main class="flex-1 p-6 md:p-10 overflow-y-auto w-full max-w-7xl mx-auto">
+            
+            <section id="view-dashboard" class="animate-fade-in">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-stone-800 mb-4">Berpikir Komputasional</h2>
+                    <p class="text-lg text-stone-600 leading-relaxed bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                        Selamat datang di panduan interaktif Olimpiade Sains Nasional tingkat Kabupaten/Kota (OSN-K) bidang Informatika 2025. Fokus utama di tingkat ini bukanlah kemampuan mengetik kode yang rumit, melainkan <strong>Computational Thinking</strong>. Visualisasi di bawah ini membandingkan tingkat kepentingan berbagai keterampilan yang harus Anda kuasai. Interaksi dengan grafik untuk melihat detailnya.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-stone-100 flex flex-col md:flex-row items-center gap-8">
+                    <div class="w-full md:w-1/2">
+                        <h3 class="text-xl font-bold mb-2 text-stone-800">Pilar Kemampuan OSN-K</h3>
+                        <p class="text-stone-500 mb-6 text-sm">Berdasarkan analisis silabus, pengenalan pola dan logika jauh melampaui kebutuhan sintaks kode berat.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-3">
+                                <span class="w-4 h-4 rounded-full bg-emerald-400"></span>
+                                <div>
+                                    <p class="font-semibold text-sm">Logika & Reasoning</p>
+                                    <p class="text-xs text-stone-500">Pondasi utama pemecahan masalah</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="w-4 h-4 rounded-full bg-sky-400"></span>
+                                <div>
+                                    <p class="font-semibold text-sm">Simulasi Cermat</p>
+                                    <p class="text-xs text-stone-500">Mampu menjalankan instruksi manual di kertas</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="w-4 h-4 rounded-full bg-amber-400"></span>
+                                <div>
+                                    <p class="font-semibold text-sm">Pattern Recognition</p>
+                                    <p class="text-xs text-stone-500">Mencari pola matematis untuk optimasi</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="w-4 h-4 rounded-full bg-rose-400"></span>
+                                <div>
+                                    <p class="font-semibold text-sm">Coding Berat / Advanced</p>
+                                    <p class="text-xs text-stone-500">Porsi terkecil di tingkat Kabupaten/Kota</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 flex justify-center">
+                        <div class="chart-container">
+                            <canvas id="skillsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="view-materi" class="hidden-view animate-fade-in">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-stone-800 mb-4">Eksplorasi Materi</h2>
+                    <p class="text-lg text-stone-600 leading-relaxed bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                        Pilih tingkat kesulitan di bawah ini untuk menjelajahi topik-topik fundamental. Klik pada masing-masing kartu materi untuk membuka penjelasan konsep, fokus utama OSN, dan trik penerapannya.
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap gap-3 mb-8">
+                    <button onclick="app.loadLevel('dasar')" id="btn-dasar" class="level-btn px-6 py-2 rounded-full font-semibold border-2 bg-white text-stone-600 border-stone-300 transition-all hover:bg-stone-100">Dasar</button>
+                    <button onclick="app.loadLevel('menengah')" id="btn-menengah" class="level-btn px-6 py-2 rounded-full font-semibold border-2 bg-white text-stone-600 border-stone-300 transition-all hover:bg-stone-100">Menengah</button>
+                    <button onclick="app.loadLevel('lanjut')" id="btn-lanjut" class="level-btn px-6 py-2 rounded-full font-semibold border-2 bg-white text-stone-600 border-stone-300 transition-all hover:bg-stone-100">Lanjut</button>
+                </div>
+
+                <div id="materi-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                </div>
+            </section>
+
+            <section id="view-strategi" class="hidden-view animate-fade-in">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-stone-800 mb-4">Strategi & Kesimpulan Penting</h2>
+                    <p class="text-lg text-stone-600 leading-relaxed bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                        OSN-K bukanlah kontes mengetik kode paling canggih. Bagian ini merangkum kunci kesuksesan yang harus diprioritaskan, serta membatasi ruang lingkup belajar Anda agar tidak membuang waktu pada materi yang belum diperlukan.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-xl overflow-hidden shadow-sm">
+                        <div class="bg-emerald-100 px-6 py-4 border-b border-emerald-200 flex items-center justify-between">
+                            <h3 class="text-xl font-bold text-emerald-800">Kunci Sukses OSN-K</h3>
+                            <span class="text-emerald-600 text-2xl font-bold">&#10003;</span>
+                        </div>
+                        <div class="p-6">
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <span class="text-emerald-500 mr-3 mt-1 font-bold">&#10148;</span>
+                                    <div>
+                                        <h4 class="font-bold text-stone-800">Simulasi Cermat</h4>
+                                        <p class="text-sm text-stone-600 mt-1">Seringkali solusi terbaik didapat dengan mencoret-coret di kertas, mengikuti instruksi soal untuk N=1, N=2, N=3 hingga tuntas.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-emerald-500 mr-3 mt-1 font-bold">&#10148;</span>
+                                    <div>
+                                        <h4 class="font-bold text-stone-800">Pola Matematis (Pattern Recognition)</h4>
+                                        <p class="text-sm text-stone-600 mt-1">Jika batasannya N = 10^18, pasti ada polanya atau menggunakan rumus matematika O(1). Cari pola berulang.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-emerald-500 mr-3 mt-1 font-bold">&#10148;</span>
+                                    <div>
+                                        <h4 class="font-bold text-stone-800">Reasoning (Penalaran)</h4>
+                                        <p class="text-sm text-stone-600 mt-1">Gunakan Invariant dan Pigeonhole. Pikirkan skenario terburuk (worst case).</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-emerald-500 mr-3 mt-1 font-bold">&#10148;</span>
+                                    <div>
+                                        <h4 class="font-bold text-stone-800">Tracking State</h4>
+                                        <p class="text-sm text-stone-600 mt-1">Pahami betul di posisi mana program sedang berjalan (variabel apa yang nilainya sedang berapa). Penting untuk debugging mental.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-emerald-500 mr-3 mt-1 font-bold">&#10148;</span>
+                                    <div>
+                                        <h4 class="font-bold text-stone-800">Optimasi Sederhana</h4>
+                                        <p class="text-sm text-stone-600 mt-1">Kuasai Prefix Sum, Sorting, dan Binary Search untuk mengubah kode 10 detik menjadi 0.01 detik.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-rose-50 border border-rose-200 rounded-xl overflow-hidden shadow-sm">
+                        <div class="bg-rose-100 px-6 py-4 border-b border-rose-200 flex items-center justify-between">
+                            <h3 class="text-xl font-bold text-rose-800">Belum Masuk (Jangan Panik)</h3>
+                            <span class="text-rose-600 text-2xl font-bold">&#10007;</span>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-stone-600 mb-4 text-sm font-medium">Materi berikut ini TIDAK PERLU dipelajari untuk level Kabupaten/Kota:</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div class="bg-white p-3 rounded border border-rose-100 flex items-center gap-2">
+                                    <span class="text-rose-500 font-bold">&#9888;</span>
+                                    <span class="text-sm font-semibold text-stone-700">Segment Tree</span>
+                                </div>
+                                <div class="bg-white p-3 rounded border border-rose-100 flex items-center gap-2">
+                                    <span class="text-rose-500 font-bold">&#9888;</span>
+                                    <span class="text-sm font-semibold text-stone-700">Fenwick Tree (BIT)</span>
+                                </div>
+                                <div class="bg-white p-3 rounded border border-rose-100 flex items-center gap-2">
+                                    <span class="text-rose-500 font-bold">&#9888;</span>
+                                    <span class="text-sm font-semibold text-stone-700">LCA & Max Flow</span>
+                                </div>
+                                <div class="bg-white p-3 rounded border border-rose-100 flex items-center gap-2">
+                                    <span class="text-rose-500 font-bold">&#9888;</span>
+                                    <span class="text-sm font-semibold text-stone-700">Advanced DP</span>
+                                </div>
+                                <div class="bg-white p-3 rounded border border-rose-100 flex items-center gap-2">
+                                    <span class="text-rose-500 font-bold">&#9888;</span>
+                                    <span class="text-sm font-semibold text-stone-700">Geometry Berat</span>
+                                </div>
+                                <div class="bg-white p-3 rounded border border-rose-100 flex items-center gap-2">
+                                    <span class="text-rose-500 font-bold">&#9888;</span>
+                                    <span class="text-sm font-semibold text-stone-700">Dijkstra / MST</span>
+                                </div>
+                            </div>
+                            <div class="mt-6 p-4 bg-white border-l-4 border-amber-400 rounded-r text-sm text-stone-700 italic shadow-sm">
+                                "Logika + Simulasi + Pengenalan Pola jauh lebih penting daripada sintaks coding yang rumit. Jika Anda bingung mengodingnya, coret-coretlah di kertas terlebih dahulu!"
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        const materiData = {
+            dasar: [
+                {
+                    title: "Variabel & Tipe Data",
+                    konsep: "Wadah penyimpan nilai.",
+                    fokus: "Pahami batasan memori. Selalu waspada dengan Integer Overflow. Jika batasan soal sampai 10^18, wajib gunakan long long di C++, bukan int.",
+                    trik: "Hati-hati dengan pembagian bilangan bulat (misal 5 / 2 = 2, bukan 2.5). Gunakan modulo (%) untuk mengecek ganjil/genap atau kelipatan."
+                },
+                {
+                    title: "Looping (Perulangan)",
+                    konsep: "Mengeksekusi blok kode berkali-kali (for, while).",
+                    fokus: "Brute-force (mencoba semua kemungkinan). Membaca pola matriks/grid bersarang (nested loop).",
+                    trik: "Jangan sampai terjadi infinite loop. Hitung kompleksitas waktu (batas aman perulangan dalam 1 detik biasanya sekitar 10^8 operasi)."
+                },
+                {
+                    title: "If-Else (Percabangan)",
+                    konsep: "Mengambil keputusan berdasarkan kondisi.",
+                    fokus: "Menangani edge cases (kasus khusus/batas), seperti 'apa yang terjadi jika N = 0?' atau 'apa yang terjadi jika semua elemen negatif?'.",
+                    trik: "Pastikan logika bersarang diuji dengan data terburuk."
+                },
+                {
+                    title: "Array (Larik)",
+                    konsep: "Kumpulan variabel dengan tipe sama yang diindeks.",
+                    fokus: "Array 1D (daftar angka) dan Array 2D (Matriks/Grid). Sering digunakan untuk menyimpan state atau history pergerakan.",
+                    trik: "Batas maksimal ukuran array global di C++ biasanya sekitar 10^7."
+                },
+                {
+                    title: "String",
+                    konsep: "Kumpulan karakter (teks).",
+                    fokus: "Substring, palindrome (dibaca dari depan/belakang sama), manipulasi ASCII.",
+                    trik: "Mengubah huruf kecil ke besar dengan char - 'a' + 'A'."
+                },
+                {
+                    title: "Koordinat & Grid",
+                    konsep: "Sistem Kartesius (x, y) atau Indeks Matriks (baris, kolom).",
+                    fokus: "Simulasi pergerakan bidak catur, robot, atau labirin.",
+                    trik: "Gunakan array arah (dx = {-1,0,1,0} dan dy = {0,1,0,-1}) untuk bergerak, bukan menulis if-else panjang."
+                },
+                {
+                    title: "Simulasi",
+                    konsep: "Menerjemahkan deskripsi soal ke dalam kode persis seperti apa yang diminta.",
+                    fokus: "Sangat Penting! Banyak soal OSN-K yang sebenarnya hanya butuh ketelitian membaca.",
+                    trik: "Lakukan instruksi langkah demi langkah tanpa trik aneh-aneh."
+                }
+            ],
+            menengah: [
+                {
+                    title: "Stack (Tumpukan)",
+                    konsep: "Last In First Out (LIFO). Yang terakhir masuk, yang pertama keluar.",
+                    fokus: "Penyimpanan state sementara berurutan terbalik.",
+                    trik: "Aplikasi: Mengecek validitas tanda kurung ()[]{}, fitur Undo, atau algoritma pencarian kedalaman (DFS)."
+                },
+                {
+                    title: "Queue (Antrean)",
+                    konsep: "First In First Out (FIFO). Yang pertama masuk, yang pertama keluar.",
+                    fokus: "Pemrosesan data secara berurutan sesuai kedatangan.",
+                    trik: "Aplikasi: Simulasi antrean tiket, algoritma pencarian pelebaran (BFS) untuk mencari rute terpendek di grid tak berbobot."
+                },
+                {
+                    title: "Recursion (Rekursi)",
+                    konsep: "Fungsi yang memanggil dirinya sendiri.",
+                    fokus: "Pembangkitan permutasi/kombinasi, Divide and Conquer.",
+                    trik: "Syarat Mutlak: Wajib punya Base Case (kapan rekursi berhenti) agar tidak memori penuh (Stack Overflow)."
+                },
+                {
+                    title: "Sorting (Pengurutan)",
+                    konsep: "Mengurutkan data (Ascending/Descending).",
+                    fokus: "Mempermudah pencarian pola atau penerapan strategi Greedy.",
+                    trik: "Gunakan fungsi bawaan bahasa (misal std::sort di C++ dengan kompleksitas O(N log N))."
+                },
+                {
+                    title: "Binary Search (Pencarian Biner)",
+                    konsep: "Mencari nilai dalam array yang sudah terurut dengan membelah dua rentang pencarian terus menerus.",
+                    fokus: "Binary Search The Answer. Menebak jawaban dan memvalidasi.",
+                    trik: "Kompleksitas O(log N). Buat fungsi cek(x) untuk memvalidasi tebakan."
+                },
+                {
+                    title: "Prefix Sum",
+                    konsep: "Menyimpan total penjumlahan kumulatif dari elemen pertama hingga indeks ke-i.",
+                    fokus: "Menjawab pertanyaan 'Berapa jumlah elemen dari indeks L ke R?' dalam waktu O(1).",
+                    trik: "Rumus: Sum(L, R) = Prefix[R] - Prefix[L-1]"
+                },
+                {
+                    title: "GCD (FPB)",
+                    konsep: "Menggunakan Algoritma Euclidean untuk Faktor Persekutuan Terbesar.",
+                    fokus: "Soal-soal lompatan dengan jarak tertentu atau pengecilan pecahan.",
+                    trik: "Relasi dengan KPK: LCM(a,b) = (a * b) / GCD(a,b)"
+                }
+            ],
+            lanjut: [
+                {
+                    title: "Graph (Graf Dasar)",
+                    konsep: "Kumpulan Titik (Node/Vertex) yang dihubungkan oleh Garis (Edge).",
+                    fokus: "Representasi jaringan jalan antar kota, hubungan pertemanan.",
+                    trik: "Pemahaman tentang Adjacency List dan traversal sederhana (DFS/BFS)."
+                },
+                {
+                    title: "DAG (Directed Acyclic Graph)",
+                    konsep: "Graf berarah yang tidak memiliki siklus (putaran balik).",
+                    fokus: "Analisis dependensi dan urutan task.",
+                    trik: "Soal tentang syarat/prasyarat (misal: materi B baru bisa dipelajari setelah materi A)."
+                },
+                {
+                    title: "DP Dasar (Dynamic Programming)",
+                    konsep: "Menyimpan hasil perhitungan dari sub-masalah agar tidak dihitung berulang kali.",
+                    fokus: "Identifikasi State (posisi saat ini) dan Transition (pilihan perpindahan).",
+                    trik: "Contoh klasik: Fibonacci, Coin Change, pergerakan di grid (hanya boleh ke kanan dan bawah)."
+                },
+                {
+                    title: "Greedy",
+                    konsep: "Mengambil keputusan yang paling menguntungkan saat ini dengan harapan hasil akhirnya optimal.",
+                    fokus: "Pencarian minimal/maksimal lokal yang berdampak global.",
+                    trik: "Jangan asal Greedy! Pastikan logikanya terbukti. Cocok untuk soal mencari minimal tanpa tumpang tindih."
+                },
+                {
+                    title: "Combinatorics (Kombinatorika)",
+                    konsep: "Seni menghitung tanpa menghitung satu per satu.",
+                    fokus: "Permutasi, Kombinasi (nCr), Aturan Perkalian & Penjumlahan.",
+                    trik: "Pigeonhole Principle: jika N+1 merpati dimasukkan ke N sarang, pasti ada minimal 1 sarang berisi > 1 merpati."
+                },
+                {
+                    title: "Invariant",
+                    konsep: "Sifat atau nilai yang TIDAK PERNAH BERUBAH meskipun diberikan berbagai macam operasi.",
+                    fokus: "Pembuktian validitas state akhir.",
+                    trik: "Sangat kuat untuk soal logika. Misalnya mengecek Parity (Ganjil/Genap) untuk membuktikan Mungkin atau Tidak Mungkin."
+                },
+                {
+                    title: "Cycle Detection",
+                    konsep: "Mengetahui kapan sebuah proses mulai berulang kembali.",
+                    fokus: "Simulasi dengan batasan hari/langkah yang tidak masuk akal (misal K = 10^18).",
+                    trik: "Simulasikan langkahnya, catat hasilnya sampai menemukan pola berulang, lalu potong sisa langkah dengan modulo."
+                }
+            ]
+        };
+
+        const app = {
+            currentLevel: '',
+            chartInstance: null,
+
+            init() {
+                this.loadLevel('dasar');
+                this.renderChart();
+            },
+
+            switchView(viewId) {
+                document.getElementById('view-dashboard').classList.add('hidden-view');
+                document.getElementById('view-materi').classList.add('hidden-view');
+                document.getElementById('view-strategi').classList.add('hidden-view');
+                
+                document.getElementById('nav-dashboard').classList.remove('active');
+                document.getElementById('nav-materi').classList.remove('active');
+                document.getElementById('nav-strategi').classList.remove('active');
+
+                document.getElementById('view-' + viewId).classList.remove('hidden-view');
+                document.getElementById('nav-' + viewId).classList.add('active');
+
+                if(viewId === 'dashboard' && this.chartInstance) {
+                    this.chartInstance.update();
+                }
+            },
+
+            loadLevel(level) {
+                this.currentLevel = level;
+                
+                document.getElementById('btn-dasar').className = 'level-btn px-6 py-2 rounded-full font-semibold border-2 bg-white text-stone-600 border-stone-300 transition-all hover:bg-stone-100';
+                document.getElementById('btn-menengah').className = 'level-btn px-6 py-2 rounded-full font-semibold border-2 bg-white text-stone-600 border-stone-300 transition-all hover:bg-stone-100';
+                document.getElementById('btn-lanjut').className = 'level-btn px-6 py-2 rounded-full font-semibold border-2 bg-white text-stone-600 border-stone-300 transition-all hover:bg-stone-100';
+                
+                document.getElementById('btn-' + level).className = `level-btn active-${level} px-6 py-2 rounded-full font-semibold border-2 transition-all shadow-sm`;
+
+                const container = document.getElementById('materi-container');
+                container.innerHTML = '';
+
+                let accentColor = level === 'dasar' ? 'emerald' : (level === 'menengah' ? 'amber' : 'rose');
+
+                materiData[level].forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = `bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow`;
+                    
+                    const header = document.createElement('div');
+                    header.className = `p-4 bg-stone-50 border-b border-stone-100 cursor-pointer flex justify-between items-center hover:bg-stone-100 transition-colors`;
+                    header.innerHTML = `
+                        <h4 class="font-bold text-lg text-stone-800">${index + 1}. ${item.title}</h4>
+                        <span class="text-stone-400 font-bold transform transition-transform duration-300" id="icon-${level}-${index}">&#43;</span>
+                    `;
+                    
+                    const content = document.createElement('div');
+                    content.id = `content-${level}-${index}`;
+                    content.className = 'accordion-content px-4 bg-white text-sm text-stone-600';
+                    content.innerHTML = `
+                        <div class="mb-3">
+                            <strong class="text-stone-800 block mb-1">Konsep:</strong>
+                            ${item.konsep}
+                        </div>
+                        <div class="mb-3">
+                            <strong class="text-${accentColor}-700 block mb-1 bg-${accentColor}-50 inline-block px-2 py-0.5 rounded text-xs uppercase tracking-wider">Fokus OSN:</strong>
+                            ${item.fokus}
+                        </div>
+                        <div>
+                            <strong class="text-stone-800 block mb-1">Trik & Aplikasi:</strong>
+                            <span class="italic">${item.trik}</span>
+                        </div>
+                    `;
+
+                    header.onclick = () => this.toggleAccordion(level, index);
+                    
+                    card.appendChild(header);
+                    card.appendChild(content);
+                    container.appendChild(card);
+                });
+            },
+
+            toggleAccordion(level, index) {
+                const content = document.getElementById(`content-${level}-${index}`);
+                const icon = document.getElementById(`icon-${level}-${index}`);
+                
+                if (content.classList.contains('open')) {
+                    content.classList.remove('open');
+                    icon.innerHTML = '&#43;';
+                    icon.classList.remove('rotate-45');
+                } else {
+                    document.querySelectorAll('.accordion-content.open').forEach(el => {
+                        el.classList.remove('open');
+                        const idParts = el.id.split('-');
+                        const prevIcon = document.getElementById(`icon-${idParts[1]}-${idParts[2]}`);
+                        if(prevIcon) {
+                            prevIcon.innerHTML = '&#43;';
+                            prevIcon.classList.remove('rotate-45');
+                        }
+                    });
+
+                    content.classList.add('open');
+                    icon.innerHTML = '&#215;'; 
+                    icon.classList.add('rotate-90');
+                }
+            },
+
+            renderChart() {
+                const ctx = document.getElementById('skillsChart').getContext('2d');
+                
+                this.chartInstance = new Chart(ctx, {
+                    type: 'polarArea',
+                    data: {
+                        labels: [
+                            'Simulasi Cermat',
+                            'Pola Matematis',
+                            'Reasoning & Logika',
+                            'Tracking State',
+                            'Optimasi Sederhana',
+                            'Syntax/Coding Berat'
+                        ],
+                        datasets: [{
+                            label: 'Tingkat Kepentingan (%)',
+                            data: [95, 85, 90, 80, 75, 20],
+                            backgroundColor: [
+                                'rgba(56, 189, 248, 0.6)', 
+                                'rgba(251, 191, 36, 0.6)', 
+                                'rgba(52, 211, 153, 0.6)', 
+                                'rgba(167, 139, 250, 0.6)', 
+                                'rgba(251, 146, 60, 0.6)',  
+                                'rgba(244, 63, 94, 0.6)'    
+                            ],
+                            borderColor: [
+                                'rgba(56, 189, 248, 1)',
+                                'rgba(251, 191, 36, 1)',
+                                'rgba(52, 211, 153, 1)',
+                                'rgba(167, 139, 250, 1)',
+                                'rgba(251, 146, 60, 1)',
+                                'rgba(244, 63, 94, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                min: 0,
+                                max: 100,
+                                ticks: {
+                                    display: false 
+                                },
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: {
+                                    font: { family: "'Inter', sans-serif", size: 11 },
+                                    boxWidth: 12
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.r !== null) {
+                                            label += context.parsed.r + ' (Relative Importance)';
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            app.init();
+        });
+    </script>
+</body>
+</html>
