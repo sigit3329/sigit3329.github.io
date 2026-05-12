@@ -3,53 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bank Soal OSN Informatika</title>
+    <title>Bank Soal & Materi OSN Informatika</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Konfigurasi Tailwind untuk Dark Mode -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#0f172a',
+                        darkcard: '#1e293b',
+                        darkborder: '#334155'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CryptoJS untuk Hashing MD5 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    
     <style>
-        body { margin: 0; padding: 0; background-color: #f8fafc; }
+        body { margin: 0; padding: 0; }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .dark ::-webkit-scrollbar-thumb { background: #475569; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        
+        /* Markdown Parser Styles */
         .markdown-body p { margin-bottom: 0.75em; }
-        .markdown-body b, .markdown-body strong { font-weight: 600; color: #1e293b; }
+        .markdown-body b, .markdown-body strong { font-weight: 600; color: inherit; }
         .markdown-body ul { list-style-type: disc; margin-left: 1.5em; margin-bottom: 0.75em; }
         .markdown-body code { background: #e2e8f0; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.9em; color: #db2777; }
-        /* Style tambahan untuk blok kode C++ */
-        .markdown-body pre { background-color: #1e293b; color: #f8fafc; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-family: monospace; font-size: 0.875rem; margin-bottom: 1rem; box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05); }
+        .dark .markdown-body code { background: #334155; color: #f472b6; }
+        .markdown-body pre { background-color: #1e293b; color: #f8fafc; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-family: monospace; font-size: 0.875rem; margin-bottom: 1rem; }
         .markdown-body pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
+        
+        /* Animasi */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade { animation: fadeIn 0.3s ease-in-out forwards; }
     </style>
 </head>
-<body class="text-slate-800 font-sans antialiased h-screen flex flex-col md:flex-row overflow-hidden relative">
+<body class="text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-darkbg font-sans antialiased h-screen overflow-hidden relative transition-colors duration-300">
 
-    <!-- SIDEBAR NAVIGASI -->
-    <!-- Diperbaiki: max-h-screen memastikan batas tinggi pada mobile tidak melebihi layar -->
-    <nav class="w-full md:w-80 bg-slate-900 text-white flex flex-col max-h-screen md:h-full shadow-2xl z-20 shrink-0">
-        <div class="p-5 bg-slate-950 flex items-center justify-between md:block shrink-0 z-30">
-            <div>
-                <h1 class="text-lg font-bold tracking-wider text-blue-400"><i class="fas fa-layer-group mr-2"></i>BANK SOAL OSN</h1>
-                <p class="text-xs text-slate-400 mt-1">Silabus Komprehensif (20 Bab)</p>
+    <!-- ======================================================================= -->
+    <!-- LAYAR LOGIN (PASSWORD PROTECTION) -->
+    <!-- ======================================================================= -->
+    <div id="login-screen" class="fixed inset-0 z-[100] bg-slate-100 dark:bg-slate-900 flex items-center justify-center p-4 transition-opacity duration-500">
+        <div class="max-w-md w-full bg-white dark:bg-darkcard rounded-2xl shadow-2xl p-8 border border-slate-200 dark:border-darkborder text-center">
+            <div class="w-20 h-20 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-lock text-3xl text-blue-600 dark:text-blue-400"></i>
             </div>
-            <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white focus:outline-none">
-                <i class="fas fa-bars text-2xl"></i>
+            <h2 class="text-2xl font-bold mb-2 text-slate-800 dark:text-white">Akses Diblokir</h2>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Silakan masukkan password untuk mengakses Bank Soal & Materi OSN.</p>
+            
+            <input type="password" id="pwd-input" placeholder="Masukkan password..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2 transition-colors">
+            <p id="pwd-error" class="text-red-500 text-xs font-semibold mb-4 text-left hidden"><i class="fas fa-exclamation-circle mr-1"></i> Password salah, silakan coba lagi.</p>
+            
+            <button onclick="checkPassword()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition-colors shadow-lg shadow-blue-500/30">
+                Buka Kunci <i class="fas fa-arrow-right ml-2"></i>
             </button>
         </div>
+    </div>
 
-        <!-- Diperbaiki: Ditambahkan max-h-[60vh] untuk HP agar menu bisa discroll dan tidak hilang ke bawah layar -->
-        <div id="nav-links" class="hidden md:flex flex-col flex-grow overflow-y-auto py-2 max-h-[60vh] md:max-h-full bg-slate-900 z-20">
-            <!-- Menu akan di-generate oleh JavaScript di bawah -->
-        </div>
-    </nav>
+    <!-- ======================================================================= -->
+    <!-- APLIKASI UTAMA -->
+    <!-- ======================================================================= -->
+    <div id="app-wrapper" class="hidden h-full flex-col md:flex-row w-full opacity-0 transition-opacity duration-500">
+        
+        <!-- SIDEBAR NAVIGASI -->
+        <nav class="w-full md:w-80 bg-slate-900 text-white flex flex-col max-h-screen md:h-full shadow-2xl z-20 shrink-0">
+            <div class="p-5 bg-slate-950 flex items-center justify-between shrink-0 z-30">
+                <div>
+                    <h1 class="text-lg font-bold tracking-wider text-blue-400"><i class="fas fa-layer-group mr-2"></i>BANK SOAL OSN</h1>
+                    <p class="text-xs text-slate-400 mt-1">Silabus Komprehensif</p>
+                </div>
+                <!-- Tombol Dark Mode & Mobile Menu -->
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleDarkMode()" class="text-slate-300 hover:text-yellow-400 focus:outline-none transition-all active:scale-90 w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center shadow-inner">
+                        <i id="theme-icon" class="fas fa-moon text-lg"></i>
+                    </button>
+                    <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white focus:outline-none flex items-center justify-center p-1">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
 
-    <!-- AREA KONTEN UTAMA -->
-    <main class="flex-grow h-full overflow-y-auto bg-slate-50 p-4 md:p-8 relative" id="main-content">
-        <!-- Konten Bab & Foto Soal akan muncul di sini -->
-    </main>
+            <!-- Area Menu List -->
+            <div id="nav-links" class="hidden md:flex flex-col flex-grow overflow-y-auto py-2 max-h-[65vh] md:max-h-full bg-slate-900 z-20">
+                <!-- Menu akan di-generate oleh JavaScript di bawah -->
+            </div>
+        </nav>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="flex-grow h-full overflow-y-auto bg-slate-50 dark:bg-darkbg p-4 md:p-8 relative" id="main-content">
+            <!-- Konten Bab & Foto Soal akan muncul di sini -->
+        </main>
+    </div>
 
     <!-- AI MODAL -->
-    <div id="ai-modal" class="fixed inset-0 bg-slate-900/60 z-50 hidden items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden transform scale-95 opacity-0 transition-all duration-300" id="ai-modal-box">
+    <div id="ai-modal" class="fixed inset-0 bg-slate-900/80 z-50 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white dark:bg-darkcard rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden transform scale-95 opacity-0 transition-all duration-300 border border-transparent dark:border-slate-700" id="ai-modal-box">
             <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-5 flex justify-between items-center shadow-md z-10 shrink-0">
                 <h3 class="text-white font-bold text-lg flex items-center">
                     <i class="fas fa-magic mr-3 text-blue-200"></i> Generator Soal AI Gemini
@@ -58,21 +117,28 @@
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-            <div id="ai-modal-content" class="p-6 md:p-8 overflow-y-auto flex-grow text-slate-700 bg-slate-50 markdown-body">
+            <div id="ai-modal-content" class="p-6 md:p-8 overflow-y-auto flex-grow text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 markdown-body">
                 <!-- Content injected here -->
             </div>
-            <div class="p-4 border-t border-slate-200 bg-white flex justify-end shrink-0">
-                <button onclick="closeModal()" class="px-6 py-2 text-slate-600 font-semibold hover:bg-slate-100 rounded-lg transition-colors border border-slate-200">Tutup Papan AI</button>
+            <div class="p-4 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-darkcard flex justify-end shrink-0">
+                <button onclick="closeModal()" class="px-6 py-2 text-slate-600 dark:text-slate-300 font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors border border-slate-200 dark:border-slate-600">Tutup Papan AI</button>
             </div>
         </div>
     </div>
 
     <!-- SCRIPT UTAMA -->
     <script>
-        const apiKey = "AIzaSyA1WqblBLGwS_GCfXG6n4wkphImWUHs7pU"; // API Key Gemini otomatis disediakan oleh environment eksekusi Canvas
+        // =========================================================================
+        // PENGATURAN KEAMANAN & API
+        // =========================================================================
+        const APP_CONFIG = {
+            requirePassword: true, // Ubah ke false jika tidak ingin ada fitur password
+            targetHash: "223a0fa8f15933d622b3c7a13f186027" // MD5 Hash Target
+        };
+        const apiKey = ""; // API Key Gemini
 
         // =========================================================================
-        // DATA BAB & MATERI LENGKAP
+        // DATA BAB & MATERI LENGKAP (VERSI DIPERBARUI DARI DASAR)
         // =========================================================================
         const daftarBab = [
             // --- GRUP A ---
@@ -82,22 +148,96 @@
                 title: '1. Dasar Pemrograman C++ & STL',
                 tags: ['Variabel & Tipe Data', 'If Else & Looping', 'Vector, Pair, Set, Map', 'Simulasi Dasar'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-code text-blue-500 mr-2"></i> Dasar C++ & STL (Standard Template Library)</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Pondasi utama untuk menyelesaikan soal OSN. Pemahaman tipe data (int vs long long) sangat penting agar tidak terjadi Overflow. STL membantu kita menggunakan struktur data bawaan C++ tanpa harus mengoding dari nol.</p>
-                        <div class="bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
-                            Bayangkan <code>Array</code> biasa seperti kotak pensil kaku yang ukurannya tetap. Sedangkan <code>std::vector</code> adalah laci ajaib yang ukurannya bisa ditarik memanjang secara dinamis sesuai jumlah barang yang Anda masukkan. <code>std::map</code> seperti buku alamat telepon: Anda memberi nama (Key), dan ia langsung memberikan nomor teleponnya (Value).
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-code text-blue-500 mr-2"></i> Dasar C++ & STL (Standard Template Library)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Pondasi utama untuk menyelesaikan soal OSN. Di OSN, mengerti algoritma saja tidak cukup jika Anda salah memilih tipe data (misalnya memakai <code>int</code> padahal hasilnya miliaran, yang menyebabkan <i>Overflow</i>/error) atau salah menggunakan struktur perulangan.
+                        </p>
+
+                        <!-- Tipe Data -->
+                        <h4 class="font-bold text-lg text-slate-800 dark:text-white mt-6 mb-3 border-b pb-2 dark:border-slate-700">1. Variabel & Tipe Data</h4>
+                        <div class="overflow-x-auto mb-4">
+                            <table class="w-full text-sm text-left text-slate-600 dark:text-slate-400">
+                                <thead class="text-xs text-slate-700 uppercase bg-slate-100 dark:bg-slate-800 dark:text-slate-300">
+                                    <tr>
+                                        <th class="px-4 py-3 rounded-tl-lg">Tipe Data</th>
+                                        <th class="px-4 py-3">Kegunaan</th>
+                                        <th class="px-4 py-3 rounded-tr-lg">Batas Maksimal (Penting!)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b dark:border-slate-700">
+                                        <td class="px-4 py-3 font-mono text-pink-600 dark:text-pink-400">int</td>
+                                        <td class="px-4 py-3">Bilangan bulat standar</td>
+                                        <td class="px-4 py-3">~2 Miliar (2 x 10^9)</td>
+                                    </tr>
+                                    <tr class="border-b dark:border-slate-700">
+                                        <td class="px-4 py-3 font-mono text-pink-600 dark:text-pink-400">long long</td>
+                                        <td class="px-4 py-3">Bilangan bulat super besar</td>
+                                        <td class="px-4 py-3">~9 x 10^18 (Wajib jika hasil > 2M)</td>
+                                    </tr>
+                                    <tr class="border-b dark:border-slate-700">
+                                        <td class="px-4 py-3 font-mono text-pink-600 dark:text-pink-400">double</td>
+                                        <td class="px-4 py-3">Bilangan desimal (pecahan)</td>
+                                        <td class="px-4 py-3">15 angka di belakang koma</td>
+                                    </tr>
+                                    <tr class="border-b dark:border-slate-700">
+                                        <td class="px-4 py-3 font-mono text-pink-600 dark:text-pink-400">char</td>
+                                        <td class="px-4 py-3">Satu karakter tunggal</td>
+                                        <td class="px-4 py-3">'A', '1', '?' (pakai petik satu)</td>
+                                    </tr>
+                                    <tr class="border-b dark:border-slate-700">
+                                        <td class="px-4 py-3 font-mono text-pink-600 dark:text-pink-400">string</td>
+                                        <td class="px-4 py-3">Teks (kumpulan char)</td>
+                                        <td class="px-4 py-3">"OSN Menang!" (pakai petik dua)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 font-mono text-pink-600 dark:text-pink-400 rounded-bl-lg">bool</td>
+                                        <td class="px-4 py-3">Kondisi Benar/Salah</td>
+                                        <td class="px-4 py-3 rounded-br-lg">true (1) atau false (0)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
-                            <li><b>Vector:</b> Array dinamis (bisa bertambah elemennya dengan <code>push_back</code>).</li>
-                            <li><b>Set:</b> Kumpulan elemen unik (otomatis terurut, tidak ada data ganda).</li>
-                            <li><b>Map:</b> Array asosiatif untuk menyimpan pasangan Key-Value.</li>
-                            <li><b>Pair:</b> Menggabungkan 2 tipe data menjadi satu kesatuan (misal: koordinat X dan Y).</li>
+                        <div class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-4 mb-6 rounded-r-lg">
+                            <p class="text-sm text-red-700 dark:text-red-400"><b><i class="fas fa-exclamation-triangle mr-1"></i> Jebakan OSN (Overflow):</b> Jika soal meminta Anda mengalikan <code>1000000 * 1000000</code>, hasilnya adalah 10^12. Jika Anda menyimpannya di variabel <code>int</code>, nilainya akan hancur berantakan menjadi angka negatif karena kepenuhan. <b>Selalu gunakan <code>long long</code> jika ragu!</b></p>
+                        </div>
+
+                        <!-- Input Output -->
+                        <h4 class="font-bold text-lg text-slate-800 dark:text-white mt-6 mb-3 border-b pb-2 dark:border-slate-700">2. Input & Output Cepat (Fast I/O)</h4>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm mb-3">Di C++, kita menggunakan <code>cin >></code> untuk membaca masukan dan <code>cout <<</code> untuk mencetak keluaran. Di soal OSN, jika data input mencapai ratusan ribu baris, program Anda bisa <i>Time Limit Exceeded (TLE)</i> hanya karena lambat membaca data. Gunakan "Mantra" Fast I/O berikut di baris pertama <code>int main()</code> Anda:</p>
+                        <pre class="bg-slate-800 text-white p-4 rounded-lg text-sm mb-6 overflow-x-auto font-mono"><code>ios_base::sync_with_stdio(false);
+cin.tie(NULL);</code></pre>
+
+                        <!-- Struktur Kontrol -->
+                        <h4 class="font-bold text-lg text-slate-800 dark:text-white mt-6 mb-3 border-b pb-2 dark:border-slate-700">3. Percabangan & Perulangan (If-Else, For, While)</h4>
+                        <ul class="list-disc list-inside text-slate-600 dark:text-slate-400 text-sm space-y-3 mb-6">
+                            <li><b>If - Else:</b> Digunakan untuk mengambil keputusan. Operator logikanya: <code>==</code> (Sama dengan), <code>!=</code> (Tidak sama dengan), <code>&&</code> (DAN), <code>||</code> (ATAU).</li>
+                            <li><b>For Loop:</b> Perulangan yang jumlahnya sudah pasti. Sintaksnya: <code>for(int i = 0; i < N; i++)</code>.</li>
+                            <li><b>While Loop:</b> Perulangan yang jumlahnya tidak pasti, ia akan terus berputar selama kondisinya bernilai benar (<code>true</code>).</li>
+                            <li><span class="text-amber-600 dark:text-amber-400 font-semibold"><i class="fas fa-stopwatch mr-1"></i> Jebakan TLE (Nested Loop):</span> Jika Anda membuat perulangan <code>for</code> di dalam <code>for</code> (bersarang), waktu eksekusinya adalah kuadratik (O(N^2)). Jika N = 100.000, komputer akan melakukan 10 Miliar operasi. Batas aman OSN biasanya hanya sekitar 100 Juta operasi per detik. Program Anda pasti akan terhenti otomatis (TLE)!</li>
                         </ul>
+
+                        <!-- STL -->
+                        <h4 class="font-bold text-lg text-slate-800 dark:text-white mt-6 mb-3 border-b pb-2 dark:border-slate-700">4. Standard Template Library (STL)</h4>
+                        <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-300 p-5 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Memori & STL:</b> <br>
+                            Bayangkan <b>Array biasa</b> seperti rak sepatu kayu yang permanen. Jika muat 10, ya hanya muat 10. Jika dipaksa masuk 11, raknya jebol (Error). <br><br>
+                            Sedangkan <b>STL</b> adalah perabotan canggih bawaan C++:
+                            <ul class="list-disc list-inside mt-3 space-y-2">
+                                <li><code>std::vector</code>: Rak sepatu yang bisa memanjang otomatis. Tambah item di belakang dengan <code>push_back()</code>.</li>
+                                <li><code>std::map</code>: Buku kontak ajaib. Anda sebut nama (Key: "Budi"), ia langsung berikan nomor HP-nya (Value: "08123"). Sangat cepat untuk pencarian.</li>
+                                <li><code>std::set</code>: Penjaga pintu klub eksklusif. Jika ada data kembar yang mau masuk, hanya 1 yang dibolehkan, dan otomatis terurut dari kecil ke besar!</li>
+                                <li><code>std::pair</code>: Lem super untuk menggabungkan dua variabel berbeda menjadi satu paket (Sangat sering dipakai untuk menyimpan koordinat X dan Y pada grid).</li>
+                            </ul>
+                        </div>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `
+                    <div class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-8 text-center text-slate-400 dark:text-slate-500 bg-white dark:bg-darkcard">
+                        <i class="fas fa-image text-3xl mb-2"></i><br>Letakkan tag &lt;img&gt; soal Dasar C++ di sini
+                    </div>
+                `
             },
             {
                 id: 'bab-2',
@@ -105,23 +245,29 @@
                 title: '2. Operasi Bitwise (Bit Manipulation)',
                 tags: ['AND, OR, XOR', 'Bit Shifting', 'Masking', 'Tracing Bitwise C++'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-microchip text-blue-500 mr-2"></i> Operasi Bitwise</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Komputer pada dasarnya hanya mengerti angka 0 dan 1. Operasi bitwise mengutak-atik angka langsung pada level biner-nya. Ini sangat cepat dan sering keluar pada soal *tracing* kode C++.</p>
-                        <div class="bg-indigo-50 border border-indigo-200 text-indigo-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
-                            Anggap bit adalah saklar lampu berjejer (1 = Nyala, 0 = Mati).<br>
-                            - <b>AND (&):</b> Lampu hanya nyala jika KEDUA saklar aslinya nyala.<br>
-                            - <b>OR (|):</b> Lampu nyala jika SALAH SATU atau kedua saklar aslinya nyala.<br>
-                            - <b>XOR (^):</b> (Eksklusif) Lampu nyala JIKA DAN HANYA JIKA status saklar beda (satu nyala, satu mati).
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-microchip text-blue-500 mr-2"></i> Operasi Bitwise</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Komputer tidak paham angka 10 atau 20, ia hanya paham biner (0 dan 1). Operasi bitwise mengutak-atik angka langsung pada level biner-nya. Topik ini sangat sering keluar di soal pilihan ganda (tracing kode).
+                        </p>
+                        <div class="bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800 text-indigo-800 dark:text-indigo-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Saklar Lampu:</b> <br>
+                            Anggap angka 1 adalah Saklar Nyala, dan 0 adalah Saklar Mati.<br>
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li><b>AND ( & ):</b> Lampu hanya nyala jika KEDUA saklar aslinya nyala (1 & 1 = 1). Cocok untuk mengecek irisan.</li>
+                                <li><b>OR ( | ):</b> Lampu nyala jika SALAH SATU atau KEDUANYA nyala (1 | 0 = 1). Cocok untuk menggabungkan kondisi.</li>
+                                <li><b>XOR ( ^ ):</b> (Eksklusif) Lampu nyala JIKA status saklar BEDA (1 ^ 0 = 1, tapi 1 ^ 1 = 0). Sangat berguna mencari elemen ganda yang hilang!</li>
+                            </ul>
                         </div>
-                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
-                            <li><b>Shift Left (<<):</b> Menggeser bit ke kiri. Efeknya sama dengan <b>dikali 2</b>.</li>
-                            <li><b>Shift Right (>>):</b> Menggeser bit ke kanan. Efeknya sama dengan <b>dibagi 2</b>.</li>
+                        <h4 class="font-semibold text-slate-700 dark:text-slate-200 mb-2">Trik Cepat OSN:</h4>
+                        <ul class="list-disc list-inside text-slate-600 dark:text-slate-400 text-sm space-y-2">
+                            <li><b>Shift Left ( <code>a << b</code> ):</b> Menggeser bit ke kiri. Efek matematikanya sama dengan <b>a dikali 2^b</b>.</li>
+                            <li><b>Shift Right ( <code>a >> b</code> ):</b> Menggeser bit ke kanan. Efeknya sama dengan <b>a dibagi 2^b</b> dibulatkan ke bawah.</li>
+                            <li>Mengecek bilangan ganjil/genap secara kilat: <code>if (angka & 1)</code> berarti ganjil.</li>
                         </ul>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             // --- GRUP B ---
             {
@@ -130,20 +276,28 @@
                 title: '3. Simulasi & Penelusuran (Grid/Koordinat)',
                 tags: ['Simulasi arah', 'Grid traversal', 'Simulasi koordinat', 'Tracking arah', 'Robot movement'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-th text-blue-500 mr-2"></i> Simulasi & Grid Traversal</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Soal jenis ini meminta Anda untuk menjalankan/mensimulasikan langkah-langkah yang diminta dengan persis, seringkali terjadi pada papan catur (Grid 2D) atau sistem kordinat Kartesius.</p>
-                        <div class="bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
-                            Ini seperti bermain mobil RC atau mengatur GPS Robot Kucing pelacak. Anda harus mencatat dengan teliti: "Maju 3 langkah (Y+3), Hadap Kanan (Ubah arah vektor), Maju 2 langkah (X+2)". Anda melacak koordinatnya langkah demi langkah.
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-th text-blue-500 mr-2"></i> Simulasi & Penelusuran Grid</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Tipe soal ini tidak butuh rumus rumit. Kuncinya hanya satu: Teliti mengikuti instruksi tahap demi tahap. Biasanya Anda diminta melacak pergerakan "Robot/Bebek" di atas sistem koordinat 2D (Sumbu X dan Y).
+                        </p>
+                        <div class="bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Mobil RC:</b> <br>
+                            Bayangkan Anda sedang memainkan mobil *Remote Control*. <br>
+                            Jika arah hadap awal mobil adalah Utara (Atas), dan Anda menekan tombol "Belok Kanan", mobil tidak berpindah tempat, ia hanya berubah hadap menjadi Timur (Kanan). <br>
+                            Di soal simulasi, Anda harus memisahkan variabel "Posisi (x, y)" dan "Arah Hadap".
                         </div>
-                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
-                            <li><b>Boundary Checking:</b> Jangan sampai robot keluar dari batas papan (misal grid N x M). Selalu cek <code>if (x >= 0 && x < N)</code>.</li>
-                            <li><b>Array Arah (Direction Array):</b> Gunakan array untuk gerakan, misal <code>dx = {0, 1, 0, -1}</code> dan <code>dy = {1, 0, -1, 0}</code> untuk (Kanan, Bawah, Kiri, Atas).</li>
+                        <h4 class="font-semibold text-slate-700 dark:text-slate-200 mb-2">Teknik Koding Tepat:</h4>
+                        <ul class="list-disc list-inside text-slate-600 dark:text-slate-400 text-sm space-y-2">
+                            <li><b>Array Arah (Direction Array):</b> Jangan gunakan banyak if-else! Gunakan 2 array: <br>
+                            <code>int dx[4] = {0, 1, 0, -1}; // Atas, Kanan, Bawah, Kiri</code><br>
+                            <code>int dy[4] = {1, 0, -1, 0};</code><br>
+                            Jika maju selangkah ke arah <code>i</code>, maka: <code>x += dx[i]; y += dy[i];</code></li>
+                            <li><b>Boundary Checking:</b> Selalu cek agar koordinat tidak "keluar dari papan/kertas" sebelum melangkah.</li>
                         </ul>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             {
                 id: 'bab-4',
@@ -151,19 +305,23 @@
                 title: '4. Logika Aritmetika & Invariant',
                 tags: ['Invariant', 'Conservation', 'Logika aritmetika', 'Nilai tetap (State)'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-balance-scale text-blue-500 mr-2"></i> Invariant & Nilai Tetap</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Invariant adalah sebuah sifat matematis atau kondisi yang <b>tidak akan pernah berubah</b> bagaimanapun Anda melakukan operasi yang diizinkan dalam soal. Ini kunci menjawab teka-teki logika yang terkesan mustahil.</p>
-                        <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
-                            Anda punya 1 liter air di teko A dan 1 liter air di teko B. Anda boleh memindah-mindahkan air dari A ke B dan sebaliknya sesuka hati. <b>Invariant-nya:</b> Total air di kedua teko akan <i>selalu</i> 2 liter. Tidak akan pernah bertambah atau berkurang.
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-balance-scale text-blue-500 mr-2"></i> Invariant (Nilai Tetap)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Invariant adalah sebuah kondisi matematis yang <b>TIDAK AKAN PERNAH BERUBAH</b> seberapapun sering Anda melakukan serangkaian aksi. Ini adalah "jalan pintas" untuk membuktikan bahwa sebuah tujuan di soal itu MUNGKIN atau MUSTAHIL dicapai.
+                        </p>
+                        <div class="bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Teko Air:</b> <br>
+                            Ada 2 teko, A berisi 3 Liter dan B berisi 5 Liter. Anda boleh memindah-mindahkan air dari A ke B sesuka hati seumur hidup Anda.<br>
+                            Pertanyaannya: Bisakah suatu saat Teko A berisi 10 Liter? <br>
+                            Jawaban: Mustahil! Karena ada Invariant-nya, yaitu "Total volume air A + B akan SELALU 8 Liter".
                         </div>
-                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
-                            <li>Sering muncul di soal: "Mungkinkah mengubah papan dari bentuk X ke bentuk Y?". Jika Paritas (ganjil/genap) awal berbeda dengan akhir, jawabannya pasti <b>Tidak Mungkin</b>.</li>
+                        <ul class="list-disc list-inside text-slate-600 dark:text-slate-400 text-sm space-y-2">
+                            <li><b>Paritas (Ganjil-Genap):</b> Invariant paling umum. Jika soal meminta Anda menukar papan 2 keping sekaligus, maka jumlah keping yang terbalik akan selalu naik/turun kelipatan 2 (paritas genap). Jika targetnya adalah membalik 1 keping ganjil, maka pasti Mustahil.</li>
                         </ul>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             {
                 id: 'bab-5',
@@ -171,20 +329,23 @@
                 title: '5. Teori Keputusan & Permainan (Game Theory)',
                 tags: ['Information theory', 'Decision tree', 'Strategi optimal', 'Minimax'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-chess text-blue-500 mr-2"></i> Teori Permainan (Game Theory)</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Menyelesaikan masalah di mana dua pemain (biasanya bermain sempurna/optimal) saling bergantian. Anda harus mencari tahu siapa yang dijamin menang dari awal.</p>
-                        <div class="bg-rose-50 border border-rose-200 text-rose-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
-                            Seperti bermain Catur atau Tic-Tac-Toe. Anda membuat langkah terbaik dengan membayangkan bahwa lawan Anda <i>juga</i> akan mengambil langkah yang paling merepotkan Anda. Anda mencari langkah "Minimax" (Memaksimalkan keuntungan Anda, di saat lawan meminimalkannya).
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-chess text-blue-500 mr-2"></i> Teori Permainan (Game Theory)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Membahas skenario di mana dua pemain saling berhadapan dan bergantian mengambil langkah. Premis dasar di OSN: <b>Kedua pemain sangat pintar dan selalu bermain optimal tanpa pernah salah (Strategi Minimax).</b>
+                        </p>
+                        <div class="bg-rose-50 dark:bg-rose-900/30 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Catur & Status Posisi:</b> <br>
+                            Setiap momen di permainan dapat dikelompokkan menjadi 2 status:<br>
+                            1. <b>Winning State (W):</b> Posisi di mana Anda dijamin pasti menang. Syaratnya: Cukup ADA SATU SAJA pilihan langkah yang mendorong lawan ke kondisi "Kalah".<br>
+                            2. <b>Losing State (L):</b> Posisi di mana Anda dijamin pasti kalah. Syaratnya: SEMUA pilihan langkah yang Anda buat, justru memberi lawan posisi "Menang".
                         </div>
-                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
-                            <li><b>Winning State (W):</b> Posisi di mana pemain yang jalan sekarang PASTI menang.</li>
-                            <li><b>Losing State (L):</b> Posisi di mana pemain yang jalan sekarang PASTI kalah, asalkan lawan bermain benar.</li>
+                        <ul class="list-disc list-inside text-slate-600 dark:text-slate-400 text-sm space-y-2">
+                            <li><b>Cara Menyelesaikan:</b> Jangan mulai mikir dari awal. Berpikirlah dari AKHIR. Siapa yang mengambil batu terakhir menang? Mundurkan logikanya ke belakang selangkah demi selangkah.</li>
                         </ul>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             // --- GRUP C ---
             {
@@ -193,20 +354,23 @@
                 title: '6. Pencarian (Linear & Binary Search)',
                 tags: ['Binary search', 'Divide and conquer', 'Interval narrowing', 'Searching'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-search text-blue-500 mr-2"></i> Binary Search</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Teknik mencari nilai pada data yang <b>sudah terurut</b> dengan membagi rentang pencarian menjadi dua secara terus menerus. Sangat cepat (kompleksitas O(log N)).</p>
-                        <div class="bg-cyan-50 border border-cyan-200 text-cyan-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
-                            Mencari nama "Joko" di buku telepon setebal 1000 halaman. Anda tidak membacanya dari halaman 1 (Linear Search). Anda langsung buka halaman 500 (tengah). Karena awalan 500 adalah "M", dan "J" ada sebelum "M", Anda membuang halaman 500-1000 ke tempat sampah, lalu membelah sisa halamannya lagi di tengah.
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-search text-blue-500 mr-2"></i> Binary Search</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Algoritma pencarian tercepat. Jika *Linear Search* harus mengecek data satu per satu dari ujung ke ujung (sangat lambat), *Binary Search* membelah data menjadi dua bagian setiap detiknya.
+                        </p>
+                        <div class="bg-cyan-50 dark:bg-cyan-900/30 border border-cyan-200 dark:border-cyan-800 text-cyan-800 dark:text-cyan-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Kamus Tebal:</b> <br>
+                            Anda ingin mencari arti kata "Komputer" di KBBI yang halamannya 1000 lembar. Anda TIDAK akan membaca dari halaman 1, 2, 3...<br>
+                            Anda pasti langsung membuka halaman 500 (tengah). Huruf awalnya "M". Karena "K" ada sebelum "M", Anda langsung membuang halaman 500-1000 ke tempat sampah. Lalu Anda buka halaman 250 (tengahnya lagi). Begitu terus. Data SATU MILIAR bisa dicari hanya dalam 30 langkah!
                         </div>
-                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
-                            <li><b>Divide & Conquer:</b> Pecah masalah jadi dua, buang setengahnya.</li>
-                            <li>Bisa digunakan pada fungsi yang monoton (selalu naik / selalu turun).</li>
+                        <h4 class="font-semibold text-slate-700 dark:text-slate-200 mb-2">Syarat Mutlak:</h4>
+                        <ul class="list-disc list-inside text-slate-600 dark:text-slate-400 text-sm space-y-2">
+                            <li>Data HARUS sudah terurut (Sorted) atau memiliki pola fungsi yang monoton (selalu naik / selalu turun). Jika data acak, Anda tidak bisa membuang setengah area karena tebakan Anda tidak valid.</li>
                         </ul>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             {
                 id: 'bab-7',
@@ -214,20 +378,19 @@
                 title: '7. Pengurutan (Sorting) & Median',
                 tags: ['Sorting', 'Nesting', 'Median', 'Ordering', 'Relative comparison'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-sort-amount-up text-blue-500 mr-2"></i> Pengurutan (Sorting)</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Menyusun data berdasarkan aturan tertentu (dari kecil ke besar atau sebaliknya). Menggunakan teknik bawaan <code>std::sort</code> di C++ sangat disarankan.</p>
-                        <div class="bg-violet-50 border border-violet-200 text-violet-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
-                            Guru yang membariskan siswa dari yang paling pendek di depan, sampai yang paling tinggi di belakang saat upacara bendera.
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-sort-amount-up text-blue-500 mr-2"></i> Pengurutan & Sifat Median</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Proses menyusun data dari terkecil ke terbesar (Ascending) atau sebaliknya (Descending). Di C++, kita diharamkan membuat program sorting manual seperti Bubble Sort karena memakan waktu $O(N^2)$. Selalu gunakan fungsi bawaan <code>std::sort()</code> yang sangat cepat $O(N \\log N)$.
+                        </p>
+                        <div class="bg-violet-50 dark:bg-violet-900/30 border border-violet-200 dark:border-violet-800 text-violet-800 dark:text-violet-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-star text-yellow-500 mr-1"></i> Trik Emas OSN: Menemukan Titik Kumpul Terbaik (Median)</b> <br>
+                            Bayangkan ada 5 teman yang rumahnya berada di satu garis lurus jalan raya. Mereka ingin kumpul di 1 rumah. Rumah siapa yang harus dipilih agar "Total bensin yang mereka keluarkan digabungkan menjadi paling murah"?<br>
+                            Jawabannya BUKAN Rata-rata (Mean), melainkan <b>MEDIAN (Rumah orang yang ada di paling tengah barisan)</b>. Ini adalah prinsip mutlak jarak minimal mutlak.
                         </div>
-                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
-                            <li><b>Median:</b> Nilai tengah setelah data diurutkan. Sering menjadi solusi optimal untuk soal "meminimalkan jarak total".</li>
-                            <li><b>Custom Comparator:</b> Mengurutkan objek rumit (misal: urutkan nilai MTK dulu, kalau sama, baru urutkan dari absen terkecil).</li>
-                        </ul>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             // --- GRUP D ---
             {
@@ -236,19 +399,24 @@
                 title: '8. Algoritma Greedy & Optimasi',
                 tags: ['Greedy', 'Optimasi minimum langkah', 'Covering problem', 'Greedy placement'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-hand-holding-usd text-blue-500 mr-2"></i> Algoritma Greedy</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Pendekatan "Rakus". Mengambil pilihan yang terlihat paling menguntungkan SAAT INI (Local Optimum), dengan harapan ia akan menuntun ke jawaban terbaik di akhir (Global Optimum).</p>
-                        <div class="bg-green-50 border border-green-200 text-green-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
-                            Kasir yang ingin memberi kembalian koin sesedikit mungkin sebesar Rp. 8.000. Kasir (yang greedy) akan selalu mengambil koin terbesar dulu: Koin 5.000 (1 buah), baru sisanya koin 1.000 (3 buah).
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-hand-holding-usd text-blue-500 mr-2"></i> Algoritma Rakus (Greedy)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Greedy menyelesaikan masalah optimasi (mencari yang termurah, tercepat, terbanyak) dengan cara memilih opsi yang paling menguntungkan "Detik Ini Juga" (Local Optimum), tanpa memikirkan konsekuensinya di masa depan, berharap hasil akhirnya tetap terbaik (Global Optimum).
+                        </p>
+                        <div class="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Uang Kembalian Kasir:</b> <br>
+                            Tugas Anda memberi kembalian koin sesedikit mungkin sebesar Rp. 8.000. Pecahan koin di laci: 5rb, 2rb, dan 1rb. <br>
+                            Logika Rakus: "Ambil koin terbesar dulu biar cepat selesai!". <br>
+                            Langkah 1: Ambil 5rb (Sisa 3rb). <br>
+                            Langkah 2: Ambil 2rb (Sisa 1rb). <br>
+                            Langkah 3: Ambil 1rb (Selesai). Total 3 koin. Ini adalah jawaban optimal.
                         </div>
-                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
-                            <li><b>Hati-hati:</b> Greedy tidak selalu berhasil. Jika koin yang tersedia 5rb, 4rb, dan 1rb. Kembalian 8rb pakai greedy jadi: 5rb, 1rb, 1rb, 1rb (4 koin). Padahal jawaban benarnya 4rb dan 4rb (2 koin).</li>
-                        </ul>
+                        <p class="text-red-500 dark:text-red-400 text-sm font-semibold mt-2"><i class="fas fa-exclamation-triangle"></i> Kapan Greedy Gagal?</p>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm">Jika pecahan koinnya: 5rb, 4rb, dan 1rb. Kembalian 8rb secara greedy: 5rb, 1rb, 1rb, 1rb (Total 4 koin). Padahal jawaban yang benar cukup 4rb dan 4rb (Hanya 2 koin). Di kasus ini Greedy gagal, dan Anda harus menggunakan Dynamic Programming!</p>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             {
                 id: 'bab-9',
@@ -256,20 +424,18 @@
                 title: '9. Rekursi (Recursion) & Brute Force',
                 tags: ['Recursion', 'Recursive relation', 'Base case', 'Backtracking'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-redo-alt text-blue-500 mr-2"></i> Rekursi & Brute Force</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Rekursi adalah teknik di mana sebuah fungsi memanggil dirinya sendiri berulang kali untuk menyelesaikan pecahan masalah yang lebih kecil.</p>
-                        <div class="bg-orange-50 border border-orange-200 text-orange-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
-                            <b>Rekursi:</b> Mirip seperti boneka Matryoshka Rusia. Saat Anda buka, ada boneka lebih kecil di dalamnya, Anda buka lagi, ada lagi, sampai menemukan boneka terkecil (Base Case) yang sudah tidak bisa dibuka.<br>
-                            <b>Brute Force:</b> Anda lupa password koper kombinasi 3 angka. Anda memutar angka dari 000, 001, 002, sampai 999. Mencoba SEMUA kemungkinan tanpa sisa.
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-redo-alt text-blue-500 mr-2"></i> Rekursi & Pencarian Menyeluruh</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            <b>Brute Force</b> adalah mencoba semua kombinasi kemungkinan yang ada tanpa logika cerdas, sampai ketemu jawabannya. <b>Rekursi</b> adalah trik pemrograman di mana sebuah Fungsi memanggil dirinya sendiri secara berulang-ulang untuk memecah masalah besar menjadi super kecil.
+                        </p>
+                        <div class="bg-orange-50 dark:bg-orange-900/30 border border-orange-200 dark:border-orange-800 text-orange-800 dark:text-orange-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Boneka Rusia & Cermin:</b> <br>
+                            Rekursi itu seperti boneka Matryoshka. Saat dibuka, ada versi kecil dirinya sendiri. Dibuka lagi, ada versi kecil lagi. Hal ini terus berlanjut sampai Anda menemukan boneka terakhir yang tidak bisa dibuka lagi. Titik berhenti mutlak ini disebut <b>Base Case</b>. Tanpa Base Case, program Anda akan berulang selamanya seperti melihat ke 2 cermin yang saling berhadapan.
                         </div>
-                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
-                            <li><b>Base Case:</b> Kondisi berhenti dari sebuah rekursi. Jika tidak ada base case, program akan macet (Infinite Loop / Stack Overflow).</li>
-                        </ul>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             {
                 id: 'bab-10',
@@ -277,21 +443,23 @@
                 title: '10. Dynamic Programming Dasar',
                 tags: ['Dynamic programming dasar', 'Path counting', 'Memoization'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-brain text-blue-500 mr-2"></i> Dynamic Programming (DP)</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Dynamic Programming adalah teknik optimasi brilian yang mengingat jawaban masa lalu agar kita tidak perlu menghitung ulang perhitungan yang sama berkali-kali.</p>
-                        <div class="bg-pink-50 border border-pink-200 text-pink-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
-                            Jika saya tanya "Berapa 1+1+1+1+1?", Anda akan menghitung dan jawab "5".<br>
-                            Lalu saya tambahkan "+1" lagi di belakangnya. Anda langsung jawab "6" kan? Anda tidak menghitung dari awal lagi, karena otak Anda <b>Mengingat</b> jawaban sebelumnya adalah 5. Itulah DP!
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-brain text-blue-500 mr-2"></i> Dynamic Programming (DP)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Senjata pamungkas di OSN. DP adalah kombinasi dari Rekursi yang diberi sebuah "Buku Catatan" (Memori). Prinsip utamanya: <i>Jangan pernah menghitung masalah yang sama dua kali.</i>
+                        </p>
+                        <div class="bg-pink-50 dark:bg-pink-900/30 border border-pink-200 dark:border-pink-800 text-pink-800 dark:text-pink-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Menghitung Cepat:</b> <br>
+                            Tulis di kertas: <code>1 + 1 + 1 + 1 + 1</code>. Anda menghitungnya dalam hati dan menjawab "5".<br>
+                            Sekarang, tanpa menghapus yang tadi, saya tambahkan <code>+ 1</code> di paling ujung kertasnya. Berapa jawabannya sekarang?<br>
+                            Anda langsung teriak "6!". Anda <b>tidak</b> menghitung ulang dari angka 1 pertama, karena otak Anda MENYIMPAN (Mengingat) bahwa deretan pertama hasilnya 5. DP bekerja persis seperti ini (Memoization).
                         </div>
-                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
-                            <li><b>Memoization:</b> Menyimpan hasil perhitungan (misal ke dalam Array) agar tinggal "comot" saat dibutuhkan lagi.</li>
-                            <li>Sangat sering keluar untuk soal mencari Kombinasi dan "Minimum Cost".</li>
+                        <ul class="list-disc list-inside text-slate-600 dark:text-slate-400 text-sm space-y-2">
+                            <li>DP dipakai untuk soal yang meminta nilai "Minimum/Maksimum", atau "Ada berapa banyak cara". Contoh klasik: Fibonacci, Coin Change, Knapsack.</li>
                         </ul>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             // --- GRUP E ---
             {
@@ -300,21 +468,19 @@
                 title: '11. Struktur Data Linear (Stack, Queue)',
                 tags: ['Stack', 'Push-pop simulation', 'Stack permutation', 'Array', 'Queue'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-layer-group text-blue-500 mr-2"></i> Stack (Tumpukan) & Queue (Antrean)</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Struktur data dasar untuk mengatur urutan elemen yang masuk dan keluar.</p>
-                        <div class="bg-teal-50 border border-teal-200 text-teal-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
-                            <b>Stack (LIFO):</b> Tumpukan piring cucian. Piring terakhir yang Anda taruh di atas adalah piring pertama yang akan Anda ambil.<br>
-                            <b>Queue (FIFO):</b> Antrean di kasir Indomaret. Orang pertama yang datang, dialah yang pertama kali dilayani dan keluar.
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-layer-group text-blue-500 mr-2"></i> Stack (Tumpukan) & Queue (Antrean)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Cara kita meletakkan dan mengambil data secara berjejer.
+                        </p>
+                        <div class="bg-teal-50 dark:bg-teal-900/30 border border-teal-200 dark:border-teal-800 text-teal-800 dark:text-teal-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Sangat Jelas:</b> <br>
+                            <b>Stack (Tumpukan / LIFO - Last In First Out):</b> Bayangkan tumpukan piring bersih di restoran. Piring yang baru dicuci akan ditaruh di PALING ATAS. Dan saat koki butuh piring, ia akan mengambil piring yang PALING ATAS juga (Piring yang paling terakhir masuk, jadi yang pertama keluar). Dipakai untuk fitur Undo (Ctrl+Z).<br><br>
+                            <b>Queue (Antrean / FIFO - First In First Out):</b> Bayangkan antrean tiket bioskop. Orang yang masuk barisan paling pertama di depan, pasti akan dilayani paling pertama.
                         </div>
-                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
-                            <li><b>Push/Pop:</b> Push menambah elemen, Pop membuang elemen.</li>
-                            <li>Stack sering dipakai di fungsi Rekursi, sedangkan Queue wajib dipakai untuk BFS (Breadth-First Search).</li>
-                        </ul>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             {
                 id: 'bab-12',
@@ -322,20 +488,19 @@
                 title: '12. Tree & Struktur Data Lanjut',
                 tags: ['Binary Tree', 'Disjoint Set Union (DSU)', 'Segment Tree Dasar'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-tree text-blue-500 mr-2"></i> Tree & DSU</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Tree adalah graf khusus yang tidak memiliki siklus tertutup. DSU (Disjoint Set Union) adalah struktur ajaib untuk melacak pengelompokan.</p>
-                        <div class="bg-lime-50 border border-lime-200 text-lime-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
-                            <b>Tree:</b> Silsilah keluarga. Dari kakek buyut, turun ke anak, ke cucu. Tidak ada cucu yang tiba-tiba menjadi ayah dari kakeknya.<br>
-                            <b>DSU:</b> Bayangkan geng sekolah. A berteman dengan B. B berteman dengan C. DSU membantu menjawab dengan sekejap mata: "Apakah A dan C satu geng?" (Ya!).
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-tree text-blue-500 mr-2"></i> Tree & Disjoint Set Union (DSU)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            <b>Tree (Pohon)</b> adalah bentuk spesial dari Graph (jaringan) yang bentuknya bercabang ke bawah dan <b>sama sekali tidak punya jalur memutar (siklus)</b>.
+                        </p>
+                        <div class="bg-lime-50 dark:bg-lime-900/30 border border-lime-200 dark:border-lime-800 text-lime-800 dark:text-lime-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Pohon Keluarga:</b> <br>
+                            Silsilah raja dari kakek, ayah, hingga anak-anaknya. Cucu tidak akan mungkin menjadi ayah dari kakeknya sendiri (tidak ada putaran). Rumus ajaib Tree: <i>Jika ada N anggota keluarga, maka jumlah garis keturunannya (Edges) PASTI N-1.</i><br><br>
+                            <b>DSU (Disjoint Set):</b> Sistem cepat untuk melacak anggota geng. A berteman dengan B. B berteman dengan C. DSU mencatat siapa "Bos Tertinggi" mereka, sehingga saat ditanya "Apakah A satu geng dengan C?", sistem menjawab instan.
                         </div>
-                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
-                            <li>Tree dengan N titik pasti selalu memiliki tepat N-1 Edge (garis penghubung).</li>
-                        </ul>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             // --- GRUP F ---
             {
@@ -344,17 +509,19 @@
                 title: '13. Graf Dasar & Penelusuran (DFS/BFS)',
                 tags: ['Hamiltonian path', 'Reachability', 'DFS mindset', 'Graph traversal'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-project-diagram text-blue-500 mr-2"></i> Traversal Graf (DFS & BFS)</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Cara menelusuri jaringan titik (nodes/vertices) dan garis (edges).</p>
-                        <div class="bg-fuchsia-50 border border-fuchsia-200 text-fuchsia-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
-                            <b>DFS (Kedalaman):</b> Menelusuri Gua. Anda jalan terus menelusuri satu terowongan sampai mentok (buntu), baru putar balik (backtrack) ke persimpangan sebelumnya.<br>
-                            <b>BFS (Kelebaran):</b> Tumpahan Air. Air menyebar pelan-pelan ke semua arah yang berjarak 1 meter dulu, baru merembes ke jarak 2 meter, dst. Sangat bagus untuk mencari rute terpendek!
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-project-diagram text-blue-500 mr-2"></i> Penelusuran Graf (DFS & BFS)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Algoritma menyusuri titik-titik (Node) yang saling terhubung oleh garis (Edge) untuk mencapai tujuan tertentu.
+                        </p>
+                        <div class="bg-fuchsia-50 dark:bg-fuchsia-900/30 border border-fuchsia-200 dark:border-fuchsia-800 text-fuchsia-800 dark:text-fuchsia-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Memasuki Labirin Gelap:</b> <br>
+                            <b>1. DFS (Depth-First Search / Maju Terus):</b> Anda menyusuri satu lorong terus menerus tanpa henti sampai ujungnya buntu. Setelah mentok, Anda mundur selangkah (Backtrack) mencari simpang lain, lalu masuk lagi sampai dalam.<br><br>
+                            <b>2. BFS (Breadth-First Search / Menyebar):</b> Seperti tumpahan air yang menyebar bertahap. Air akan membasahi semua petak radius 1 meter dulu. Setelah rata, baru tumpah ke radius 2 meter, dst. BFS adalah dewa-nya mencari <b>Rute Terpendek</b>.
                         </div>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             {
                 id: 'bab-14',
@@ -362,16 +529,18 @@
                 title: '14. DAG & Topological Sort',
                 tags: ['DAG', 'Dependency graph', 'Topological sort', 'Scheduling'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-sort-numeric-down text-blue-500 mr-2"></i> DAG & Topological Sort</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">DAG (*Directed Acyclic Graph*) adalah graf yang memiliki arah (panah) dan tidak berputar (tidak ada siklus).</p>
-                        <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
-                            Seperti mengambil Mata Kuliah di kampus. Anda harus lulus matkul "Aljabar 1" sebelum boleh mengambil "Aljabar 2". Topological Sort adalah cara menyusun jadwal semester Anda sehingga semua syarat mata kuliah terpenuhi dengan urutan yang logis.
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-sort-numeric-down text-blue-500 mr-2"></i> Ketergantungan (DAG)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            DAG (*Directed Acyclic Graph*) adalah grafik panah searah yang tidak punya jalur kembali ke asal. Digunakan dalam sistem Penjadwalan berantai.
+                        </p>
+                        <div class="bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 text-yellow-800 dark:text-yellow-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Syarat Mata Kuliah:</b> <br>
+                            Untuk bisa masuk kelas "Fisika Lanjut", Anda diwajibkan lulus kelas "Matematika Dasar" dan "Fisika Dasar". <b>Topological Sort</b> adalah algoritma yang mengurutkan semua mata kuliah ini menjadi garis lurus, sehingga Anda tahu urutan mana yang harus diambil dari semester 1 agar lulus tanpa menabrak persyaratan.
                         </div>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             {
                 id: 'bab-15',
@@ -379,16 +548,20 @@
                 title: '15. Deteksi Siklus & Fungsi Graf',
                 tags: ['Functional graph', 'Cycle detection', 'Mapping transformation', 'Modular repetition'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-sync-alt text-blue-500 mr-2"></i> Cycle Detection</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Mengetahui apakah di dalam sebuah graf terdapat jalur yang membawa Anda berputar-putar selamanya ke titik awal.</p>
-                        <div class="bg-slate-100 border border-slate-300 text-slate-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
-                            Mencari tahu apakah jalan di sebuah perumahan membentuk komidi putar (bundaran). Algoritma populer (<i>Floyd's Tortoise and Hare</i>) menggunakan analogi balapan kura-kura dan kelinci. Jika kelinci yang lari kencang akhirnya menyalip dan menabrak punggung kura-kura dari belakang, berarti treknya melingkar!
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-sync-alt text-blue-500 mr-2"></i> Deteksi Siklus (Putaran)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Mencari tahu apakah sebuah peta/graf memiliki "Jebakan Batman" berupa jalur berputar yang bisa membuat program Anda macet selamanya.
+                        </p>
+                        <div class="bg-slate-100 dark:bg-slate-700/50 border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-slate-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Balapan Kelinci & Kura-kura (Floyd's Algorithm):</b> <br>
+                            Anda curiga jalan setapak di hutan ini aslinya membentuk lingkaran. Cara buktinya? Lepaskan kelinci dan kura-kura secara bersamaan di jalur yang sama. Kelinci lari 2x lipat lebih cepat dari kura-kura. <br>
+                            Jika jalannya lurus, kelinci akan menghilang dan mereka tak akan pernah bertemu lagi.<br>
+                            TAPI, jika jalannya melingkar, kelinci yang lari kencang pasti suatu saat akan "meng-overlap" (menabrak kura-kura dari belakang) di lintasan yang sama! Boom! Terbukti ada siklus.
                         </div>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             // --- GRUP G ---
             {
@@ -397,18 +570,19 @@
                 title: '16. Kombinatorika, Permutasi & Himpunan',
                 tags: ['Counting', 'Combinatorics', 'Himpunan', 'Inclusion-exclusion', 'Permutation'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-calculator text-blue-500 mr-2"></i> Kombinatorika</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Seni berhitung! Kombinatorika digunakan untuk menghitung "Berapa banyak cara...", sesuatu yang sangat, sangat sering keluar di OSN (sampai ratusan ribu cara).</p>
-                        <div class="bg-purple-50 border border-purple-200 text-purple-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
-                            <b>Aturan Perkalian:</b> Punya 3 baju dan 2 celana? Banyak setelannya tinggal dikali (3 x 2 = 6 setelan).<br>
-                            <b>Permutasi (P):</b> Memilih Ketua dan Wakil Kelas. Si A jadi ketua dan B wakil, beda dengan B ketua dan A wakil (Urutan PENTING).<br>
-                            <b>Kombinasi (C):</b> Memilih regu piket. A dan B nyapu bareng, sama saja dengan B dan A nyapu bareng (Urutan TIDAK PENTING).
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-calculator text-blue-500 mr-2"></i> Kombinatorika Dasar OSN</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Seni menghitung kemungkinan. Soal kombinatorika bisa menghasilkan jawaban miliaran, jadi pahami beda Permutasi dan Kombinasi.
+                        </p>
+                        <div class="bg-purple-50 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-800 text-purple-800 dark:text-purple-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Aturan Emas P vs C:</b> <br>
+                            <b>Permutasi (P): Urutan itu PENTING.</b> Memilih Budi sebagai Presiden dan Andi sebagai Wakil, SANGAT BERBEDA dengan Andi Presiden dan Budi Wakil. (Rumusnya lebih banyak kemungkinan).<br><br>
+                            <b>Kombinasi (C): Urutan TIDAK PENTING.</b> Memilih Budi dan Andi untuk dihukum bersihkan toilet bersama. Ditukar urutannya pun, nasib mereka tetap sama (menyapu bersama). (Rumusnya membuang duplikat).
                         </div>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             {
                 id: 'bab-17',
@@ -416,16 +590,20 @@
                 title: '17. Peluang & Pigeonhole Principle',
                 tags: ['Probabilitas', 'Expected Value', 'Pigeonhole Principle', 'Sarang Burung'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-dice text-blue-500 mr-2"></i> Peluang & Prinsip Sarang Burung</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Prinsip Sarang Merpati (Pigeonhole) adalah logika absolut matematika untuk membuktikan keberadaan kondisi ganda. Peluang adalah kesempatan terjadinya sebuah kejadian (Target dibagi Total Kejadian).</p>
-                        <div class="bg-red-50 border border-red-200 text-red-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Pigeonhole:</b> <br>
-                            Jika Anda punya 4 ekor burung merpati, dan hanya ada 3 sarang burung. Bagaimanapun cara Anda memasukkan burung itu ke sarang, <b>PASTI ada minimal 1 sarang yang diisi oleh 2 burung atau lebih</b>. Sesederhana itu, tapi aplikasinya di soal OSN sangat menantang!
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-dove text-blue-500 mr-2"></i> Prinsip Sarang Burung (Pigeonhole)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Teori ini terdengar sangat remeh layaknya anak SD, namun menjadi pondasi pembuktian soal tersulit di tingkat Nasional (OSN).
+                        </p>
+                        <div class="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Logika Absolut Pigeonhole:</b> <br>
+                            Bayangkan Anda memiliki <b>4 Ekor Burung</b>, namun kandang burungnya hanya ada <b>3 Kotak</b>. <br>
+                            Bagaimanapun cara Anda memasukkan burung-burung itu... Pasti, mutlak, dan tidak bisa dihindari: <b>Ada minimal 1 kotak yang berisi 2 burung atau lebih.</b><br><br>
+                            Contoh di OSN: "Dari 367 orang dalam satu ruangan, buktikan ada minimal 2 orang yang berulang tahun di hari yang sama!" (Sarang = 366 hari, Burung = 367 orang).
                         </div>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             {
                 id: 'bab-18',
@@ -433,17 +611,23 @@
                 title: '18. Teori Bilangan (GCD, Modulo)',
                 tags: ['Number theory', 'GCD', 'Diophantine equation', 'Euclidean algorithm', 'Divisor counting'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-divide text-blue-500 mr-2"></i> Teori Bilangan (GCD & Modulo)</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">FPB (GCD) dipakai untuk menyederhanakan masalah kelipatan. Algoritma Euclid adalah cara cepat berkomputer mencari FPB dengan modulo. Modulo (sisa bagi) juga mencegah tipe data integer meledak kepenuhan (Overflow).</p>
-                        <div class="bg-sky-50 border border-sky-200 text-sky-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
-                            <b>Modulo (%):</b> Mirip jam dinding (Modulo 12). Jika sekarang jam 9 pagi, dan Anda ditanya 5 jam lagi jam berapa? Bukan jam 14, tapi jam 2 (9 + 5 = 14. Modulo 12, sisa 2). <br>
-                            Sifat dewa Modulo: <code>(A + B) % M = ((A % M) + (B % M)) % M</code>
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-divide text-blue-500 mr-2"></i> Aritmetika Jam (Modulo) & FPB</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Dalam kompetisi pemrograman, jawaban matematika sering diminta "Di-modulo $10^9+7$" agar angka tidak meledak melebihi layar komputer. Modulo adalah Sisa Hasil Bagi.
+                        </p>
+                        <div class="bg-sky-50 dark:bg-sky-900/30 border border-sky-200 dark:border-sky-800 text-sky-800 dark:text-sky-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Jam Dinding (Modulo 12):</b> <br>
+                            Jika sekarang jam 10 pagi, lalu Anda ditanya: 50 jam lagi jam berapa? <br>
+                            Anda tidak mungkin menjawab "Jam 60". Putaran jam hanya sampai 12. <br>
+                            Cara komputernya: (10 + 50) Modulo 12 = 60 % 12. Sisa hasil bagi 60 dibagi 12 adalah 0. Berarti jawabannya Jam 12 pas!
                         </div>
+                        <ul class="list-disc list-inside text-slate-600 dark:text-slate-400 text-sm space-y-2">
+                            <li><b>FPB (GCD):</b> Algoritma Euclid. Untuk mencari FPB(A, B), komputasi tercepat adalah dengan <code>GCD(B, A % B)</code> sampai B menjadi 0.</li>
+                        </ul>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             {
                 id: 'bab-19',
@@ -451,16 +635,22 @@
                 title: '19. Bilangan Prima & Sieve of Eratosthenes',
                 tags: ['Prime Check', 'Sieve of Eratosthenes', 'Faktorisasi Prima'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-star-of-life text-blue-500 mr-2"></i> Bilangan Prima & Sieve</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Mengecek prima secara normal itu lambat. Algoritma Sieve of Eratosthenes mampu mencari semua bilangan prima dari 1 hingga sejuta hanya dalam hitungan milidetik.</p>
-                        <div class="bg-fuchsia-50 border border-fuchsia-200 text-fuchsia-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Sieve (Saringan):</b> <br>
-                            Buat daftar angka 2 sampai N. Mulai dari angka 2 (prima pertama). Coret/buang SEMUA kelipatan 2 (4, 6, 8, dst) dari kertas karena mereka jelas bukan prima. Lalu lanjut ke angka yang belum dicoret (3). Jadikan dia prima, lalu coret SEMUA kelipatan 3 (9, 15). Begitu terus seperti menyaring pasir!
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-star-of-life text-blue-500 mr-2"></i> Saringan Prima Kuno (Sieve)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Mencari bilangan prima dengan membagi angka satu persatu sangat memakan waktu. Ada teknik Yunani kuno yang sanggup mencari ratusan ribu prima dalam kedipan mata.
+                        </p>
+                        <div class="bg-fuchsia-50 dark:bg-fuchsia-900/30 border border-fuchsia-200 dark:border-fuchsia-800 text-fuchsia-800 dark:text-fuchsia-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Saringan Pasir:</b> <br>
+                            Tulis deretan angka 2 sampai 100 di lantai.<br>
+                            1. Datangi angka 2 (Biarkan, ia Prima). Sekarang ambil cat merah, lalu coret SEMUA kelipatan 2 (4, 6, 8, 10...) buang dari daftar.<br>
+                            2. Lanjut ke angka berikutnya yang bersih, yaitu 3. (Biarkan, ia Prima). Coret SEMUA kelipatan 3 (9, 15, 21...).<br>
+                            3. Lanjut ke 4? Oh sudah dicoret merah. Lewati.<br>
+                            Terus ulangi sampai ujung. Angka-angka putih yang tersisa, dijamin semuanya adalah Prima murni!
                         </div>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             },
             // --- GRUP H ---
             {
@@ -469,23 +659,122 @@
                 title: '20. Pemrosesan String & Array Lanjut',
                 tags: ['Prefix sum', 'Subarray sum', 'String matching', 'Substring', 'Reverse comparison'],
                 materiHTML: `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
-                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-font text-blue-500 mr-2"></i> Array Lanjut & Prefix Sum</h3>
-                        <p class="text-slate-600 mb-4 leading-relaxed">Teknik pintar untuk menghitung jumlahan banyak angka dalam sekejap mata (waktu O(1)) dari sebuah rentang dalam array.</p>
-                        <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-xl text-sm mb-4">
-                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Prefix Sum:</b> <br>
-                            Ibu Anda menabung setiap hari. Daripada mencatat harian (1rb, 2rb, 3rb), Ibu mencatat Saldo Total (1rb, 3rb, 6rb).<br>
-                            Tiba-tiba Ibu tanya: "Berapa tabungan dari hari ke-2 sampai ke-3?"<br>
-                            Daripada Anda menghitung ulang (2rb + 3rb), Anda tinggal melihat Saldo Total hari ke-3 (6rb) dikurangi Saldo Total hari ke-1 (1rb). Hasilnya 5rb. Cepat kan?
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-stream text-blue-500 mr-2"></i> Prefix Sum (Penjumlahan Akumulatif)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                            Teknik pre-komputasi untuk menghitung total angka dari kumpulan array tanpa harus menggunakan perulangan <code>for</code> berkali-kali. Memangkas waktu dari $O(N)$ menjadi $O(1)$ mutlak.
+                        </p>
+                        <div class="bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 p-5 rounded-xl text-sm mb-5">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Buku Tabungan Bank:</b> <br>
+                            Senin Anda setor 10rb, Selasa setor 5rb, Rabu setor 20rb.<br>
+                            Bank tidak mencatat lembaran harian, bank merekap "Saldo Total Sementara" (Prefix Sum): <br>
+                            Hari 1 = 10rb. Hari 2 = 15rb. Hari 3 = 35rb.<br><br>
+                            Jika tiba-tiba ditanya: "Berapa pemasukan dari Selasa sampai Rabu?" Anda tidak perlu menjumlah 5rb + 20rb. Anda cukup kurangkan Saldo Rabu (35rb) dengan Saldo sebelum Selasa (Senin, 10rb). Hasilnya 25rb. Sangat Kilat!
                         </div>
                     </div>
                 `,
-                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+                imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic">Belum ada foto soal diunggah.</p>`
             }
         ];
 
-        // MENGGAMBAR MENU SIDEBAR SECARA OTOMATIS
-        function renderSidebar() {
+        // =========================================================================
+        // LOGIKA AUTENTIKASI PASSWORD MD5
+        // =========================================================================
+        const checkAppConfig = () => {
+            if (APP_CONFIG.requirePassword) {
+                // Cek session storage (agar tidak minta password berulang kali jika cuma refresh)
+                if (sessionStorage.getItem('isAuthenticated') === 'true') {
+                    showApp();
+                } else {
+                    document.getElementById('login-screen').classList.remove('hidden');
+                }
+            } else {
+                showApp();
+            }
+        };
+
+        const checkPassword = () => {
+            const pwdInput = document.getElementById('pwd-input').value;
+            // Gunakan CryptoJS untuk enkripsi input user ke MD5
+            const hashResult = CryptoJS.MD5(pwdInput).toString();
+            
+            if (hashResult === APP_CONFIG.targetHash) {
+                // Jika password benar
+                sessionStorage.setItem('isAuthenticated', 'true');
+                document.getElementById('pwd-error').classList.add('hidden');
+                showApp();
+            } else {
+                // Jika password salah
+                document.getElementById('pwd-error').classList.remove('hidden');
+                document.getElementById('pwd-input').value = '';
+                document.getElementById('pwd-input').focus();
+            }
+        };
+
+        // Jalankan check password jika menekan tombol Enter
+        document.getElementById('pwd-input')?.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        const showApp = () => {
+            // Sembunyikan layar login dengan efek transisi memudar
+            const loginScreen = document.getElementById('login-screen');
+            loginScreen.style.opacity = '0';
+            setTimeout(() => {
+                loginScreen.classList.add('hidden');
+                
+                // Tampilkan app dengan efek transisi perlahan
+                const appWrapper = document.getElementById('app-wrapper');
+                appWrapper.classList.remove('hidden');
+                appWrapper.classList.add('flex');
+                setTimeout(() => {
+                    appWrapper.style.opacity = '1';
+                    // Inisiasi render konten pertama kali setelah app muncul
+                    renderSidebar();
+                    const firstBtn = document.querySelector('.nav-btn');
+                    showBab('bab-1', firstBtn);
+                }, 50);
+            }, 500);
+        };
+
+        // =========================================================================
+        // LOGIKA TEMA DARK MODE
+        // =========================================================================
+        const initTheme = () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                updateThemeIcon(true);
+            } else {
+                document.documentElement.classList.remove('dark');
+                updateThemeIcon(false);
+            }
+        };
+
+        const toggleDarkMode = () => {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeIcon(isDark);
+        };
+
+        const updateThemeIcon = (isDark) => {
+            const icon = document.getElementById('theme-icon');
+            if(isDark) {
+                icon.className = 'fas fa-sun text-yellow-400 text-lg transition-transform duration-300 rotate-0';
+            } else {
+                icon.className = 'fas fa-moon text-slate-300 text-lg transition-transform duration-300 -rotate-12';
+            }
+        };
+
+        // =========================================================================
+        // LOGIKA RENDER UI (MENU, TAB, KONTEN)
+        // =========================================================================
+
+        const renderSidebar = () => {
             const menuContainer = document.getElementById('nav-links');
             let currentGroup = '';
             let html = '';
@@ -494,14 +783,14 @@
                 if (bab.group !== currentGroup) {
                     html += `
                         <div class="px-5 pt-5 pb-2 shrink-0">
-                            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">${bab.group}</p>
+                            <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">${bab.group}</p>
                         </div>
                     `;
                     currentGroup = bab.group;
                 }
                 
                 html += `
-                    <button onclick="showBab('${bab.id}', this)" class="nav-btn shrink-0 w-full text-left px-5 py-2.5 text-[13px] hover:bg-slate-800 border-l-4 border-transparent text-slate-300 transition-colors truncate" title="${bab.title}">
+                    <button onclick="showBab('${bab.id}', this)" class="nav-btn shrink-0 w-full text-left px-5 py-2.5 text-[13px] hover:bg-slate-800 dark:hover:bg-slate-800 border-l-4 border-transparent text-slate-300 transition-colors truncate" title="${bab.title}">
                         ${bab.title}
                     </button>
                 `;
@@ -509,24 +798,22 @@
             
             html += `<div class="h-10 shrink-0"></div>`; // padding bawah
             menuContainer.innerHTML = html;
-        }
+        };
 
-        // MENAMPILKAN KONTEN BAB YANG DIPILIH
-        function showBab(id, btnElement) {
+        const showBab = (id, btnElement) => {
             const bab = daftarBab.find(b => b.id === id);
             if(!bab) return;
 
-            const tagsHTML = bab.tags.map(tag => `<span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold mr-2 mb-2 inline-block border border-blue-200">${tag}</span>`).join('');
+            const tagsHTML = bab.tags.map(tag => `<span class="bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full text-[11px] font-semibold mr-2 mb-2 inline-block border border-blue-200 dark:border-blue-800">${tag}</span>`).join('');
             const promptContext = bab.title + " (Fokus Materi: " + bab.tags.join(', ') + ")";
 
-            // Konten Materi
             const materiContent = bab.materiHTML;
 
             const html = `
-                <div class="max-w-5xl mx-auto animate-[fadeIn_0.3s_ease-in-out]">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="max-w-5xl mx-auto animate-fade">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 bg-white dark:bg-darkcard p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-darkborder transition-colors">
                         <div>
-                            <h2 class="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">${bab.title}</h2>
+                            <h2 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white tracking-tight">${bab.title}</h2>
                             <div class="mt-4 flex flex-wrap">
                                 ${tagsHTML}
                             </div>
@@ -537,24 +824,24 @@
                     </div>
 
                     <!-- Sistem Tab Navigasi -->
-                    <div class="flex border-b border-slate-200 mb-6 sticky top-0 bg-slate-50 z-10 pt-2">
-                        <button id="tab-materi" onclick="switchTab('materi')" class="px-6 py-3 font-semibold text-blue-600 border-b-2 border-blue-600 transition-colors flex items-center outline-none">
+                    <div class="flex border-b border-slate-200 dark:border-slate-700 mb-6 sticky top-0 bg-slate-50 dark:bg-darkbg z-10 pt-2 transition-colors">
+                        <button id="tab-materi" onclick="switchTab('materi')" class="px-6 py-3 font-semibold text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 transition-colors flex items-center outline-none">
                             <i class="fas fa-book-reader mr-2"></i> Ringkasan Materi
                         </button>
-                        <button id="tab-soal" onclick="switchTab('soal')" class="px-6 py-3 font-semibold text-slate-500 hover:text-slate-700 border-b-2 border-transparent transition-colors flex items-center outline-none">
+                        <button id="tab-soal" onclick="switchTab('soal')" class="px-6 py-3 font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 border-b-2 border-transparent transition-colors flex items-center outline-none">
                             <i class="fas fa-tasks mr-2"></i> Latihan Soal
                         </button>
                     </div>
                     
                     <!-- Konten Materi -->
-                    <div id="content-materi" class="block animate-[fadeIn_0.2s_ease-in-out]">
+                    <div id="content-materi" class="block animate-fade">
                         ${materiContent}
                     </div>
 
                     <!-- Konten Soal -->
-                    <div id="content-soal" class="hidden animate-[fadeIn_0.2s_ease-in-out]">
-                        <div class="bg-slate-100 p-6 rounded-2xl border border-slate-200 min-h-[400px]">
-                            <h3 class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4"><i class="fas fa-folder-open mr-2"></i> Arsip Gambar Soal Anda</h3>
+                    <div id="content-soal" class="hidden animate-fade">
+                        <div class="bg-slate-100 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 min-h-[400px]">
+                            <h3 class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-4"><i class="fas fa-folder-open mr-2"></i> Arsip Gambar Soal Anda</h3>
                             <div class="flex flex-col gap-4">
                                 ${bab.imagesHTML}
                             </div>
@@ -577,16 +864,15 @@
                 btnElement.classList.add('border-blue-500', 'bg-slate-800', 'text-blue-300');
             }
 
-            // Diperbarui: Pastikan menu di HP tertutup dengan benar tanpa merusak status flex/hidden
+            // Tutup sidebar di HP secara otomatis saat berpindah bab
             if(window.innerWidth < 768) {
                 const navLinks = document.getElementById('nav-links');
                 navLinks.classList.add('hidden');
                 navLinks.classList.remove('flex');
             }
             document.getElementById('main-content').scrollTop = 0;
-        }
+        };
 
-        // FUNGSI UNTUK MENGGANTI TAB MATERI & SOAL
         window.switchTab = function(tabName) {
             const tabMateriBtn = document.getElementById('tab-materi');
             const tabSoalBtn = document.getElementById('tab-soal');
@@ -594,15 +880,15 @@
             const contentSoal = document.getElementById('content-soal');
 
             if (tabName === 'materi') {
-                tabMateriBtn.className = "px-6 py-3 font-semibold text-blue-600 border-b-2 border-blue-600 transition-colors flex items-center outline-none";
-                tabSoalBtn.className = "px-6 py-3 font-semibold text-slate-500 hover:text-slate-700 border-b-2 border-transparent transition-colors flex items-center outline-none";
+                tabMateriBtn.className = "px-6 py-3 font-semibold text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 transition-colors flex items-center outline-none";
+                tabSoalBtn.className = "px-6 py-3 font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 border-b-2 border-transparent transition-colors flex items-center outline-none";
                 contentMateri.classList.remove('hidden');
                 contentMateri.classList.add('block');
                 contentSoal.classList.remove('block');
                 contentSoal.classList.add('hidden');
             } else {
-                tabSoalBtn.className = "px-6 py-3 font-semibold text-blue-600 border-b-2 border-blue-600 transition-colors flex items-center outline-none";
-                tabMateriBtn.className = "px-6 py-3 font-semibold text-slate-500 hover:text-slate-700 border-b-2 border-transparent transition-colors flex items-center outline-none";
+                tabSoalBtn.className = "px-6 py-3 font-semibold text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 transition-colors flex items-center outline-none";
+                tabMateriBtn.className = "px-6 py-3 font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 border-b-2 border-transparent transition-colors flex items-center outline-none";
                 contentSoal.classList.remove('hidden');
                 contentSoal.classList.add('block');
                 contentMateri.classList.remove('block');
@@ -610,71 +896,61 @@
             }
         };
 
-        // Inisialisasi awal
-        window.onload = () => {
-            renderSidebar();
-            const firstBtn = document.querySelector('.nav-btn');
-            showBab('bab-1', firstBtn);
-        };
-
-        // Diperbarui: Logic Toggling Menu HP
+        // Event listener Mobile Menu Hamburger
         document.getElementById('mobile-menu-btn').addEventListener('click', function() {
             const navLinks = document.getElementById('nav-links');
             if (navLinks.classList.contains('hidden')) {
                 navLinks.classList.remove('hidden');
-                navLinks.classList.add('flex'); // Paksa jadi flex box agar susunan rapi
+                navLinks.classList.add('flex');
             } else {
                 navLinks.classList.add('hidden');
                 navLinks.classList.remove('flex');
             }
         });
 
-        // Animasi CSS
-        document.head.insertAdjacentHTML("beforeend", `<style>@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }</style>`);
+        // Initialize (Checking Theme and Lock Screen) saat web di-load
+        window.onload = () => {
+            initTheme();
+            checkAppConfig();
+        };
 
         // =========================================================================
         // LOGIKA INTEGRASI GEMINI API (LLM FEATURES)
         // =========================================================================
 
-        function formatMarkdown(text) {
+        const formatMarkdown = (text) => {
             let formatted = text;
-            
             formatted = formatted.replace(/```[a-zA-Z]*\n([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
             formatted = formatted.replace(/`([^`\n]+)`/g, '<code>$1</code>');
             formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
             formatted = formatted.replace(/\*([^*]+)\*/g, '<i>$1</i>');
             formatted = formatted.replace(/\n/g, '<br>');
-            
             return formatted;
-        }
+        };
 
-        function openModal() {
+        const openModal = () => {
             const modal = document.getElementById('ai-modal');
             const box = document.getElementById('ai-modal-box');
-            
             modal.classList.remove('hidden');
             modal.classList.add('flex'); 
-            
             setTimeout(() => {
                 box.classList.remove('scale-95', 'opacity-0');
                 box.classList.add('scale-100', 'opacity-100');
             }, 10);
-        }
+        };
 
-        function closeModal() {
+        const closeModal = () => {
             const box = document.getElementById('ai-modal-box');
-            
             box.classList.remove('scale-100', 'opacity-100');
             box.classList.add('scale-95', 'opacity-0');
-            
             setTimeout(() => {
                 const modal = document.getElementById('ai-modal');
                 modal.classList.add('hidden');
                 modal.classList.remove('flex'); 
             }, 300);
-        }
+        };
 
-        async function fetchWithRetry(url, options, maxRetries = 5) {
+        const fetchWithRetry = async (url, options, maxRetries = 5) => {
             let delay = 1000;
             for (let i = 0; i < maxRetries; i++) {
                 try {
@@ -690,17 +966,17 @@
                     delay *= 2;
                 }
             }
-        }
+        };
 
-        async function generateSoalAI(chapterTopic) {
+        const generateSoalAI = async (chapterTopic) => {
             openModal();
             const contentBox = document.getElementById('ai-modal-content');
             
             contentBox.innerHTML = `
                 <div class="flex flex-col items-center justify-center py-16 text-center">
                     <i class="fas fa-circle-notch fa-spin text-5xl text-blue-500 mb-6"></i>
-                    <h4 class="text-xl font-bold text-slate-800">AI sedang meracik soal level OSN...</h4>
-                    <p class="text-sm text-slate-500 mt-2 max-w-md">Menyusun logika untuk materi: <br><b class="text-blue-600">${chapterTopic}</b></p>
+                    <h4 class="text-xl font-bold text-slate-800 dark:text-white">AI sedang meracik soal level OSN...</h4>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-2 max-w-md">Menyusun logika untuk materi: <br><b class="text-blue-600 dark:text-blue-400">${chapterTopic}</b></p>
                 </div>
             `;
 
@@ -733,24 +1009,24 @@
                 const jawabanText = parts[1] ? formatMarkdown(parts[1].trim()) : "<i>Jawaban/pembahasan tidak disertakan oleh AI.</i>";
 
                 contentBox.innerHTML = `
-                    <div class="mb-8 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                        <div class="flex items-center text-blue-700 font-bold mb-4 border-b border-blue-100 pb-3 text-lg">
+                    <div class="mb-8 bg-white dark:bg-slate-700 p-6 rounded-xl border border-slate-200 dark:border-slate-600 shadow-sm">
+                        <div class="flex items-center text-blue-700 dark:text-blue-300 font-bold mb-4 border-b border-blue-100 dark:border-blue-900 pb-3 text-lg">
                             <i class="fas fa-file-code mr-3"></i> Latihan Soal OSN
                         </div>
-                        <div class="text-slate-800 leading-relaxed text-[15px] lg:text-base">
+                        <div class="text-slate-800 dark:text-slate-200 leading-relaxed text-[15px] lg:text-base">
                             ${soalText}
                         </div>
                     </div>
                     
-                    <button id="toggle-answer-btn" onclick="document.getElementById('answer-section').classList.toggle('hidden'); this.innerHTML = this.innerHTML.includes('Tampilkan') ? '<i class=\\'fas fa-eye-slash mr-2\\'></i> Sembunyikan Pembahasan' : '<i class=\\'fas fa-eye mr-2\\'></i> Tampilkan Pembahasan & Jawaban';" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 px-6 rounded-xl transition-colors text-sm mb-4 w-full md:w-auto shadow-md">
+                    <button id="toggle-answer-btn" onclick="document.getElementById('answer-section').classList.toggle('hidden'); this.innerHTML = this.innerHTML.includes('Tampilkan') ? '<i class=\\'fas fa-eye-slash mr-2\\'></i> Sembunyikan Pembahasan' : '<i class=\\'fas fa-eye mr-2\\'></i> Tampilkan Pembahasan & Jawaban';" class="bg-slate-800 dark:bg-slate-600 hover:bg-slate-900 dark:hover:bg-slate-500 text-white font-semibold py-3 px-6 rounded-xl transition-colors text-sm mb-4 w-full md:w-auto shadow-md">
                         <i class="fas fa-eye mr-2"></i> Tampilkan Pembahasan & Jawaban
                     </button>
 
-                    <div id="answer-section" class="hidden mt-2 bg-emerald-50 border border-emerald-200 rounded-xl p-6 shadow-inner overflow-x-auto">
-                        <div class="flex items-center text-emerald-800 font-bold mb-4 border-b border-emerald-200 pb-3 text-lg">
+                    <div id="answer-section" class="hidden mt-2 bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 rounded-xl p-6 shadow-inner overflow-x-auto">
+                        <div class="flex items-center text-emerald-800 dark:text-emerald-400 font-bold mb-4 border-b border-emerald-200 dark:border-emerald-800 pb-3 text-lg">
                             <i class="fas fa-check-circle mr-3"></i> Kunci Jawaban & Pembahasan
                         </div>
-                        <div class="text-slate-800 leading-relaxed text-[15px] lg:text-base">
+                        <div class="text-slate-800 dark:text-slate-200 leading-relaxed text-[15px] lg:text-base">
                             ${jawabanText}
                         </div>
                     </div>
@@ -759,17 +1035,17 @@
             } catch (error) {
                 console.error("Detail Error API:", error);
                 contentBox.innerHTML = `
-                    <div class="bg-red-50 border border-red-200 text-red-600 p-6 rounded-xl text-center">
+                    <div class="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 p-6 rounded-xl text-center">
                         <i class="fas fa-exclamation-triangle text-4xl mb-4"></i>
                         <h4 class="font-bold text-lg">Gagal menghubungi Gemini AI</h4>
-                        <div class="text-sm mt-2 mb-6 bg-red-100 p-3 rounded overflow-x-auto text-left font-mono whitespace-pre-wrap">${error.message}</div>
+                        <div class="text-sm mt-2 mb-6 bg-red-100 dark:bg-red-900 p-3 rounded overflow-x-auto text-left font-mono whitespace-pre-wrap">${error.message}</div>
                         <button onclick="generateSoalAI('${chapterTopic}')" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-colors text-sm">
                             <i class="fas fa-redo mr-2"></i> Coba Lagi
                         </button>
                     </div>
                 `;
             }
-        }
+        };
     </script>
 </body>
 </html>
