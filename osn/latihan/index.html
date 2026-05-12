@@ -44,8 +44,8 @@
         .markdown-body pre { background-color: #1e293b; color: #f8fafc; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-family: monospace; font-size: 0.875rem; margin-bottom: 1rem; }
         .markdown-body pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
         
-        /* Animasi */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Animasi - Menggunakan transform: none di akhir agar posisi sticky tidak rusak */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
         .animate-fade { animation: fadeIn 0.3s ease-in-out forwards; }
     </style>
 </head>
@@ -77,8 +77,8 @@
     <div id="app-wrapper" class="hidden h-full flex-col md:flex-row w-full opacity-0 transition-opacity duration-500">
         
         <!-- SIDEBAR NAVIGASI -->
-        <nav class="w-full md:w-80 bg-slate-900 text-white flex flex-col max-h-screen md:h-full shadow-2xl z-20 shrink-0">
-            <div class="p-5 bg-slate-950 flex items-center justify-between shrink-0 z-30">
+        <nav class="w-full md:w-80 bg-slate-900 text-white flex flex-col max-h-screen md:h-full shadow-2xl z-30 shrink-0">
+            <div class="p-5 bg-slate-950 flex items-center justify-between shrink-0 z-40">
                 <div>
                     <h1 class="text-lg font-bold tracking-wider text-blue-400"><i class="fas fa-layer-group mr-2"></i>BANK SOAL OSN</h1>
                     <p class="text-xs text-slate-400 mt-1">Silabus Komprehensif</p>
@@ -95,13 +95,13 @@
             </div>
 
             <!-- Area Menu List -->
-            <div id="nav-links" class="hidden md:flex flex-col flex-grow overflow-y-auto py-2 max-h-[65vh] md:max-h-full bg-slate-900 z-20">
+            <div id="nav-links" class="hidden md:flex flex-col flex-grow overflow-y-auto py-2 max-h-[65vh] md:max-h-full bg-slate-900 z-30">
                 <!-- Menu akan di-generate oleh JavaScript di bawah -->
             </div>
         </nav>
 
-        <!-- AREA KONTEN UTAMA -->
-        <main class="flex-grow h-full overflow-y-auto bg-slate-50 dark:bg-darkbg p-4 md:p-8 relative" id="main-content">
+        <!-- AREA KONTEN UTAMA (Dihilangkan padding-nya agar sticky mulus ke ujung atas) -->
+        <main class="flex-grow h-full overflow-y-auto bg-slate-50 dark:bg-darkbg relative" id="main-content">
             <!-- Konten Bab & Foto Soal akan muncul di sini -->
         </main>
     </div>
@@ -132,10 +132,10 @@
         // PENGATURAN KEAMANAN & API
         // =========================================================================
         const APP_CONFIG = {
-            requirePassword: true, // Ubah ke false jika tidak ingin ada fitur password
-            targetHash: "223a0fa8f15933d622b3c7a13f186027" // MD5 Hash Target
+            requirePassword: true, 
+            targetHash: "223a0fa8f15933d622b3c7a13f186027" 
         };
-        const apiKey = "AIzaSyA1WqblBLGwS_GCfXG6n4wkphImWUHs7pU"; // API Key Gemini
+        const apiKey = ""; 
 
         // =========================================================================
         // DATA BAB & MATERI LENGKAP (VERSI DIPERBARUI DARI DASAR)
@@ -381,12 +381,12 @@ cin.tie(NULL);</code></pre>
                     <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
                         <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-sort-amount-up text-blue-500 mr-2"></i> Pengurutan & Sifat Median</h3>
                         <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
-                            Proses menyusun data dari terkecil ke terbesar (Ascending) atau sebaliknya (Descending). Di C++, kita diharamkan membuat program sorting manual seperti Bubble Sort karena memakan waktu $O(N^2)$. Selalu gunakan fungsi bawaan <code>std::sort()</code> yang sangat cepat $O(N \\log N)$.
+                            Proses menyusun data dari terkecil ke terbesar (Ascending) atau sebaliknya (Descending). Di C++, kita diharamkan membuat program sorting manual seperti Bubble Sort karena memakan waktu O(N^2). Selalu gunakan fungsi bawaan <code>std::sort()</code> yang sangat cepat O(N log N).
                         </p>
                         <div class="bg-violet-50 dark:bg-violet-900/30 border border-violet-200 dark:border-violet-800 text-violet-800 dark:text-violet-300 p-5 rounded-xl text-sm mb-5">
                             <b><i class="fas fa-star text-yellow-500 mr-1"></i> Trik Emas OSN: Menemukan Titik Kumpul Terbaik (Median)</b> <br>
                             Bayangkan ada 5 teman yang rumahnya berada di satu garis lurus jalan raya. Mereka ingin kumpul di 1 rumah. Rumah siapa yang harus dipilih agar "Total bensin yang mereka keluarkan digabungkan menjadi paling murah"?<br>
-                            Jawabannya BUKAN Rata-rata (Mean), melainkan <b>MEDIAN (Rumah orang yang ada di paling tengah barisan)</b>. Ini adalah prinsip mutlak jarak minimal mutlak.
+                            Jawabannya BUKAN Rata-rata (Mean), melainkan <b>MEDIAN (Rumah orang yang ada di paling tengah barisan)</b>. Ini adalah prinsip mutlak jarak minimal.
                         </div>
                     </div>
                 `,
@@ -662,7 +662,7 @@ cin.tie(NULL);</code></pre>
                     <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
                         <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-stream text-blue-500 mr-2"></i> Prefix Sum (Penjumlahan Akumulatif)</h3>
                         <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
-                            Teknik pre-komputasi untuk menghitung total angka dari kumpulan array tanpa harus menggunakan perulangan <code>for</code> berkali-kali. Memangkas waktu dari $O(N)$ menjadi $O(1)$ mutlak.
+                            Teknik pre-komputasi untuk menghitung total angka dari kumpulan array tanpa harus menggunakan perulangan <code>for</code> berkali-kali. Memangkas waktu dari O(N) menjadi O(1) mutlak.
                         </p>
                         <div class="bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 p-5 rounded-xl text-sm mb-5">
                             <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Buku Tabungan Bank:</b> <br>
@@ -810,7 +810,7 @@ cin.tie(NULL);</code></pre>
             const materiContent = bab.materiHTML;
 
             const html = `
-                <div class="max-w-5xl mx-auto animate-fade">
+                <div class="max-w-5xl mx-auto px-4 py-6 md:px-8 md:py-8 animate-fade">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 bg-white dark:bg-darkcard p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-darkborder transition-colors">
                         <div>
                             <h2 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white tracking-tight">${bab.title}</h2>
@@ -824,7 +824,9 @@ cin.tie(NULL);</code></pre>
                     </div>
 
                     <!-- Sistem Tab Navigasi -->
-                    <div class="flex border-b border-slate-200 dark:border-slate-700 mb-6 sticky top-0 bg-slate-50 dark:bg-darkbg z-10 pt-2 transition-colors">
+                    <!-- Ditambahkan: -mx-4 px-4 md:-mx-8 md:px-8 agar menutupi padding dari container saat sticky -->
+                    <!-- Ditambahkan: bg-slate-50/95 untuk memberikan efek menutupi secara penuh tapi tetap estetik -->
+                    <div class="flex border-b border-slate-200 dark:border-slate-700 mb-6 sticky top-0 bg-slate-50/95 dark:bg-darkbg/95 backdrop-blur-md z-20 pt-4 pb-0 transition-colors -mx-4 px-4 md:-mx-8 md:px-8">
                         <button id="tab-materi" onclick="switchTab('materi')" class="px-6 py-3 font-semibold text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 transition-colors flex items-center outline-none">
                             <i class="fas fa-book-reader mr-2"></i> Ringkasan Materi
                         </button>
