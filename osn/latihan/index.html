@@ -44,7 +44,7 @@
         .markdown-body pre { background-color: #1e293b; color: #f8fafc; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-family: monospace; font-size: 0.875rem; margin-bottom: 1rem; }
         .markdown-body pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
         
-        /* Animasi - Menggunakan transform: none di akhir agar posisi sticky tidak rusak */
+        /* Animasi */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
         .animate-fade { animation: fadeIn 0.3s ease-in-out forwards; }
     </style>
@@ -100,7 +100,7 @@
             </div>
         </nav>
 
-        <!-- AREA KONTEN UTAMA (Dihilangkan padding-nya agar sticky mulus ke ujung atas) -->
+        <!-- AREA KONTEN UTAMA -->
         <main class="flex-grow h-full overflow-y-auto bg-slate-50 dark:bg-darkbg relative" id="main-content">
             <!-- Konten Bab & Foto Soal akan muncul di sini -->
         </main>
@@ -135,10 +135,11 @@
             requirePassword: true, 
             targetHash: "223a0fa8f15933d622b3c7a13f186027" 
         };
-        const apiKey = "AIzaSyA1WqblBLGwS_GCfXG6n4wkphImWUHs7pU"; 
+        // API Key Gemini otomatis disediakan oleh environment eksekusi Canvas
+        const apiKey = ""; 
 
         // =========================================================================
-        // DATA BAB & MATERI LENGKAP (VERSI DIPERBARUI DARI DASAR)
+        // DATA BAB & MATERI LENGKAP
         // =========================================================================
         const daftarBab = [
             // --- GRUP A ---
@@ -235,10 +236,7 @@ cin.tie(NULL);</code></pre>
                 `,
                 imagesHTML: `
                     <img src="1.1.png" alt="Soal 1.1" class="w-full h-auto rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm mb-4">
-                    <img src="1.2.png" alt="Soal 1.2" class="w-full h-auto rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm mb-4">
-                    <img src="1.3.png" alt="Soal 1.3" class="w-full h-auto rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm mb-4">
                 `
-                
             },
             {
                 id: 'bab-2',
@@ -262,8 +260,8 @@ cin.tie(NULL);</code></pre>
                         </div>
                         <h4 class="font-semibold text-slate-700 dark:text-slate-200 mb-2">Trik Cepat OSN:</h4>
                         <ul class="list-disc list-inside text-slate-600 dark:text-slate-400 text-sm space-y-2">
-                            <li><b>Shift Left ( <code>a << b</code> ):</b> Menggeser bit ke kiri. Efek matematikanya sama dengan <b>a dikali 2^b</b>.</li>
-                            <li><b>Shift Right ( <code>a >> b</code> ):</b> Menggeser bit ke kanan. Efeknya sama dengan <b>a dibagi 2^b</b> dibulatkan ke bawah.</li>
+                            <li><b>Shift Left ( <code>a &lt;&lt; b</code> ):</b> Menggeser bit ke kiri. Efek matematikanya sama dengan <b>a dikali 2^b</b>.</li>
+                            <li><b>Shift Right ( <code>a &gt;&gt; b</code> ):</b> Menggeser bit ke kanan. Efeknya sama dengan <b>a dibagi 2^b</b> dibulatkan ke bawah.</li>
                             <li>Mengecek bilangan ganjil/genap secara kilat: <code>if (angka & 1)</code> berarti ganjil.</li>
                         </ul>
                     </div>
@@ -615,7 +613,7 @@ cin.tie(NULL);</code></pre>
                     <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
                         <h3 class="font-bold text-xl mb-4 text-slate-800 dark:text-white"><i class="fas fa-divide text-blue-500 mr-2"></i> Aritmetika Jam (Modulo) & FPB</h3>
                         <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
-                            Dalam kompetisi pemrograman, jawaban matematika sering diminta "Di-modulo $10^9+7$" agar angka tidak meledak melebihi layar komputer. Modulo adalah Sisa Hasil Bagi.
+                            Dalam kompetisi pemrograman, jawaban matematika sering diminta "Di-modulo 10^9+7" agar angka tidak meledak melebihi layar komputer. Modulo adalah Sisa Hasil Bagi.
                         </p>
                         <div class="bg-sky-50 dark:bg-sky-900/30 border border-sky-200 dark:border-sky-800 text-sky-800 dark:text-sky-300 p-5 rounded-xl text-sm mb-5">
                             <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Jam Dinding (Modulo 12):</b> <br>
@@ -683,7 +681,6 @@ cin.tie(NULL);</code></pre>
         // =========================================================================
         const checkAppConfig = () => {
             if (APP_CONFIG.requirePassword) {
-                // Cek session storage (agar tidak minta password berulang kali jika cuma refresh)
                 if (sessionStorage.getItem('isAuthenticated') === 'true') {
                     showApp();
                 } else {
@@ -696,23 +693,19 @@ cin.tie(NULL);</code></pre>
 
         const checkPassword = () => {
             const pwdInput = document.getElementById('pwd-input').value;
-            // Gunakan CryptoJS untuk enkripsi input user ke MD5
             const hashResult = CryptoJS.MD5(pwdInput).toString();
             
             if (hashResult === APP_CONFIG.targetHash) {
-                // Jika password benar
                 sessionStorage.setItem('isAuthenticated', 'true');
                 document.getElementById('pwd-error').classList.add('hidden');
                 showApp();
             } else {
-                // Jika password salah
                 document.getElementById('pwd-error').classList.remove('hidden');
                 document.getElementById('pwd-input').value = '';
                 document.getElementById('pwd-input').focus();
             }
         };
 
-        // Jalankan check password jika menekan tombol Enter
         document.getElementById('pwd-input')?.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 checkPassword();
@@ -720,19 +713,16 @@ cin.tie(NULL);</code></pre>
         });
 
         const showApp = () => {
-            // Sembunyikan layar login dengan efek transisi memudar
             const loginScreen = document.getElementById('login-screen');
             loginScreen.style.opacity = '0';
             setTimeout(() => {
                 loginScreen.classList.add('hidden');
                 
-                // Tampilkan app dengan efek transisi perlahan
                 const appWrapper = document.getElementById('app-wrapper');
                 appWrapper.classList.remove('hidden');
                 appWrapper.classList.add('flex');
                 setTimeout(() => {
                     appWrapper.style.opacity = '1';
-                    // Inisiasi render konten pertama kali setelah app muncul
                     renderSidebar();
                     const firstBtn = document.querySelector('.nav-btn');
                     showBab('bab-1', firstBtn);
@@ -774,7 +764,6 @@ cin.tie(NULL);</code></pre>
         // =========================================================================
         // LOGIKA RENDER UI (MENU, TAB, KONTEN)
         // =========================================================================
-
         const renderSidebar = () => {
             const menuContainer = document.getElementById('nav-links');
             let currentGroup = '';
@@ -797,7 +786,7 @@ cin.tie(NULL);</code></pre>
                 `;
             });
             
-            html += `<div class="h-10 shrink-0"></div>`; // padding bawah
+            html += `<div class="h-10 shrink-0"></div>`; 
             menuContainer.innerHTML = html;
         };
 
@@ -824,9 +813,6 @@ cin.tie(NULL);</code></pre>
                         </button>
                     </div>
 
-                    <!-- Sistem Tab Navigasi -->
-                    <!-- Ditambahkan: -mx-4 px-4 md:-mx-8 md:px-8 agar menutupi padding dari container saat sticky -->
-                    <!-- Ditambahkan: bg-slate-50/95 untuk memberikan efek menutupi secara penuh tapi tetap estetik -->
                     <div class="flex border-b border-slate-200 dark:border-slate-700 mb-6 sticky top-0 bg-slate-50/95 dark:bg-darkbg/95 backdrop-blur-md z-20 pt-4 pb-0 transition-colors -mx-4 px-4 md:-mx-8 md:px-8">
                         <button id="tab-materi" onclick="switchTab('materi')" class="px-6 py-3 font-semibold text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 transition-colors flex items-center outline-none">
                             <i class="fas fa-book-reader mr-2"></i> Ringkasan Materi
@@ -836,12 +822,10 @@ cin.tie(NULL);</code></pre>
                         </button>
                     </div>
                     
-                    <!-- Konten Materi -->
                     <div id="content-materi" class="block animate-fade">
                         ${materiContent}
                     </div>
 
-                    <!-- Konten Soal -->
                     <div id="content-soal" class="hidden animate-fade">
                         <div class="bg-slate-100 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 min-h-[400px]">
                             <h3 class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-4"><i class="fas fa-folder-open mr-2"></i> Arsip Gambar Soal Anda</h3>
@@ -855,7 +839,6 @@ cin.tie(NULL);</code></pre>
             
             document.getElementById('main-content').innerHTML = html;
 
-            // Update UI Menu Aktif
             const btns = document.querySelectorAll('.nav-btn');
             btns.forEach(btn => {
                 btn.classList.remove('border-blue-500', 'bg-slate-800', 'text-blue-300');
@@ -867,7 +850,6 @@ cin.tie(NULL);</code></pre>
                 btnElement.classList.add('border-blue-500', 'bg-slate-800', 'text-blue-300');
             }
 
-            // Tutup sidebar di HP secara otomatis saat berpindah bab
             if(window.innerWidth < 768) {
                 const navLinks = document.getElementById('nav-links');
                 navLinks.classList.add('hidden');
@@ -899,7 +881,6 @@ cin.tie(NULL);</code></pre>
             }
         };
 
-        // Event listener Mobile Menu Hamburger
         document.getElementById('mobile-menu-btn').addEventListener('click', function() {
             const navLinks = document.getElementById('nav-links');
             if (navLinks.classList.contains('hidden')) {
@@ -911,7 +892,6 @@ cin.tie(NULL);</code></pre>
             }
         });
 
-        // Initialize (Checking Theme and Lock Screen) saat web di-load
         window.onload = () => {
             initTheme();
             checkAppConfig();
@@ -920,7 +900,6 @@ cin.tie(NULL);</code></pre>
         // =========================================================================
         // LOGIKA INTEGRASI GEMINI API (LLM FEATURES)
         // =========================================================================
-
         const formatMarkdown = (text) => {
             let formatted = text;
             formatted = formatted.replace(/```[a-zA-Z]*\n([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
