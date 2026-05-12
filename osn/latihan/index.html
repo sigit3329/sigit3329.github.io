@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Soal OSN Informatika</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { margin: 0; padding: 0; background-color: #f8fafc; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .markdown-body p { margin-bottom: 0.75em; }
+        .markdown-body b, .markdown-body strong { font-weight: 600; color: #1e293b; }
+        .markdown-body ul { list-style-type: disc; margin-left: 1.5em; margin-bottom: 0.75em; }
+        .markdown-body code { background: #e2e8f0; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.9em; color: #db2777; }
+        /* Style tambahan untuk blok kode C++ */
+        .markdown-body pre { background-color: #1e293b; color: #f8fafc; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-family: monospace; font-size: 0.875rem; margin-bottom: 1rem; box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05); }
+        .markdown-body pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
+    </style>
+</head>
+<body class="text-slate-800 font-sans antialiased h-screen flex flex-col md:flex-row overflow-hidden relative">
+
+    <!-- SIDEBAR NAVIGASI -->
+    <!-- Diperbaiki: max-h-screen memastikan batas tinggi pada mobile tidak melebihi layar -->
+    <nav class="w-full md:w-80 bg-slate-900 text-white flex flex-col max-h-screen md:h-full shadow-2xl z-20 shrink-0">
+        <div class="p-5 bg-slate-950 flex items-center justify-between md:block shrink-0 z-30">
+            <div>
+                <h1 class="text-lg font-bold tracking-wider text-blue-400"><i class="fas fa-layer-group mr-2"></i>BANK SOAL OSN</h1>
+                <p class="text-xs text-slate-400 mt-1">Silabus Komprehensif (20 Bab)</p>
+            </div>
+            <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Diperbaiki: Ditambahkan max-h-[60vh] untuk HP agar menu bisa discroll dan tidak hilang ke bawah layar -->
+        <div id="nav-links" class="hidden md:flex flex-col flex-grow overflow-y-auto py-2 max-h-[60vh] md:max-h-full bg-slate-900 z-20">
+            <!-- Menu akan di-generate oleh JavaScript di bawah -->
+        </div>
+    </nav>
+
+    <!-- AREA KONTEN UTAMA -->
+    <main class="flex-grow h-full overflow-y-auto bg-slate-50 p-4 md:p-8 relative" id="main-content">
+        <!-- Konten Bab & Foto Soal akan muncul di sini -->
+    </main>
+
+    <!-- AI MODAL -->
+    <div id="ai-modal" class="fixed inset-0 bg-slate-900/60 z-50 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden transform scale-95 opacity-0 transition-all duration-300" id="ai-modal-box">
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-5 flex justify-between items-center shadow-md z-10 shrink-0">
+                <h3 class="text-white font-bold text-lg flex items-center">
+                    <i class="fas fa-magic mr-3 text-blue-200"></i> Generator Soal AI Gemini
+                </h3>
+                <button onclick="closeModal()" class="text-white/70 hover:text-white focus:outline-none transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div id="ai-modal-content" class="p-6 md:p-8 overflow-y-auto flex-grow text-slate-700 bg-slate-50 markdown-body">
+                <!-- Content injected here -->
+            </div>
+            <div class="p-4 border-t border-slate-200 bg-white flex justify-end shrink-0">
+                <button onclick="closeModal()" class="px-6 py-2 text-slate-600 font-semibold hover:bg-slate-100 rounded-lg transition-colors border border-slate-200">Tutup Papan AI</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT UTAMA -->
+    <script>
+        const apiKey = ""; // API Key Gemini otomatis disediakan oleh environment eksekusi Canvas
+
+        // =========================================================================
+        // DATA BAB & MATERI LENGKAP
+        // =========================================================================
+        const daftarBab = [
+            // --- GRUP A ---
+            {
+                id: 'bab-1',
+                group: 'A. Fundamental & Sintaks Dasar',
+                title: '1. Dasar Pemrograman C++ & STL',
+                tags: ['Variabel & Tipe Data', 'If Else & Looping', 'Vector, Pair, Set, Map', 'Simulasi Dasar'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-code text-blue-500 mr-2"></i> Dasar C++ & STL (Standard Template Library)</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Pondasi utama untuk menyelesaikan soal OSN. Pemahaman tipe data (int vs long long) sangat penting agar tidak terjadi Overflow. STL membantu kita menggunakan struktur data bawaan C++ tanpa harus mengoding dari nol.</p>
+                        <div class="bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
+                            Bayangkan <code>Array</code> biasa seperti kotak pensil kaku yang ukurannya tetap. Sedangkan <code>std::vector</code> adalah laci ajaib yang ukurannya bisa ditarik memanjang secara dinamis sesuai jumlah barang yang Anda masukkan. <code>std::map</code> seperti buku alamat telepon: Anda memberi nama (Key), dan ia langsung memberikan nomor teleponnya (Value).
+                        </div>
+                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
+                            <li><b>Vector:</b> Array dinamis (bisa bertambah elemennya dengan <code>push_back</code>).</li>
+                            <li><b>Set:</b> Kumpulan elemen unik (otomatis terurut, tidak ada data ganda).</li>
+                            <li><b>Map:</b> Array asosiatif untuk menyimpan pasangan Key-Value.</li>
+                            <li><b>Pair:</b> Menggabungkan 2 tipe data menjadi satu kesatuan (misal: koordinat X dan Y).</li>
+                        </ul>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            {
+                id: 'bab-2',
+                group: 'A. Fundamental & Sintaks Dasar',
+                title: '2. Operasi Bitwise (Bit Manipulation)',
+                tags: ['AND, OR, XOR', 'Bit Shifting', 'Masking', 'Tracing Bitwise C++'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-microchip text-blue-500 mr-2"></i> Operasi Bitwise</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Komputer pada dasarnya hanya mengerti angka 0 dan 1. Operasi bitwise mengutak-atik angka langsung pada level biner-nya. Ini sangat cepat dan sering keluar pada soal *tracing* kode C++.</p>
+                        <div class="bg-indigo-50 border border-indigo-200 text-indigo-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
+                            Anggap bit adalah saklar lampu berjejer (1 = Nyala, 0 = Mati).<br>
+                            - <b>AND (&):</b> Lampu hanya nyala jika KEDUA saklar aslinya nyala.<br>
+                            - <b>OR (|):</b> Lampu nyala jika SALAH SATU atau kedua saklar aslinya nyala.<br>
+                            - <b>XOR (^):</b> (Eksklusif) Lampu nyala JIKA DAN HANYA JIKA status saklar beda (satu nyala, satu mati).
+                        </div>
+                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
+                            <li><b>Shift Left (<<):</b> Menggeser bit ke kiri. Efeknya sama dengan <b>dikali 2</b>.</li>
+                            <li><b>Shift Right (>>):</b> Menggeser bit ke kanan. Efeknya sama dengan <b>dibagi 2</b>.</li>
+                        </ul>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            // --- GRUP B ---
+            {
+                id: 'bab-3',
+                group: 'B. Analitika & Logika Komputasional',
+                title: '3. Simulasi & Penelusuran (Grid/Koordinat)',
+                tags: ['Simulasi arah', 'Grid traversal', 'Simulasi koordinat', 'Tracking arah', 'Robot movement'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-th text-blue-500 mr-2"></i> Simulasi & Grid Traversal</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Soal jenis ini meminta Anda untuk menjalankan/mensimulasikan langkah-langkah yang diminta dengan persis, seringkali terjadi pada papan catur (Grid 2D) atau sistem kordinat Kartesius.</p>
+                        <div class="bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
+                            Ini seperti bermain mobil RC atau mengatur GPS Robot Kucing pelacak. Anda harus mencatat dengan teliti: "Maju 3 langkah (Y+3), Hadap Kanan (Ubah arah vektor), Maju 2 langkah (X+2)". Anda melacak koordinatnya langkah demi langkah.
+                        </div>
+                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
+                            <li><b>Boundary Checking:</b> Jangan sampai robot keluar dari batas papan (misal grid N x M). Selalu cek <code>if (x >= 0 && x < N)</code>.</li>
+                            <li><b>Array Arah (Direction Array):</b> Gunakan array untuk gerakan, misal <code>dx = {0, 1, 0, -1}</code> dan <code>dy = {1, 0, -1, 0}</code> untuk (Kanan, Bawah, Kiri, Atas).</li>
+                        </ul>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            {
+                id: 'bab-4',
+                group: 'B. Analitika & Logika Komputasional',
+                title: '4. Logika Aritmetika & Invariant',
+                tags: ['Invariant', 'Conservation', 'Logika aritmetika', 'Nilai tetap (State)'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-balance-scale text-blue-500 mr-2"></i> Invariant & Nilai Tetap</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Invariant adalah sebuah sifat matematis atau kondisi yang <b>tidak akan pernah berubah</b> bagaimanapun Anda melakukan operasi yang diizinkan dalam soal. Ini kunci menjawab teka-teki logika yang terkesan mustahil.</p>
+                        <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
+                            Anda punya 1 liter air di teko A dan 1 liter air di teko B. Anda boleh memindah-mindahkan air dari A ke B dan sebaliknya sesuka hati. <b>Invariant-nya:</b> Total air di kedua teko akan <i>selalu</i> 2 liter. Tidak akan pernah bertambah atau berkurang.
+                        </div>
+                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
+                            <li>Sering muncul di soal: "Mungkinkah mengubah papan dari bentuk X ke bentuk Y?". Jika Paritas (ganjil/genap) awal berbeda dengan akhir, jawabannya pasti <b>Tidak Mungkin</b>.</li>
+                        </ul>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            {
+                id: 'bab-5',
+                group: 'B. Analitika & Logika Komputasional',
+                title: '5. Teori Keputusan & Permainan (Game Theory)',
+                tags: ['Information theory', 'Decision tree', 'Strategi optimal', 'Minimax'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-chess text-blue-500 mr-2"></i> Teori Permainan (Game Theory)</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Menyelesaikan masalah di mana dua pemain (biasanya bermain sempurna/optimal) saling bergantian. Anda harus mencari tahu siapa yang dijamin menang dari awal.</p>
+                        <div class="bg-rose-50 border border-rose-200 text-rose-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
+                            Seperti bermain Catur atau Tic-Tac-Toe. Anda membuat langkah terbaik dengan membayangkan bahwa lawan Anda <i>juga</i> akan mengambil langkah yang paling merepotkan Anda. Anda mencari langkah "Minimax" (Memaksimalkan keuntungan Anda, di saat lawan meminimalkannya).
+                        </div>
+                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
+                            <li><b>Winning State (W):</b> Posisi di mana pemain yang jalan sekarang PASTI menang.</li>
+                            <li><b>Losing State (L):</b> Posisi di mana pemain yang jalan sekarang PASTI kalah, asalkan lawan bermain benar.</li>
+                        </ul>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            // --- GRUP C ---
+            {
+                id: 'bab-6',
+                group: 'C. Pencarian & Pengurutan',
+                title: '6. Pencarian (Linear & Binary Search)',
+                tags: ['Binary search', 'Divide and conquer', 'Interval narrowing', 'Searching'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-search text-blue-500 mr-2"></i> Binary Search</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Teknik mencari nilai pada data yang <b>sudah terurut</b> dengan membagi rentang pencarian menjadi dua secara terus menerus. Sangat cepat (kompleksitas O(log N)).</p>
+                        <div class="bg-cyan-50 border border-cyan-200 text-cyan-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
+                            Mencari nama "Joko" di buku telepon setebal 1000 halaman. Anda tidak membacanya dari halaman 1 (Linear Search). Anda langsung buka halaman 500 (tengah). Karena awalan 500 adalah "M", dan "J" ada sebelum "M", Anda membuang halaman 500-1000 ke tempat sampah, lalu membelah sisa halamannya lagi di tengah.
+                        </div>
+                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
+                            <li><b>Divide & Conquer:</b> Pecah masalah jadi dua, buang setengahnya.</li>
+                            <li>Bisa digunakan pada fungsi yang monoton (selalu naik / selalu turun).</li>
+                        </ul>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            {
+                id: 'bab-7',
+                group: 'C. Pencarian & Pengurutan',
+                title: '7. Pengurutan (Sorting) & Median',
+                tags: ['Sorting', 'Nesting', 'Median', 'Ordering', 'Relative comparison'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-sort-amount-up text-blue-500 mr-2"></i> Pengurutan (Sorting)</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Menyusun data berdasarkan aturan tertentu (dari kecil ke besar atau sebaliknya). Menggunakan teknik bawaan <code>std::sort</code> di C++ sangat disarankan.</p>
+                        <div class="bg-violet-50 border border-violet-200 text-violet-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
+                            Guru yang membariskan siswa dari yang paling pendek di depan, sampai yang paling tinggi di belakang saat upacara bendera.
+                        </div>
+                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
+                            <li><b>Median:</b> Nilai tengah setelah data diurutkan. Sering menjadi solusi optimal untuk soal "meminimalkan jarak total".</li>
+                            <li><b>Custom Comparator:</b> Mengurutkan objek rumit (misal: urutkan nilai MTK dulu, kalau sama, baru urutkan dari absen terkecil).</li>
+                        </ul>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            // --- GRUP D ---
+            {
+                id: 'bab-8',
+                group: 'D. Strategi Pemecahan Masalah',
+                title: '8. Algoritma Greedy & Optimasi',
+                tags: ['Greedy', 'Optimasi minimum langkah', 'Covering problem', 'Greedy placement'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-hand-holding-usd text-blue-500 mr-2"></i> Algoritma Greedy</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Pendekatan "Rakus". Mengambil pilihan yang terlihat paling menguntungkan SAAT INI (Local Optimum), dengan harapan ia akan menuntun ke jawaban terbaik di akhir (Global Optimum).</p>
+                        <div class="bg-green-50 border border-green-200 text-green-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
+                            Kasir yang ingin memberi kembalian koin sesedikit mungkin sebesar Rp. 8.000. Kasir (yang greedy) akan selalu mengambil koin terbesar dulu: Koin 5.000 (1 buah), baru sisanya koin 1.000 (3 buah).
+                        </div>
+                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
+                            <li><b>Hati-hati:</b> Greedy tidak selalu berhasil. Jika koin yang tersedia 5rb, 4rb, dan 1rb. Kembalian 8rb pakai greedy jadi: 5rb, 1rb, 1rb, 1rb (4 koin). Padahal jawaban benarnya 4rb dan 4rb (2 koin).</li>
+                        </ul>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            {
+                id: 'bab-9',
+                group: 'D. Strategi Pemecahan Masalah',
+                title: '9. Rekursi (Recursion) & Brute Force',
+                tags: ['Recursion', 'Recursive relation', 'Base case', 'Backtracking'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-redo-alt text-blue-500 mr-2"></i> Rekursi & Brute Force</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Rekursi adalah teknik di mana sebuah fungsi memanggil dirinya sendiri berulang kali untuk menyelesaikan pecahan masalah yang lebih kecil.</p>
+                        <div class="bg-orange-50 border border-orange-200 text-orange-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
+                            <b>Rekursi:</b> Mirip seperti boneka Matryoshka Rusia. Saat Anda buka, ada boneka lebih kecil di dalamnya, Anda buka lagi, ada lagi, sampai menemukan boneka terkecil (Base Case) yang sudah tidak bisa dibuka.<br>
+                            <b>Brute Force:</b> Anda lupa password koper kombinasi 3 angka. Anda memutar angka dari 000, 001, 002, sampai 999. Mencoba SEMUA kemungkinan tanpa sisa.
+                        </div>
+                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
+                            <li><b>Base Case:</b> Kondisi berhenti dari sebuah rekursi. Jika tidak ada base case, program akan macet (Infinite Loop / Stack Overflow).</li>
+                        </ul>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            {
+                id: 'bab-10',
+                group: 'D. Strategi Pemecahan Masalah',
+                title: '10. Dynamic Programming Dasar',
+                tags: ['Dynamic programming dasar', 'Path counting', 'Memoization'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-brain text-blue-500 mr-2"></i> Dynamic Programming (DP)</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Dynamic Programming adalah teknik optimasi brilian yang mengingat jawaban masa lalu agar kita tidak perlu menghitung ulang perhitungan yang sama berkali-kali.</p>
+                        <div class="bg-pink-50 border border-pink-200 text-pink-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
+                            Jika saya tanya "Berapa 1+1+1+1+1?", Anda akan menghitung dan jawab "5".<br>
+                            Lalu saya tambahkan "+1" lagi di belakangnya. Anda langsung jawab "6" kan? Anda tidak menghitung dari awal lagi, karena otak Anda <b>Mengingat</b> jawaban sebelumnya adalah 5. Itulah DP!
+                        </div>
+                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
+                            <li><b>Memoization:</b> Menyimpan hasil perhitungan (misal ke dalam Array) agar tinggal "comot" saat dibutuhkan lagi.</li>
+                            <li>Sangat sering keluar untuk soal mencari Kombinasi dan "Minimum Cost".</li>
+                        </ul>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            // --- GRUP E ---
+            {
+                id: 'bab-11',
+                group: 'E. Struktur Data',
+                title: '11. Struktur Data Linear (Stack, Queue)',
+                tags: ['Stack', 'Push-pop simulation', 'Stack permutation', 'Array', 'Queue'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-layer-group text-blue-500 mr-2"></i> Stack (Tumpukan) & Queue (Antrean)</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Struktur data dasar untuk mengatur urutan elemen yang masuk dan keluar.</p>
+                        <div class="bg-teal-50 border border-teal-200 text-teal-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
+                            <b>Stack (LIFO):</b> Tumpukan piring cucian. Piring terakhir yang Anda taruh di atas adalah piring pertama yang akan Anda ambil.<br>
+                            <b>Queue (FIFO):</b> Antrean di kasir Indomaret. Orang pertama yang datang, dialah yang pertama kali dilayani dan keluar.
+                        </div>
+                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
+                            <li><b>Push/Pop:</b> Push menambah elemen, Pop membuang elemen.</li>
+                            <li>Stack sering dipakai di fungsi Rekursi, sedangkan Queue wajib dipakai untuk BFS (Breadth-First Search).</li>
+                        </ul>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            {
+                id: 'bab-12',
+                group: 'E. Struktur Data',
+                title: '12. Tree & Struktur Data Lanjut',
+                tags: ['Binary Tree', 'Disjoint Set Union (DSU)', 'Segment Tree Dasar'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-tree text-blue-500 mr-2"></i> Tree & DSU</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Tree adalah graf khusus yang tidak memiliki siklus tertutup. DSU (Disjoint Set Union) adalah struktur ajaib untuk melacak pengelompokan.</p>
+                        <div class="bg-lime-50 border border-lime-200 text-lime-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
+                            <b>Tree:</b> Silsilah keluarga. Dari kakek buyut, turun ke anak, ke cucu. Tidak ada cucu yang tiba-tiba menjadi ayah dari kakeknya.<br>
+                            <b>DSU:</b> Bayangkan geng sekolah. A berteman dengan B. B berteman dengan C. DSU membantu menjawab dengan sekejap mata: "Apakah A dan C satu geng?" (Ya!).
+                        </div>
+                        <ul class="list-disc list-inside text-slate-600 text-sm space-y-2">
+                            <li>Tree dengan N titik pasti selalu memiliki tepat N-1 Edge (garis penghubung).</li>
+                        </ul>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            // --- GRUP F ---
+            {
+                id: 'bab-13',
+                group: 'F. Teori Graf',
+                title: '13. Graf Dasar & Penelusuran (DFS/BFS)',
+                tags: ['Hamiltonian path', 'Reachability', 'DFS mindset', 'Graph traversal'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-project-diagram text-blue-500 mr-2"></i> Traversal Graf (DFS & BFS)</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Cara menelusuri jaringan titik (nodes/vertices) dan garis (edges).</p>
+                        <div class="bg-fuchsia-50 border border-fuchsia-200 text-fuchsia-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
+                            <b>DFS (Kedalaman):</b> Menelusuri Gua. Anda jalan terus menelusuri satu terowongan sampai mentok (buntu), baru putar balik (backtrack) ke persimpangan sebelumnya.<br>
+                            <b>BFS (Kelebaran):</b> Tumpahan Air. Air menyebar pelan-pelan ke semua arah yang berjarak 1 meter dulu, baru merembes ke jarak 2 meter, dst. Sangat bagus untuk mencari rute terpendek!
+                        </div>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            {
+                id: 'bab-14',
+                group: 'F. Teori Graf',
+                title: '14. DAG & Topological Sort',
+                tags: ['DAG', 'Dependency graph', 'Topological sort', 'Scheduling'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-sort-numeric-down text-blue-500 mr-2"></i> DAG & Topological Sort</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">DAG (*Directed Acyclic Graph*) adalah graf yang memiliki arah (panah) dan tidak berputar (tidak ada siklus).</p>
+                        <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
+                            Seperti mengambil Mata Kuliah di kampus. Anda harus lulus matkul "Aljabar 1" sebelum boleh mengambil "Aljabar 2". Topological Sort adalah cara menyusun jadwal semester Anda sehingga semua syarat mata kuliah terpenuhi dengan urutan yang logis.
+                        </div>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            {
+                id: 'bab-15',
+                group: 'F. Teori Graf',
+                title: '15. Deteksi Siklus & Fungsi Graf',
+                tags: ['Functional graph', 'Cycle detection', 'Mapping transformation', 'Modular repetition'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-sync-alt text-blue-500 mr-2"></i> Cycle Detection</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Mengetahui apakah di dalam sebuah graf terdapat jalur yang membawa Anda berputar-putar selamanya ke titik awal.</p>
+                        <div class="bg-slate-100 border border-slate-300 text-slate-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
+                            Mencari tahu apakah jalan di sebuah perumahan membentuk komidi putar (bundaran). Algoritma populer (<i>Floyd's Tortoise and Hare</i>) menggunakan analogi balapan kura-kura dan kelinci. Jika kelinci yang lari kencang akhirnya menyalip dan menabrak punggung kura-kura dari belakang, berarti treknya melingkar!
+                        </div>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            // --- GRUP G ---
+            {
+                id: 'bab-16',
+                group: 'G. Matematika & Kombinatorika',
+                title: '16. Kombinatorika, Permutasi & Himpunan',
+                tags: ['Counting', 'Combinatorics', 'Himpunan', 'Inclusion-exclusion', 'Permutation'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-calculator text-blue-500 mr-2"></i> Kombinatorika</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Seni berhitung! Kombinatorika digunakan untuk menghitung "Berapa banyak cara...", sesuatu yang sangat, sangat sering keluar di OSN (sampai ratusan ribu cara).</p>
+                        <div class="bg-purple-50 border border-purple-200 text-purple-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
+                            <b>Aturan Perkalian:</b> Punya 3 baju dan 2 celana? Banyak setelannya tinggal dikali (3 x 2 = 6 setelan).<br>
+                            <b>Permutasi (P):</b> Memilih Ketua dan Wakil Kelas. Si A jadi ketua dan B wakil, beda dengan B ketua dan A wakil (Urutan PENTING).<br>
+                            <b>Kombinasi (C):</b> Memilih regu piket. A dan B nyapu bareng, sama saja dengan B dan A nyapu bareng (Urutan TIDAK PENTING).
+                        </div>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            {
+                id: 'bab-17',
+                group: 'G. Matematika & Kombinatorika',
+                title: '17. Peluang & Pigeonhole Principle',
+                tags: ['Probabilitas', 'Expected Value', 'Pigeonhole Principle', 'Sarang Burung'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-dice text-blue-500 mr-2"></i> Peluang & Prinsip Sarang Burung</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Prinsip Sarang Merpati (Pigeonhole) adalah logika absolut matematika untuk membuktikan keberadaan kondisi ganda. Peluang adalah kesempatan terjadinya sebuah kejadian (Target dibagi Total Kejadian).</p>
+                        <div class="bg-red-50 border border-red-200 text-red-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Pigeonhole:</b> <br>
+                            Jika Anda punya 4 ekor burung merpati, dan hanya ada 3 sarang burung. Bagaimanapun cara Anda memasukkan burung itu ke sarang, <b>PASTI ada minimal 1 sarang yang diisi oleh 2 burung atau lebih</b>. Sesederhana itu, tapi aplikasinya di soal OSN sangat menantang!
+                        </div>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            {
+                id: 'bab-18',
+                group: 'G. Matematika & Kombinatorika',
+                title: '18. Teori Bilangan (GCD, Modulo)',
+                tags: ['Number theory', 'GCD', 'Diophantine equation', 'Euclidean algorithm', 'Divisor counting'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-divide text-blue-500 mr-2"></i> Teori Bilangan (GCD & Modulo)</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">FPB (GCD) dipakai untuk menyederhanakan masalah kelipatan. Algoritma Euclid adalah cara cepat berkomputer mencari FPB dengan modulo. Modulo (sisa bagi) juga mencegah tipe data integer meledak kepenuhan (Overflow).</p>
+                        <div class="bg-sky-50 border border-sky-200 text-sky-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi:</b> <br>
+                            <b>Modulo (%):</b> Mirip jam dinding (Modulo 12). Jika sekarang jam 9 pagi, dan Anda ditanya 5 jam lagi jam berapa? Bukan jam 14, tapi jam 2 (9 + 5 = 14. Modulo 12, sisa 2). <br>
+                            Sifat dewa Modulo: <code>(A + B) % M = ((A % M) + (B % M)) % M</code>
+                        </div>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            {
+                id: 'bab-19',
+                group: 'G. Matematika & Kombinatorika',
+                title: '19. Bilangan Prima & Sieve of Eratosthenes',
+                tags: ['Prime Check', 'Sieve of Eratosthenes', 'Faktorisasi Prima'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-star-of-life text-blue-500 mr-2"></i> Bilangan Prima & Sieve</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Mengecek prima secara normal itu lambat. Algoritma Sieve of Eratosthenes mampu mencari semua bilangan prima dari 1 hingga sejuta hanya dalam hitungan milidetik.</p>
+                        <div class="bg-fuchsia-50 border border-fuchsia-200 text-fuchsia-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Sieve (Saringan):</b> <br>
+                            Buat daftar angka 2 sampai N. Mulai dari angka 2 (prima pertama). Coret/buang SEMUA kelipatan 2 (4, 6, 8, dst) dari kertas karena mereka jelas bukan prima. Lalu lanjut ke angka yang belum dicoret (3). Jadikan dia prima, lalu coret SEMUA kelipatan 3 (9, 15). Begitu terus seperti menyaring pasir!
+                        </div>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            },
+            // --- GRUP H ---
+            {
+                id: 'bab-20',
+                group: 'H. Teknik Pemrosesan Lanjut',
+                title: '20. Pemrosesan String & Array Lanjut',
+                tags: ['Prefix sum', 'Subarray sum', 'String matching', 'Substring', 'Reverse comparison'],
+                materiHTML: `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-4">
+                        <h3 class="font-bold text-xl mb-4 text-slate-800"><i class="fas fa-font text-blue-500 mr-2"></i> Array Lanjut & Prefix Sum</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">Teknik pintar untuk menghitung jumlahan banyak angka dalam sekejap mata (waktu O(1)) dari sebuah rentang dalam array.</p>
+                        <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-xl text-sm mb-4">
+                            <b><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Analogi Prefix Sum:</b> <br>
+                            Ibu Anda menabung setiap hari. Daripada mencatat harian (1rb, 2rb, 3rb), Ibu mencatat Saldo Total (1rb, 3rb, 6rb).<br>
+                            Tiba-tiba Ibu tanya: "Berapa tabungan dari hari ke-2 sampai ke-3?"<br>
+                            Daripada Anda menghitung ulang (2rb + 3rb), Anda tinggal melihat Saldo Total hari ke-3 (6rb) dikurangi Saldo Total hari ke-1 (1rb). Hasilnya 5rb. Cepat kan?
+                        </div>
+                    </div>
+                `,
+                imagesHTML: `<p class="text-slate-400 italic">Belum ada foto soal diunggah.</p>`
+            }
+        ];
+
+        // MENGGAMBAR MENU SIDEBAR SECARA OTOMATIS
+        function renderSidebar() {
+            const menuContainer = document.getElementById('nav-links');
+            let currentGroup = '';
+            let html = '';
+
+            daftarBab.forEach(bab => {
+                if (bab.group !== currentGroup) {
+                    html += `
+                        <div class="px-5 pt-5 pb-2 shrink-0">
+                            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">${bab.group}</p>
+                        </div>
+                    `;
+                    currentGroup = bab.group;
+                }
+                
+                html += `
+                    <button onclick="showBab('${bab.id}', this)" class="nav-btn shrink-0 w-full text-left px-5 py-2.5 text-[13px] hover:bg-slate-800 border-l-4 border-transparent text-slate-300 transition-colors truncate" title="${bab.title}">
+                        ${bab.title}
+                    </button>
+                `;
+            });
+            
+            html += `<div class="h-10 shrink-0"></div>`; // padding bawah
+            menuContainer.innerHTML = html;
+        }
+
+        // MENAMPILKAN KONTEN BAB YANG DIPILIH
+        function showBab(id, btnElement) {
+            const bab = daftarBab.find(b => b.id === id);
+            if(!bab) return;
+
+            const tagsHTML = bab.tags.map(tag => `<span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold mr-2 mb-2 inline-block border border-blue-200">${tag}</span>`).join('');
+            const promptContext = bab.title + " (Fokus Materi: " + bab.tags.join(', ') + ")";
+
+            // Konten Materi
+            const materiContent = bab.materiHTML;
+
+            const html = `
+                <div class="max-w-5xl mx-auto animate-[fadeIn_0.3s_ease-in-out]">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">${bab.title}</h2>
+                            <div class="mt-4 flex flex-wrap">
+                                ${tagsHTML}
+                            </div>
+                        </div>
+                        <button onclick="generateSoalAI('${promptContext}')" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-5 rounded-xl shadow-md transition-all flex items-center shrink-0 border border-blue-700">
+                            <i class="fas fa-bolt text-yellow-300 mr-2"></i> Latihan AI
+                        </button>
+                    </div>
+
+                    <!-- Sistem Tab Navigasi -->
+                    <div class="flex border-b border-slate-200 mb-6 sticky top-0 bg-slate-50 z-10 pt-2">
+                        <button id="tab-materi" onclick="switchTab('materi')" class="px-6 py-3 font-semibold text-blue-600 border-b-2 border-blue-600 transition-colors flex items-center outline-none">
+                            <i class="fas fa-book-reader mr-2"></i> Ringkasan Materi
+                        </button>
+                        <button id="tab-soal" onclick="switchTab('soal')" class="px-6 py-3 font-semibold text-slate-500 hover:text-slate-700 border-b-2 border-transparent transition-colors flex items-center outline-none">
+                            <i class="fas fa-tasks mr-2"></i> Latihan Soal
+                        </button>
+                    </div>
+                    
+                    <!-- Konten Materi -->
+                    <div id="content-materi" class="block animate-[fadeIn_0.2s_ease-in-out]">
+                        ${materiContent}
+                    </div>
+
+                    <!-- Konten Soal -->
+                    <div id="content-soal" class="hidden animate-[fadeIn_0.2s_ease-in-out]">
+                        <div class="bg-slate-100 p-6 rounded-2xl border border-slate-200 min-h-[400px]">
+                            <h3 class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4"><i class="fas fa-folder-open mr-2"></i> Arsip Gambar Soal Anda</h3>
+                            <div class="flex flex-col gap-4">
+                                ${bab.imagesHTML}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('main-content').innerHTML = html;
+
+            // Update UI Menu Aktif
+            const btns = document.querySelectorAll('.nav-btn');
+            btns.forEach(btn => {
+                btn.classList.remove('border-blue-500', 'bg-slate-800', 'text-blue-300');
+                btn.classList.add('border-transparent', 'text-slate-300');
+            });
+
+            if (btnElement) {
+                btnElement.classList.remove('border-transparent', 'text-slate-300');
+                btnElement.classList.add('border-blue-500', 'bg-slate-800', 'text-blue-300');
+            }
+
+            // Diperbarui: Pastikan menu di HP tertutup dengan benar tanpa merusak status flex/hidden
+            if(window.innerWidth < 768) {
+                const navLinks = document.getElementById('nav-links');
+                navLinks.classList.add('hidden');
+                navLinks.classList.remove('flex');
+            }
+            document.getElementById('main-content').scrollTop = 0;
+        }
+
+        // FUNGSI UNTUK MENGGANTI TAB MATERI & SOAL
+        window.switchTab = function(tabName) {
+            const tabMateriBtn = document.getElementById('tab-materi');
+            const tabSoalBtn = document.getElementById('tab-soal');
+            const contentMateri = document.getElementById('content-materi');
+            const contentSoal = document.getElementById('content-soal');
+
+            if (tabName === 'materi') {
+                tabMateriBtn.className = "px-6 py-3 font-semibold text-blue-600 border-b-2 border-blue-600 transition-colors flex items-center outline-none";
+                tabSoalBtn.className = "px-6 py-3 font-semibold text-slate-500 hover:text-slate-700 border-b-2 border-transparent transition-colors flex items-center outline-none";
+                contentMateri.classList.remove('hidden');
+                contentMateri.classList.add('block');
+                contentSoal.classList.remove('block');
+                contentSoal.classList.add('hidden');
+            } else {
+                tabSoalBtn.className = "px-6 py-3 font-semibold text-blue-600 border-b-2 border-blue-600 transition-colors flex items-center outline-none";
+                tabMateriBtn.className = "px-6 py-3 font-semibold text-slate-500 hover:text-slate-700 border-b-2 border-transparent transition-colors flex items-center outline-none";
+                contentSoal.classList.remove('hidden');
+                contentSoal.classList.add('block');
+                contentMateri.classList.remove('block');
+                contentMateri.classList.add('hidden');
+            }
+        };
+
+        // Inisialisasi awal
+        window.onload = () => {
+            renderSidebar();
+            const firstBtn = document.querySelector('.nav-btn');
+            showBab('bab-1', firstBtn);
+        };
+
+        // Diperbarui: Logic Toggling Menu HP
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const navLinks = document.getElementById('nav-links');
+            if (navLinks.classList.contains('hidden')) {
+                navLinks.classList.remove('hidden');
+                navLinks.classList.add('flex'); // Paksa jadi flex box agar susunan rapi
+            } else {
+                navLinks.classList.add('hidden');
+                navLinks.classList.remove('flex');
+            }
+        });
+
+        // Animasi CSS
+        document.head.insertAdjacentHTML("beforeend", `<style>@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }</style>`);
+
+        // =========================================================================
+        // LOGIKA INTEGRASI GEMINI API (LLM FEATURES)
+        // =========================================================================
+
+        function formatMarkdown(text) {
+            let formatted = text;
+            
+            formatted = formatted.replace(/```[a-zA-Z]*\n([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+            formatted = formatted.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+            formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+            formatted = formatted.replace(/\*([^*]+)\*/g, '<i>$1</i>');
+            formatted = formatted.replace(/\n/g, '<br>');
+            
+            return formatted;
+        }
+
+        function openModal() {
+            const modal = document.getElementById('ai-modal');
+            const box = document.getElementById('ai-modal-box');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex'); 
+            
+            setTimeout(() => {
+                box.classList.remove('scale-95', 'opacity-0');
+                box.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const box = document.getElementById('ai-modal-box');
+            
+            box.classList.remove('scale-100', 'opacity-100');
+            box.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                const modal = document.getElementById('ai-modal');
+                modal.classList.add('hidden');
+                modal.classList.remove('flex'); 
+            }, 300);
+        }
+
+        async function fetchWithRetry(url, options, maxRetries = 5) {
+            let delay = 1000;
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) {
+                        const errText = await response.text();
+                        throw new Error(`HTTP Error ${response.status}: ${errText}`);
+                    }
+                    return await response.json();
+                } catch (e) {
+                    if (i === maxRetries - 1) throw e;
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        async function generateSoalAI(chapterTopic) {
+            openModal();
+            const contentBox = document.getElementById('ai-modal-content');
+            
+            contentBox.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-16 text-center">
+                    <i class="fas fa-circle-notch fa-spin text-5xl text-blue-500 mb-6"></i>
+                    <h4 class="text-xl font-bold text-slate-800">AI sedang meracik soal level OSN...</h4>
+                    <p class="text-sm text-slate-500 mt-2 max-w-md">Menyusun logika untuk materi: <br><b class="text-blue-600">${chapterTopic}</b></p>
+                </div>
+            `;
+
+            const prompt = `Sebagai pakar pembuat soal Olimpiade Sains Nasional (OSN) bidang Informatika/Komputer, buatkan 1 soal latihan analitik, logika, atau algoritma (dengan C++/pseudocode jika relevan) berbahasa Indonesia yang sangat menantang tentang topik persis berikut ini: "${chapterTopic}".
+            
+            Syarat penulisan:
+            1. Buat soal ceritanya dulu dengan jelas. Jangan langsung berikan jawaban.
+            2. Gunakan pemisah persis dengan teks "===JAWABAN===" (tanpa tanda kutip) setelah soal selesai.
+            3. Di bawah pemisah, berikan kunci jawaban dan pembahasan logika/matematika/kodenya langkah demi langkah.`;
+
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: "Kamu adalah asisten pintar pembuat soal olimpiade komputer. Selalu jawab dalam bahasa Indonesia." }] }
+            };
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+            try {
+                const data = await fetchWithRetry(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (!aiText) throw new Error("Format respons API tidak dikenali atau kosong.");
+
+                const parts = aiText.split("===JAWABAN===");
+                const soalText = parts[0] ? formatMarkdown(parts[0].trim()) : "Terjadi kesalahan dalam menyusun soal.";
+                const jawabanText = parts[1] ? formatMarkdown(parts[1].trim()) : "<i>Jawaban/pembahasan tidak disertakan oleh AI.</i>";
+
+                contentBox.innerHTML = `
+                    <div class="mb-8 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                        <div class="flex items-center text-blue-700 font-bold mb-4 border-b border-blue-100 pb-3 text-lg">
+                            <i class="fas fa-file-code mr-3"></i> Latihan Soal OSN
+                        </div>
+                        <div class="text-slate-800 leading-relaxed text-[15px] lg:text-base">
+                            ${soalText}
+                        </div>
+                    </div>
+                    
+                    <button id="toggle-answer-btn" onclick="document.getElementById('answer-section').classList.toggle('hidden'); this.innerHTML = this.innerHTML.includes('Tampilkan') ? '<i class=\\'fas fa-eye-slash mr-2\\'></i> Sembunyikan Pembahasan' : '<i class=\\'fas fa-eye mr-2\\'></i> Tampilkan Pembahasan & Jawaban';" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 px-6 rounded-xl transition-colors text-sm mb-4 w-full md:w-auto shadow-md">
+                        <i class="fas fa-eye mr-2"></i> Tampilkan Pembahasan & Jawaban
+                    </button>
+
+                    <div id="answer-section" class="hidden mt-2 bg-emerald-50 border border-emerald-200 rounded-xl p-6 shadow-inner overflow-x-auto">
+                        <div class="flex items-center text-emerald-800 font-bold mb-4 border-b border-emerald-200 pb-3 text-lg">
+                            <i class="fas fa-check-circle mr-3"></i> Kunci Jawaban & Pembahasan
+                        </div>
+                        <div class="text-slate-800 leading-relaxed text-[15px] lg:text-base">
+                            ${jawabanText}
+                        </div>
+                    </div>
+                `;
+
+            } catch (error) {
+                console.error("Detail Error API:", error);
+                contentBox.innerHTML = `
+                    <div class="bg-red-50 border border-red-200 text-red-600 p-6 rounded-xl text-center">
+                        <i class="fas fa-exclamation-triangle text-4xl mb-4"></i>
+                        <h4 class="font-bold text-lg">Gagal menghubungi Gemini AI</h4>
+                        <div class="text-sm mt-2 mb-6 bg-red-100 p-3 rounded overflow-x-auto text-left font-mono whitespace-pre-wrap">${error.message}</div>
+                        <button onclick="generateSoalAI('${chapterTopic}')" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-colors text-sm">
+                            <i class="fas fa-redo mr-2"></i> Coba Lagi
+                        </button>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
