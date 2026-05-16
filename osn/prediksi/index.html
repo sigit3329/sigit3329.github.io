@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediksi OSN-K Informatika 2026</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Konfigurasi Tailwind untuk Dark Mode -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#0f172a',
+                        darkcard: '#1e293b',
+                        darkborder: '#334155'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CryptoJS untuk Hashing MD5 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    
+    <style>
+        body { margin: 0; padding: 0; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .dark ::-webkit-scrollbar-thumb { background: #475569; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+        .animate-fade { animation: fadeIn 0.3s ease-in-out forwards; }
+    </style>
+</head>
+<body class="text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-darkbg font-sans antialiased h-screen overflow-hidden relative transition-colors duration-300 flex flex-col md:flex-row">
+
+    <!-- ======================================================================= -->
+    <!-- MODAL PASSWORD UNTUK KUNCI JAWABAN -->
+    <!-- ======================================================================= -->
+    <div id="password-modal" class="fixed inset-0 z-[100] bg-slate-900/80 hidden items-center justify-center p-4 backdrop-blur-sm transition-opacity">
+        <div class="max-w-sm w-full bg-white dark:bg-darkcard rounded-2xl shadow-2xl p-6 border border-slate-200 dark:border-darkborder text-center transform scale-95 opacity-0 transition-all duration-300" id="password-modal-box">
+            <div class="flex justify-end">
+                <button onclick="closePasswordModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 focus:outline-none">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-lock text-2xl text-red-500 dark:text-red-400"></i>
+            </div>
+            <h2 class="text-xl font-bold mb-2 text-slate-800 dark:text-white">Kunci Jawaban Terkunci</h2>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Silakan masukkan password untuk melihat kunci jawaban prediksi ini.</p>
+            
+            <input type="password" id="kunci-pwd-input" placeholder="Masukkan password..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500 mb-2 transition-colors">
+            <p id="kunci-pwd-error" class="text-red-500 text-xs font-semibold mb-4 text-left hidden"><i class="fas fa-exclamation-circle mr-1"></i> Password salah!</p>
+            
+            <button onclick="verifyKunciPassword()" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-xl transition-colors shadow-lg shadow-red-500/30">
+                Buka Kunci <i class="fas fa-unlock-alt ml-2"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- SIDEBAR NAVIGASI -->
+    <!-- ======================================================================= -->
+    <nav class="w-full md:w-80 bg-slate-900 text-white flex flex-col max-h-screen md:h-full shadow-2xl z-30 shrink-0">
+        <div class="p-5 bg-slate-950 flex items-center justify-between shrink-0 z-40">
+            <div>
+                <h1 class="text-base font-bold tracking-wider text-emerald-400"><i class="fas fa-rocket mr-2"></i>PREDIKSI OSN-K</h1>
+                <p class="text-xs text-slate-400 mt-1">Tahun 2026</p>
+            </div>
+            <!-- Tombol Dark Mode & Mobile Menu -->
+            <div class="flex items-center gap-4">
+                <button onclick="toggleDarkMode()" class="text-slate-300 hover:text-yellow-400 focus:outline-none transition-all active:scale-90 w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center shadow-inner">
+                    <i id="theme-icon" class="fas fa-moon text-lg"></i>
+                </button>
+                <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white focus:outline-none flex items-center justify-center p-1">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Area Menu List -->
+        <div id="nav-links" class="hidden md:flex flex-col flex-grow overflow-y-auto py-4 max-h-[65vh] md:max-h-full bg-slate-900 z-30">
+            <!-- Menu akan di-generate oleh JavaScript di bawah -->
+        </div>
+    </nav>
+
+    <!-- ======================================================================= -->
+    <!-- AREA KONTEN UTAMA -->
+    <!-- ======================================================================= -->
+    <main class="flex-grow h-full overflow-y-auto bg-slate-50 dark:bg-darkbg relative" id="main-content">
+        <!-- Konten Bab & Foto Soal akan muncul di sini -->
+    </main>
+
+    <!-- SCRIPT UTAMA -->
+    <script>
+        // =========================================================================
+        // PENGATURAN KEAMANAN (KUNCI JAWABAN)
+        // =========================================================================
+        // Target Hash MD5 (223a0fa8f15933d622b3c7a13f186027)
+        const TARGET_HASH_KUNCI = "223a0fa8f15933d622b3c7a13f186027"; 
+
+        // =========================================================================
+        // DATA BAGIAN PREDIKSI SOAL
+        // =========================================================================
+        const daftarBagian = [
+            {
+                id: 'bagian-a',
+                title: 'Bagian A. Abstraksi Berpikir Komputasional',
+                subtitle: 'Soal Nomor 1 - 10',
+                icon: 'fa-brain',
+                color: 'blue',
+                soalHTML: `
+                    <!-- TEMPAT FOTO SOAL BAGIAN A -->
+                    <div class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-8 text-center text-slate-400 dark:text-slate-500 bg-white dark:bg-darkcard mb-4">
+                        <i class="fas fa-image text-4xl mb-3"></i>
+                        <p class="text-sm">Ganti area ini dengan gambar soal Bagian A (Nomor 1-10).</p>
+                        <code class="text-xs bg-slate-100 dark:bg-slate-800 p-1 rounded mt-2 inline-block">&lt;img src="soal_A.png"&gt;</code>
+                    </div>
+                `,
+                kunciHTML: `
+                    <!-- TEMPAT FOTO KUNCI JAWABAN BAGIAN A -->
+                    <div class="border-2 border-dashed border-emerald-300 dark:border-emerald-600 rounded-xl p-8 text-center text-emerald-600 dark:text-emerald-500 bg-emerald-50 dark:bg-emerald-900/10 mb-4">
+                        <i class="fas fa-check-double text-4xl mb-3"></i>
+                        <p class="text-sm font-semibold">Area Kunci Jawaban & Pembahasan Bagian A.</p>
+                        <p class="text-xs mt-1">Masukkan foto pembahasan di sini.</p>
+                    </div>
+                `
+            },
+            {
+                id: 'bagian-b',
+                title: 'Bagian B. Pemecahan Masalah Komputasional',
+                subtitle: 'Soal Nomor 11 - 25',
+                icon: 'fa-cogs',
+                color: 'amber',
+                soalHTML: `
+                    <!-- TEMPAT FOTO SOAL BAGIAN B -->
+                    <div class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-8 text-center text-slate-400 dark:text-slate-500 bg-white dark:bg-darkcard mb-4">
+                        <i class="fas fa-image text-4xl mb-3"></i>
+                        <p class="text-sm">Ganti area ini dengan gambar soal Bagian B (Nomor 11-25).</p>
+                    </div>
+                `,
+                kunciHTML: `
+                    <!-- TEMPAT FOTO KUNCI JAWABAN BAGIAN B -->
+                    <div class="border-2 border-dashed border-emerald-300 dark:border-emerald-600 rounded-xl p-8 text-center text-emerald-600 dark:text-emerald-500 bg-emerald-50 dark:bg-emerald-900/10 mb-4">
+                        <i class="fas fa-check-double text-4xl mb-3"></i>
+                        <p class="text-sm font-semibold">Area Kunci Jawaban & Pembahasan Bagian B.</p>
+                    </div>
+                `
+            },
+            {
+                id: 'bagian-c',
+                title: 'Bagian C. Pemahaman Algoritma C++',
+                subtitle: 'Soal Nomor 26 - 40',
+                icon: 'fa-code',
+                color: 'purple',
+                soalHTML: `
+                    <!-- TEMPAT FOTO SOAL BAGIAN C -->
+                    <div class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-8 text-center text-slate-400 dark:text-slate-500 bg-white dark:bg-darkcard mb-4">
+                        <i class="fas fa-image text-4xl mb-3"></i>
+                        <p class="text-sm">Ganti area ini dengan gambar soal Bagian C (Nomor 26-40).</p>
+                    </div>
+                `,
+                kunciHTML: `
+                    <!-- TEMPAT FOTO KUNCI JAWABAN BAGIAN C -->
+                    <div class="border-2 border-dashed border-emerald-300 dark:border-emerald-600 rounded-xl p-8 text-center text-emerald-600 dark:text-emerald-500 bg-emerald-50 dark:bg-emerald-900/10 mb-4">
+                        <i class="fas fa-check-double text-4xl mb-3"></i>
+                        <p class="text-sm font-semibold">Area Kunci Jawaban & Pembahasan Bagian C.</p>
+                    </div>
+                `
+            }
+        ];
+
+        // =========================================================================
+        // LOGIKA TEMA DARK MODE
+        // =========================================================================
+        const initTheme = () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                updateThemeIcon(true);
+            } else {
+                document.documentElement.classList.remove('dark');
+                updateThemeIcon(false);
+            }
+        };
+
+        const toggleDarkMode = () => {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeIcon(isDark);
+        };
+
+        const updateThemeIcon = (isDark) => {
+            const icon = document.getElementById('theme-icon');
+            if(isDark) {
+                icon.className = 'fas fa-sun text-yellow-400 text-lg transition-transform duration-300 rotate-0';
+            } else {
+                icon.className = 'fas fa-moon text-slate-300 text-lg transition-transform duration-300 -rotate-12';
+            }
+        };
+
+        // =========================================================================
+        // LOGIKA RENDER UI SIDEBAR & KONTEN
+        // =========================================================================
+        const renderSidebar = () => {
+            const menuContainer = document.getElementById('nav-links');
+            let html = `
+                <div class="px-5 pb-3 shrink-0">
+                    <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Paket Soal Simulasi</p>
+                </div>
+            `;
+
+            daftarBagian.forEach(bagian => {
+                html += `
+                    <button onclick="showBagian('${bagian.id}', this)" class="nav-btn shrink-0 w-full text-left px-5 py-3 text-[14px] hover:bg-slate-800 dark:hover:bg-slate-800 border-l-4 border-transparent text-slate-300 transition-colors flex flex-col gap-1">
+                        <span class="font-semibold text-slate-200 truncate w-full" title="${bagian.title}">
+                            <i class="fas ${bagian.icon} w-5 text-center mr-1 text-${bagian.color}-400"></i> ${bagian.title}
+                        </span>
+                        <span class="text-xs text-slate-500 ml-7">${bagian.subtitle}</span>
+                    </button>
+                `;
+            });
+            
+            html += `<div class="h-10 shrink-0"></div>`; 
+            menuContainer.innerHTML = html;
+        };
+
+        const showBagian = (id, btnElement) => {
+            const bagian = daftarBagian.find(b => b.id === id);
+            if(!bagian) return;
+
+            const html = `
+                <div class="max-w-4xl mx-auto px-4 py-6 md:px-8 md:py-8 animate-fade">
+                    
+                    <!-- Judul Header -->
+                    <div class="flex items-center mb-6 bg-white dark:bg-darkcard p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-darkborder transition-colors">
+                        <div class="w-14 h-14 rounded-xl bg-${bagian.color}-100 dark:bg-${bagian.color}-900/30 text-${bagian.color}-600 dark:text-${bagian.color}-400 flex items-center justify-center text-2xl mr-5 shrink-0">
+                            <i class="fas ${bagian.icon}"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl md:text-2xl font-bold text-slate-800 dark:text-white tracking-tight">${bagian.title}</h2>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">${bagian.subtitle}</p>
+                        </div>
+                    </div>
+
+                    <!-- Sistem Tab Navigasi -->
+                    <div class="flex border-b border-slate-200 dark:border-slate-700 mb-6 sticky top-0 bg-slate-50/95 dark:bg-darkbg/95 backdrop-blur-md z-20 pt-4 pb-0 transition-colors -mx-4 px-4 md:-mx-8 md:px-8">
+                        <button id="tab-soal" onclick="switchTab('soal')" class="px-6 py-3 font-semibold text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 transition-colors flex items-center outline-none">
+                            <i class="fas fa-file-alt mr-2"></i> Naskah Soal
+                        </button>
+                        <button id="tab-kunci" onclick="handleKunciClick()" class="px-6 py-3 font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 border-b-2 border-transparent transition-colors flex items-center outline-none">
+                            <i class="fas fa-key mr-2"></i> Kunci Jawaban <i id="lock-icon" class="fas fa-lock ml-2 text-xs text-red-400"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Konten Soal (Public) -->
+                    <div id="content-soal" class="block animate-fade">
+                        <div class="bg-slate-100 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 min-h-[400px]">
+                            <div class="flex flex-col gap-4">
+                                ${bagian.soalHTML}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Konten Kunci Jawaban (Protected) -->
+                    <div id="content-kunci" class="hidden animate-fade">
+                        <div class="bg-emerald-50/50 dark:bg-emerald-900/10 p-6 rounded-2xl border border-emerald-200 dark:border-emerald-800/50 min-h-[400px]">
+                            <div class="flex flex-col gap-4">
+                                ${bagian.kunciHTML}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('main-content').innerHTML = html;
+
+            // Memperbarui State Gembok berdasarkan sesi
+            updateLockIcon();
+
+            // Update UI Menu Aktif
+            const btns = document.querySelectorAll('.nav-btn');
+            btns.forEach(btn => {
+                btn.classList.remove('border-emerald-500', 'bg-slate-800');
+                btn.classList.add('border-transparent');
+            });
+
+            if (btnElement) {
+                btnElement.classList.remove('border-transparent');
+                btnElement.classList.add('border-emerald-500', 'bg-slate-800');
+            }
+
+            // Tutup sidebar di HP saat menu diklik
+            if(window.innerWidth < 768) {
+                const navLinks = document.getElementById('nav-links');
+                navLinks.classList.add('hidden');
+                navLinks.classList.remove('flex');
+            }
+            document.getElementById('main-content').scrollTop = 0;
+        };
+
+        // =========================================================================
+        // LOGIKA PASSWORD & TAB KUNCI JAWABAN
+        // =========================================================================
+
+        // Fungsi saat tab Kunci Jawaban diklik
+        const handleKunciClick = () => {
+            const isAuth = sessionStorage.getItem('kunci_authenticated') === 'true';
+            if (isAuth) {
+                // Jika sudah memasukkan password di sesi ini, langsung buka
+                switchTab('kunci');
+            } else {
+                // Jika belum, tampilkan modal password
+                openPasswordModal();
+            }
+        };
+
+        // Mengubah status UI Tab
+        const switchTab = (tabName) => {
+            const tabSoalBtn = document.getElementById('tab-soal');
+            const tabKunciBtn = document.getElementById('tab-kunci');
+            const contentSoal = document.getElementById('content-soal');
+            const contentKunci = document.getElementById('content-kunci');
+
+            if (tabName === 'soal') {
+                tabSoalBtn.className = "px-6 py-3 font-semibold text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 transition-colors flex items-center outline-none";
+                tabKunciBtn.className = "px-6 py-3 font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 border-b-2 border-transparent transition-colors flex items-center outline-none";
+                
+                contentSoal.classList.remove('hidden');
+                contentSoal.classList.add('block');
+                contentKunci.classList.remove('block');
+                contentKunci.classList.add('hidden');
+            } else if (tabName === 'kunci') {
+                tabKunciBtn.className = "px-6 py-3 font-semibold text-emerald-600 dark:text-emerald-400 border-b-2 border-emerald-600 dark:border-emerald-400 transition-colors flex items-center outline-none";
+                tabSoalBtn.className = "px-6 py-3 font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 border-b-2 border-transparent transition-colors flex items-center outline-none";
+                
+                contentKunci.classList.remove('hidden');
+                contentKunci.classList.add('block');
+                contentSoal.classList.remove('block');
+                contentSoal.classList.add('hidden');
+            }
+        };
+
+        // Kontrol Modal Password
+        const openPasswordModal = () => {
+            const modal = document.getElementById('password-modal');
+            const box = document.getElementById('password-modal-box');
+            
+            document.getElementById('kunci-pwd-input').value = '';
+            document.getElementById('kunci-pwd-error').classList.add('hidden');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex'); 
+            
+            setTimeout(() => {
+                box.classList.remove('scale-95', 'opacity-0');
+                box.classList.add('scale-100', 'opacity-100');
+                document.getElementById('kunci-pwd-input').focus();
+            }, 10);
+        };
+
+        const closePasswordModal = () => {
+            const box = document.getElementById('password-modal-box');
+            box.classList.remove('scale-100', 'opacity-100');
+            box.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                const modal = document.getElementById('password-modal');
+                modal.classList.add('hidden');
+                modal.classList.remove('flex'); 
+            }, 300);
+        };
+
+        // Verifikasi input password MD5
+        const verifyKunciPassword = () => {
+            const pwdInput = document.getElementById('kunci-pwd-input').value;
+            const hashResult = CryptoJS.MD5(pwdInput).toString();
+            
+            if (hashResult === TARGET_HASH_KUNCI) {
+                // Berhasil
+                sessionStorage.setItem('kunci_authenticated', 'true');
+                closePasswordModal();
+                updateLockIcon();
+                // Langsung pindah ke tab Kunci
+                setTimeout(() => { switchTab('kunci'); }, 300); 
+            } else {
+                // Gagal
+                document.getElementById('kunci-pwd-error').classList.remove('hidden');
+                document.getElementById('kunci-pwd-input').value = '';
+                document.getElementById('kunci-pwd-input').focus();
+            }
+        };
+
+        // Update gembok (jika sudah login, gembok terbuka/hilang)
+        const updateLockIcon = () => {
+            const lockIcon = document.getElementById('lock-icon');
+            if(lockIcon) {
+                const isAuth = sessionStorage.getItem('kunci_authenticated') === 'true';
+                if(isAuth) {
+                    lockIcon.className = "fas fa-unlock ml-2 text-xs text-emerald-400";
+                } else {
+                    lockIcon.className = "fas fa-lock ml-2 text-xs text-red-400";
+                }
+            }
+        };
+
+        // Trigger verifikasi saat Enter ditekan
+        document.getElementById('kunci-pwd-input')?.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                verifyKunciPassword();
+            }
+        });
+
+        // =========================================================================
+        // MOBILE MENU & INITIALIZATION
+        // =========================================================================
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const navLinks = document.getElementById('nav-links');
+            if (navLinks.classList.contains('hidden')) {
+                navLinks.classList.remove('hidden');
+                navLinks.classList.add('flex');
+            } else {
+                navLinks.classList.add('hidden');
+                navLinks.classList.remove('flex');
+            }
+        });
+
+        window.onload = () => {
+            initTheme();
+            renderSidebar();
+            // Pilih Bagian A sebagai default yang terbuka
+            const firstBtn = document.querySelector('.nav-btn');
+            showBagian('bagian-a', firstBtn);
+        };
+
+    </script>
+</body>
+</html>
