@@ -37,9 +37,23 @@
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
         .animate-fade { animation: fadeIn 0.3s ease-in-out forwards; }
+        
+        /* Tambahan untuk gambar agar bisa di-klik dan di-zoom */
+        #main-content img { cursor: zoom-in; transition: opacity 0.2s ease, transform 0.2s ease; }
+        #main-content img:hover { opacity: 0.85; transform: scale(1.01); }
     </style>
 </head>
 <body class="text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-darkbg font-sans antialiased h-screen overflow-hidden relative transition-colors duration-300 flex flex-col md:flex-row">
+
+    <!-- ======================================================================= -->
+    <!-- MODAL IMAGE VIEWER (ZOOM GAMBAR) -->
+    <!-- ======================================================================= -->
+    <div id="image-viewer-modal" class="fixed inset-0 z-[110] bg-slate-900/95 hidden items-center justify-center p-2 md:p-4 backdrop-blur-md transition-opacity duration-300 opacity-0 cursor-zoom-out" onclick="closeImageViewer()">
+        <button onclick="closeImageViewer()" class="absolute top-4 right-4 md:top-6 md:right-6 text-white hover:text-red-400 bg-slate-800/50 hover:bg-slate-800 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center focus:outline-none transition-colors z-50">
+            <i class="fas fa-times text-xl md:text-2xl"></i>
+        </button>
+        <img id="viewer-image" src="" alt="Zoomed Image" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl transition-transform transform scale-95 duration-300" onclick="event.stopPropagation()">
+    </div>
 
     <!-- ======================================================================= -->
     <!-- MODAL PASSWORD UNTUK KUNCI JAWABAN -->
@@ -568,6 +582,48 @@
             } else {
                 navLinks.classList.add('hidden');
                 navLinks.classList.remove('flex');
+            }
+        });
+
+        // =========================================================================
+        // LOGIKA ZOOM GAMBAR (IMAGE VIEWER)
+        // =========================================================================
+        const openImageViewer = (src) => {
+            const modal = document.getElementById('image-viewer-modal');
+            const img = document.getElementById('viewer-image');
+            img.src = src;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Trigger animasi muncul
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                img.classList.remove('scale-95');
+                img.classList.add('scale-100');
+            }, 10);
+        };
+
+        const closeImageViewer = () => {
+            const modal = document.getElementById('image-viewer-modal');
+            const img = document.getElementById('viewer-image');
+            
+            // Trigger animasi hilang
+            modal.classList.add('opacity-0');
+            img.classList.remove('scale-100');
+            img.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                img.src = ""; // Bersihkan memori gambar
+            }, 300);
+        };
+
+        // Delegasi event klik untuk semua gambar di dalam main-content
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.tagName === 'IMG' && e.target.closest('#main-content')) {
+                openImageViewer(e.target.src);
             }
         });
 
