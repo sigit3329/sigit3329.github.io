@@ -135,7 +135,8 @@
             requirePassword: true, 
             targetHash: "223a0fa8f15933d622b3c7a13f186027" // MD5 Hash Password
         };
-        const apiKey = ""; 
+        // API Key dikelola di Cloudflare Workers (aman, tidak disimpan di frontend)
+        const CLOUDFLARE_WORKER_URL = "https://roadmap-osn-ai.sigitberkarya.workers.dev"; 
 
         // =========================================================================
         // DATA BAB & MATERI (DYNAMIC GENERATION - STRUKTUR 3 TINGKAT)
@@ -2739,26 +2740,40 @@ cout << pq.top(); // Pasti 50!</code></pre>
                 </div>
             `;
 
-            const prompt = `Sebagai pakar pembuat soal Olimpiade Sains Nasional (OSN) bidang Informatika/Komputer, buatkan 1 soal latihan analitik, logika, atau algoritma (dengan C++/pseudocode jika relevan) berbahasa Indonesia yang sangat menantang tentang topik persis berikut ini: "${chapterTopic}".
+            const prompt = `Sebagai pakar pembuat soal Olimpiade Sains Nasional (OSN) bidang Informatika/Komputer, kamu adalah pelatih master medali emas OSN Komputer. Buatkan 1 soal latihan analitik, logika, atau algoritma (dengan C++/pseudocode jika relevan) berbahasa Indonesia yang sangat menantang tentang topik persis berikut ini: "${chapterTopic}".
             
             Syarat penulisan:
             1. Buat soal ceritanya dulu dengan jelas. Jangan langsung berikan jawaban.
             2. Gunakan pemisah persis dengan teks "===JAWABAN===" (tanpa tanda kutip) setelah soal selesai.
-            3. Di bawah pemisah, berikan kunci jawaban dan pembahasan logika/matematika/kodenya langkah demi langkah.`;
+            3. Di bawah pemisah, berikan kunci jawaban dan pembahasan logika/matematika/kodenya langkah demi langkah.
+            4. Selalu jawab dalam bahasa Indonesia dengan penjelasan teknis yang akurat.`;
 
             const payload = {
-                contents: [{ parts: [{ text: prompt }] }],
-                systemInstruction: { parts: [{ text: "Kamu adalah pelatih master medali emas OSN Komputer. Selalu jawab dalam bahasa Indonesia dengan penjelasan teknis yang akurat." }] }
+                contents: [{ parts: [{ text: prompt }] }]
             };
 
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-
             try {
-                const data = await fetchWithRetry(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
+                // Gunakan Cloudflare Workers endpoint (API key aman di backend)
+                console.log("Menghubungi endpoint:", CLOUDFLARE_WORKER_URL);
+                
+                const response = await fetch(
+                    CLOUDFLARE_WORKER_URL,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(payload),
+                        mode: "cors"
+                    }
+                );
+
+                if (!response.ok) {
+                    const errText = await response.text();
+                    throw new Error(`HTTP Error ${response.status}: ${errText}`);
+                }
+
+                const data = await response.json();
 
                 const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text;
                 if (!aiText) throw new Error("Format respons API tidak dikenali atau kosong.");
@@ -2793,14 +2808,41 @@ cout << pq.top(); // Pasti 50!</code></pre>
 
             } catch (error) {
                 console.error("Detail Error API:", error);
+                console.error("Endpoint yang dipanggil:", CLOUDFLARE_WORKER_URL);
+                
+                let errorDetails = error.message;
+                if (error.message.includes("Failed to fetch")) {
+                    errorDetails = `
+Gagal menghubungi endpoint: ${CLOUDFLARE_WORKER_URL}
+
+Kemungkinan penyebab:
+1. Endpoint Cloudflare Workers tidak aktif/offline
+2. CORS error - endpoint tidak mengizinkan akses dari domain ini
+3. Network/Internet error
+
+Solusi:
+- Pastikan URL endpoint benar: ${CLOUDFLARE_WORKER_URL}
+- Periksa Cloudflare Workers console untuk error
+- Tambahkan CORS header di Cloudflare Workers:
+  response.headers.set("Access-Control-Allow-Origin", "*")
+                    `;
+                }
+                
                 contentBox.innerHTML = `
-                    <div class="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 p-6 rounded-xl text-center">
-                        <i class="fas fa-exclamation-triangle text-4xl mb-4"></i>
-                        <h4 class="font-bold text-lg">Gagal menghubungi Gemini AI</h4>
-                        <div class="text-sm mt-2 mb-6 bg-red-100 dark:bg-red-900 p-3 rounded overflow-x-auto text-left font-mono whitespace-pre-wrap">${error.message}</div>
-                        <button onclick="generateSoalAI('${chapterTopic}')" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-colors text-sm">
-                            <i class="fas fa-redo mr-2"></i> Coba Lagi
-                        </button>
+                    <div class="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 p-6 rounded-xl">
+                        <i class="fas fa-exclamation-triangle text-4xl mb-4 block text-center"></i>
+                        <h4 class="font-bold text-lg text-center mb-4">Gagal Menghubungi Server AI</h4>
+                        <div class="text-sm mb-6 bg-red-100 dark:bg-red-900/50 p-4 rounded overflow-x-auto text-left font-mono whitespace-pre-wrap break-words max-h-64 overflow-y-auto">
+${errorDetails}
+                        </div>
+                        <div class="flex gap-3 justify-center flex-wrap">
+                            <button onclick="generateSoalAI('${chapterTopic}')" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-colors text-sm">
+                                <i class="fas fa-redo mr-2"></i> Coba Lagi
+                            </button>
+                            <button onclick="closeModal()" class="bg-slate-400 hover:bg-slate-500 text-white font-bold py-2 px-6 rounded-lg transition-colors text-sm">
+                                <i class="fas fa-times mr-2"></i> Tutup
+                            </button>
+                        </div>
                     </div>
                 `;
             }
