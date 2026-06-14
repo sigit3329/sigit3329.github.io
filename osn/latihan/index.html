@@ -2251,6 +2251,26 @@ cout << pq.top(); // Pasti 50!</code></pre>
                 `
             },
 
+            68: {
+                tags: ['Aho-Corasick', 'String Matching', 'Trie', 'Automaton'],
+                html: `
+                    <div class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-2xl mb-4 text-slate-800 dark:text-white border-b pb-3 dark:border-slate-700"><i class="fas fa-search-plus text-blue-500 mr-2"></i> Algoritma Aho-Corasick</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed text-lg">
+                            Jika KMP digunakan untuk mencari SATU kata di dalam teks raksasa, Aho-Corasick (AC) adalah monster yang bisa mencari <b>10.000 kata sekaligus</b> di dalam teks raksasa hanya dengan sekali baca!
+                        </p>
+                        <div class="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 p-5 rounded-xl mb-8">
+                            <h4 class="font-bold text-indigo-800 dark:text-indigo-300 text-lg mb-2"><i class="fas fa-robot text-indigo-500 mr-2"></i> Analogi Trie yang Diberi Nyawa (Automaton)</h4>
+                            <p class="text-sm text-indigo-900 dark:text-indigo-200 leading-relaxed mb-4">
+                                1. Gabungkan semua 10.000 kata kamus Anda menjadi sebuah Pohon Prefix (<b>Trie</b>).<br>
+                                2. Tambahkan jaring pengaman bernama <b>Failure Links</b>. Jika Anda sedang menelusuri kata "PROGRAM", dan tiba di huruf 'R', tapi huruf di teks aslinya salah... alih-alih mereset dari awal, jaring ini akan "menangkap" Anda dan memindahkan Anda ke cabang kata lain yang punya awalan mirip secara instan.<br>
+                                Cukup satu kali usap teks (O(N)), dan semua kata yang ada di dalam kamus Anda akan terdeteksi letaknya.
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+
             // ================== GRUP E. ADVANCED NUMBER THEORY ==================
             69: {
                 tags: ['Modular Inverse', 'Fermat Little Theorem', 'Division Modulo'],
@@ -2294,6 +2314,47 @@ cout << pq.top(); // Pasti 50!</code></pre>
                                 Daripada di-loop dan dicari FPB-nya satu per satu, rumusnya adalah: <br>
                                 $\phi(12) = 12 \times (1 - \frac{1}{2}) \times (1 - \frac{1}{3}) = 4$. <br>
                                 Terbukti, angkanya hanyalah {1, 5, 7, 11}! Sangat elegan.
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+
+            71: {
+                tags: ['CRT', 'Chinese Remainder Theorem', 'Modulo', 'Congruence'],
+                html: `
+                    <div class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-2xl mb-4 text-slate-800 dark:text-white border-b pb-3 dark:border-slate-700"><i class="fas fa-yin-yang text-blue-500 mr-2"></i> Chinese Remainder Theorem (CRT)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed text-lg">
+                            Teorema Jenderal Sun Tzu dari China kuno untuk menghitung pasukannya tanpa harus menghitung satu per satu.
+                        </p>
+                        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-5 rounded-xl mb-8">
+                            <h4 class="font-bold text-red-800 dark:text-red-300 text-lg mb-2"><i class="fas fa-users text-red-500 mr-2"></i> Analogi Menghitung Pasukan</h4>
+                            <p class="text-sm text-red-900 dark:text-red-200 leading-relaxed mb-4">
+                                Jenderal tidak tahu ada berapa pasukannya. Ia menyuruh mereka berbaris 3-3, ternyata <b>sisa 2 orang</b>.<br>
+                                Ia menyuruh baris 5-5, <b>sisa 3 orang</b>.<br>
+                                Ia menyuruh baris 7-7, <b>sisa 2 orang</b>.<br><br>
+                                Menggunakan CRT, komputer bisa menyatukan ketiga persamaan Modulo di atas (<code>X % 3 = 2</code>, <code>X % 5 = 3</code>, <code>X % 7 = 2</code>) dan langsung menembak jawaban pasti bahwa pasukan tersebut berjumlah tepat <b>23 orang</b>! Sangat ajaib dan berguna jika di soal OSN pembaginya (Modulo) berbeda-beda.
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            72: {
+                tags: ['Divide and Conquer', 'Merge Sort', 'Binary Search', 'Optimasi'],
+                html: `
+                    <div class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-2xl mb-4 text-slate-800 dark:text-white border-b pb-3 dark:border-slate-700"><i class="fas fa-cut text-blue-500 mr-2"></i> Divide and Conquer (Pecah dan Taklukkan)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed text-lg">
+                            Strategi perang bangsa Romawi yang dibawa ke dunia komputer. Jika Anda tidak bisa memecahkan batu raksasa sekaligus, pecahkan batu itu menjadi kerikil, hancurkan kerikilnya, lalu gabungkan debunya kembali.
+                        </p>
+                        <div class="bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800 p-5 rounded-xl mb-8">
+                            <h4 class="font-bold text-sky-800 dark:text-sky-300 text-lg mb-2"><i class="fas fa-sort-amount-up-alt text-sky-500 mr-2"></i> Analogi Merge Sort</h4>
+                            <p class="text-sm text-sky-900 dark:text-sky-200 leading-relaxed mb-4">
+                                Menyortir 1.000.000 data acak itu sangat berat. <br>
+                                <b>Divide (Pecah):</b> Belah data jadi 2 kelompok (500rb - 500rb). Belah lagi jadi (250rb). Belah terus sampai sisa 1 angka per kelompok.<br>
+                                <b>Conquer (Taklukkan):</b> Angka 1 biji sudah pasti terurut. <br>
+                                <b>Merge (Gabung):</b> Ambil kelompok kiri dan kanan, susun ulang dengan cara membandingkan depannya saja, lalu resleting menjadi satu kesatuan panjang. Melakukan ini menurunkan kecepatan komputasi eksponensial dari bertahun-tahun menjadi hanya sepersekian detik O(N log N)!
                             </p>
                         </div>
                     </div>
@@ -2344,6 +2405,25 @@ cout << pq.top(); // Pasti 50!</code></pre>
                 `
             },
 
+            75: {
+                tags: ['Point & Line', 'Cross Product', 'Distance', 'Intersection'],
+                html: `
+                    <div class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-2xl mb-4 text-slate-800 dark:text-white border-b pb-3 dark:border-slate-700"><i class="fas fa-pencil-ruler text-blue-500 mr-2"></i> Point & Line (Titik dan Garis Geometri)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed text-lg">
+                            Titik kritis di soal geometri komputasional adalah: <b>Jangan pernah gunakan rumus Gradien Garis <code>y = mx + c</code>!</b> Variabel <code>m</code> adalah desimal (float/double), dan komputer punya keterbatasan toleransi angka di belakang koma (Precision Error).
+                        </p>
+                        <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 p-5 rounded-xl mb-8">
+                            <h4 class="font-bold text-amber-800 dark:text-amber-300 text-lg mb-2"><i class="fas fa-shield-alt text-amber-500 mr-2"></i> Analogi Benteng Integer (Ax + By + C = 0)</h4>
+                            <p class="text-sm text-amber-900 dark:text-amber-200 leading-relaxed mb-4">
+                                Untuk mengecek apakah 2 garis laser bersilangan, atau apakah sebuah titik berada di kanan/kiri garis pembatas, master OSN mengubah persamaan desimal menjadi persamaan garis lurus standar <code>Ax + By + C = 0</code>. <br>
+                                Semua nilai A, B, dan C disimpan dalam bentuk tipe data <code>long long</code> utuh (Integer). Saat mencari titik temu, cukup gunakan trik Perkalian Silang (Cross Product) dari aljabar matriks determinan. Tanpa desimal koma, hasilnya akan 100% presisi akurat tak bisa digugat juri!
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+
             // ================== GRUP G. COMPUTATIONAL GEOMETRY ==================
             76: {
                 tags: ['Cross Product', 'Orientation', 'CCW', 'Geometry'],
@@ -2384,6 +2464,103 @@ cout << pq.top(); // Pasti 50!</code></pre>
                                 3. Saat kita memasang titik baru, kita cek pakai <b>Cross Product</b>: "Apakah belokannya membentuk cekungan ke dalam?". Karet gelang tidak boleh mencekung! Kalau dia mencekung ke dalam, kita "Cabut/Pop" paku sebelumnya (menggunakan struktur <b>Stack</b>), sampai karetnya lurus dan cembung keluar wajar lagi.<br>
                                 4. Ulangi proses jalan mundur dari Kanan ke Kiri untuk membentuk cangkang atap atasnya.<br>
                                 Hasilnya: Rangkaian paku paling luar didapat dalam sekali sapuan!
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            78: {
+                tags: ['Polygon Area', 'Shoelace Formula', 'Pick Theorem', 'Geometry'],
+                html: `
+                    <div class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-2xl mb-4 text-slate-800 dark:text-white border-b pb-3 dark:border-slate-700"><i class="fas fa-draw-polygon text-blue-500 mr-2"></i> Polygon Geometry & Area</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed text-lg">
+                            Soal: Diberikan 1000 titik koordinat yang membentuk bangun datar (Polygon) super tidak beraturan. Hitung luas wilayah tanah tersebut!
+                        </p>
+                        <div class="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 p-5 rounded-xl mb-8">
+                            <h4 class="font-bold text-emerald-800 dark:text-emerald-300 text-lg mb-2"><i class="fas fa-shoe-prints text-emerald-500 mr-2"></i> Analogi Rumus Tali Sepatu (Shoelace Formula)</h4>
+                            <p class="text-sm text-emerald-900 dark:text-emerald-200 leading-relaxed mb-4">
+                                Menggunakan segitiga satu per satu akan memakan waktu mati. Coba tulis urutan koordinat (X, Y) menurun ke bawah. Letakkan koordinat pertama di ujung paling bawah lagi sebagai penutup.<br>
+                                Jika Anda menarik garis perkalian menyilang dari Kiri Atas ke Kanan Bawah, bentuknya akan seperti <b>ikatan Tali Sepatu</b>!<br>
+                                <code>Luas = 0.5 * | (X1.Y2 + X2.Y3...) - (Y1.X2 + Y2.X3...) |</code><br>
+                                Satu loop For, dan luas tanah sebesar kota pun didapat dalam O(N).
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            79: {
+                tags: ['Constructive', 'Ad Hoc', 'Pattern Finding', 'Heuristic'],
+                html: `
+                    <div class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-2xl mb-4 text-slate-800 dark:text-white border-b pb-3 dark:border-slate-700"><i class="fas fa-cubes text-blue-500 mr-2"></i> Constructive Algorithm</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed text-lg">
+                            Soal tipe ini biasanya tidak minta output angka. Soal ini menyuruh Anda: "Bentuklah (Construct) sebuah array yang memenuhi 5 syarat gila ini. Cetak array tersebut, atau cetak -1 jika mustahil".
+                        </p>
+                        <div class="bg-slate-100 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-600 p-5 rounded-xl mb-8">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 text-lg mb-2"><i class="fas fa-puzzle-piece text-blue-500 mr-2"></i> Analogi Menyusun Lego Tanpa Buku Panduan</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                                Tidak ada algoritma bernama "Constructive". Ini adalah seni mencari pola. Cara mengerjakannya:<br>
+                                1. Ambil kertas buram.<br>
+                                2. Coba buat kasus kecil, misal N = 1, N = 2, N = 3 dengan Brute Force manual.<br>
+                                3. Pandangi outputnya, cari polanya. "Lho, ternyata kalau N genap, polanya selalu 1, 3, 2, 4..."<br>
+                                4. Tulis kodenya pakai For Loop untuk mencetak pola tersebut. 90% Constructive selesai dengan observasi pintar.
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            80: {
+                tags: ['Ad Hoc', 'Logika Murni', 'Observasi', 'Brain Teaser'],
+                html: `
+                    <div class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-2xl mb-4 text-slate-800 dark:text-white border-b pb-3 dark:border-slate-700"><i class="fas fa-lightbulb text-blue-500 mr-2"></i> Ad Hoc Advanced</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed text-lg">
+                            Kategori horor di mana soal ini <b>100% tidak memakai algoritma standar apapun (Bukan DP, bukan Dijkstra, bukan Segment Tree)</b>. Soal Ad Hoc murni menguji IQ, kecerdasan jalanan (Street Smart), dan kemampuan logika observasi Anda.
+                        </p>
+                        <div class="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 p-5 rounded-xl mb-8">
+                            <h4 class="font-bold text-orange-800 dark:text-orange-300 text-lg mb-2"><i class="fas fa-surprise text-orange-500 mr-2"></i> The "Aha!" Moment</h4>
+                            <p class="text-sm text-orange-900 dark:text-orange-200 leading-relaxed mb-4">
+                                Soal Ad Hoc terlihat sangat menyeramkan dan panjang. Namun solusinya kadang hanya butuh 1 baris kode, seperti <code>if (A > B) print("Menang")</code>. <br>
+                                Kuncinya adalah mencoret-coret kertas, mensimulasikan ekstrem (apa yang terjadi kalau semua angkanya 0?), dan menemukan momen <b>"Aha! Ternyata semuanya batal dan yang sisa cuma variabel X saja!"</b>.
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            81: {
+                tags: ['Sprague-Grundy', 'Nim-Value', 'Game State', 'XOR'],
+                html: `
+                    <div class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-2xl mb-4 text-slate-800 dark:text-white border-b pb-3 dark:border-slate-700"><i class="fas fa-chess-queen text-blue-500 mr-2"></i> Advanced Game Theory (Sprague-Grundy)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed text-lg">
+                            Game Theory biasa hanya untuk 1 papan catur. Bagaimana jika Anda bermain dengan 5 papan catur berbeda secara bersamaan, dan di giliran Anda, Anda boleh memindahkan bidak di papan mana saja?
+                        </p>
+                        <div class="bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-800 p-5 rounded-xl mb-8">
+                            <h4 class="font-bold text-violet-800 dark:text-violet-300 text-lg mb-2"><i class="fas fa-ghost text-violet-500 mr-2"></i> Analogi Penyatuan Multiverse (Teorema Grundy)</h4>
+                            <p class="text-sm text-violet-900 dark:text-violet-200 leading-relaxed mb-4">
+                                Menyelesaikan 5 permainan kompleks bersamaan itu gila. Teorema Sprague-Grundy punya keajaiban:<br>
+                                Evaluasi 5 game itu secara terpisah dan mandiri. Tiap permainan akan menghasilkan skor kelangsungan hidup (Disebut <b>Grundy Number / Nim-Value</b>).<br>
+                                Setelah skornya dapat, Anda cukup menyatukan kelima permainan tersebut dengan <b>Operasi XOR (Bitwise)</b>! Jika hasil akhir <code>XOR-Sum</code> dari seluruh game itu bernilai lebih dari 0, Anda dipastikan punya strategi untuk memenangkan seluruh semesta itu!
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            82: {
+                tags: ['Induksi', 'Kontradiksi', 'Pembuktian', 'Math'],
+                html: `
+                    <div class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm mb-4">
+                        <h3 class="font-bold text-2xl mb-4 text-slate-800 dark:text-white border-b pb-3 dark:border-slate-700"><i class="fas fa-gavel text-blue-500 mr-2"></i> Proof Techniques (Teknik Pembuktian)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed text-lg">
+                            Kemampuan tertinggi seorang master OSN Nasional bukanlah ngoding paling cepat, melainkan kemampuan <b>Membuktikan Mengapa Kodenya Benar Tanpa Harus Submit (Menebak) ke Juri</b>. Terutama untuk soal Greedy.
+                        </p>
+                        <div class="bg-slate-100 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-600 p-5 rounded-xl mb-8">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 text-lg mb-2"><i class="fas fa-yin-yang text-slate-500 mr-2"></i> Analogi Membunuh Sangkalan (Kontradiksi)</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                                Anda ingin membuktikan bahwa Algoritma Rakus (Mengambil koin terbesar) Anda BENAR.<br>
+                                Daripada menjelaskan positifnya, Anda asumsikan kebalikannya: "Mari kita anggap ada algoritma lain dari orang jenius yang tidak mengambil koin terbesar, tapi hasilnya lebih baik dari kita".<br>
+                                Lalu Anda bedah logika orang jenius itu, dan Anda buktikan bahwa tidak mengambil koin terbesar pasti menyebabkan butuh tambahan koin kecil (Kontradiksi/Tidak konsisten). Boom! Terbuktilah bahwa Greedy Anda adalah mutlak tak terkalahkan.
                             </p>
                         </div>
                     </div>
