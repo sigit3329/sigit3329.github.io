@@ -186,6 +186,15 @@ body {
     color: #cbd5e1;
 }
 
+/* -------------------- Input khusus -------------------- */
+/* Field Nama Emiten selalu tampil kapital (uppercase) dengan letter-spacing
+   ringan, untuk konsistensi tampilan. Logika uppercase tetap di-handle JS. */
+#formEmiten {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
 /* -------------------- Summary Cards -------------------- */
 .summary-card {
     background: white;

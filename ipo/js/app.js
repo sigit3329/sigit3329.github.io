@@ -621,7 +621,8 @@
 
         const formData = {
             id: document.getElementById('formId').value || generateId(),
-            emiten: document.getElementById('formEmiten').value.trim(),
+            // Nama emiten otomatis uppercase + trim.
+            emiten: document.getElementById('formEmiten').value.trim().toUpperCase(),
             modalPerAkun: parseNumber(document.getElementById('formModalPerAkun').value),
             jumlahAkun: parseNumber(document.getElementById('formJumlahAkun').value),
             profitPerAkun: parseNumber(document.getElementById('formProfitPerAkun').value),
@@ -795,7 +796,8 @@
                     throw new Error('Format JSON tidak valid');
                 }
 
-                // Normalisasi: pastikan setiap item punya field yang diperlukan
+                // Normalisasi: pastikan setiap item punya field yang diperlukan.
+                // Nama emiten selalu di-uppercase agar konsisten.
                 const normalized = dataArray.map(item => ({
                     id: item.id || generateId(),
                     emiten: String(item.emiten || '').trim().toUpperCase(),
@@ -1029,6 +1031,20 @@
         document.getElementById('btnCloseModal').addEventListener('click', closeForm);
         document.getElementById('btnCancelForm').addEventListener('click', closeForm);
         document.getElementById('emitenForm').addEventListener('submit', submitForm);
+
+        // Auto-uppercase realtime pada field Nama Emiten.
+        // Mempertahankan posisi kursor agar UX tetap nyaman saat mengetik.
+        const formEmiten = document.getElementById('formEmiten');
+        formEmiten.addEventListener('input', e => {
+            const start = e.target.selectionStart;
+            const end   = e.target.selectionEnd;
+            const upper = e.target.value.toUpperCase();
+            if (e.target.value !== upper) {
+                e.target.value = upper;
+                // Kembalikan posisi kursor (workaround untuk input uppercase)
+                try { e.target.setSelectionRange(start, end); } catch (err) {}
+            }
+        });
 
         // Tutup modal saat klik backdrop
         document.getElementById('modalForm').addEventListener('click', e => {
