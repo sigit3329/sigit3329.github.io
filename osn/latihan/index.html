@@ -132,7 +132,7 @@
         // PENGATURAN KEAMANAN & API
         // =========================================================================
         const APP_CONFIG = {
-            requirePassword: true, 
+            requirePassword: false, 
             targetHash: "223a0fa8f15933d622b3c7a13f186027" // MD5 Hash Password
         };
         // API Key dikelola di Cloudflare Workers (aman, tidak disimpan di frontend)
@@ -2569,6 +2569,57 @@ cout << pq.top(); // Pasti 50!</code></pre>
         };
 
 
+        // 3. Fungsi untuk Fetch Foto dari Folder Bab (GitHub API)
+        const generateImagesHTML = async (babNumber) => {
+            try {
+                const repo = 'sigit3329/sigit3329.github.io';
+                const folderPath = `osn/latihan/${babNumber}`;
+                const apiURL = `https://api.github.com/repos/${repo}/contents/${folderPath}`;
+                
+                const response = await fetch(apiURL);
+                if (!response.ok) {
+                    return `<p class="text-slate-400 dark:text-slate-500 italic text-center py-8">Belum ada foto/aset soal untuk bab ini.</p>`;
+                }
+                
+                const files = await response.json();
+                const imageFiles = files.filter(file => 
+                    file.name.toLowerCase().endsWith('.png') || 
+                    file.name.toLowerCase().endsWith('.jpg') ||
+                    file.name.toLowerCase().endsWith('.jpeg')
+                );
+                
+                if (imageFiles.length === 0) {
+                    return `<p class="text-slate-400 dark:text-slate-500 italic text-center py-8">Belum ada foto/aset soal untuk bab ini.</p>`;
+                }
+                
+                // Sort files by name
+                imageFiles.sort((a, b) => {
+                    const aNum = parseFloat(a.name.match(/\d+(\.\d+)?/)?.[0] || 0);
+                    const bNum = parseFloat(b.name.match(/\d+(\.\d+)?/)?.[0] || 0);
+                    return aNum - bNum;
+                });
+                
+                let html = '';
+                imageFiles.forEach(file => {
+                    const rawImageURL = file.download_url;
+                    html += `
+                        <div class="bg-white dark:bg-darkcard rounded-xl overflow-hidden shadow-md border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-shadow">
+                            <img src="${rawImageURL}" alt="${file.name}" class="w-full h-auto object-contain max-h-96" loading="lazy">
+                            <div class="p-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-700">
+                                <p class="text-sm font-medium text-slate-600 dark:text-slate-300 truncate" title="${file.name}">${file.name}</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Soal ${babNumber}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                return html || `<p class="text-slate-400 dark:text-slate-500 italic text-center py-8">Belum ada foto/aset soal untuk bab ini.</p>`;
+            } catch (error) {
+                console.log('Gallery load error:', error);
+                return `<p class="text-slate-400 dark:text-slate-500 italic text-center py-8">Belum ada foto/aset soal untuk bab ini.</p>`;
+            }
+        };
+
         // 3. Generate Array `daftarBab` secara Dinamis
         const daftarBab = [];
         let globalCounter = 1;
@@ -2598,7 +2649,8 @@ cout << pq.top(); // Pasti 50!</code></pre>
                         title: globalCounter + '. ' + topicName,
                         tags: customData ? customData.tags : defaultTags,
                         materiHTML: customData ? customData.html : defaultHTML,
-                        imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic text-center py-8">Belum ada foto/aset soal diunggah untuk bab ini.</p>`
+                        imagesHTML: `<p class="text-slate-400 dark:text-slate-500 italic text-center py-8"><i class="fas fa-spinner text-blue-400 animate-spin mr-2"></i> Memuat arsip soal...</p>`,
+                        babNumber: globalCounter
                     });
 
                     globalCounter++;
@@ -2767,10 +2819,10 @@ cout << pq.top(); // Pasti 50!</code></pre>
                     </div>
 
                     <div class="flex border-b border-slate-200 dark:border-slate-700 mb-6 sticky top-0 bg-slate-50/95 dark:bg-darkbg/95 backdrop-blur-md z-20 pt-4 pb-0 transition-colors -mx-4 px-4 md:-mx-8 md:px-8">
-                        <button id="tab-materi" onclick="switchTab('materi')" class="px-6 py-3 font-semibold text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 transition-colors flex items-center outline-none">
+                        <button id="tab-materi" onclick="switchTab('materi', ${bab.babNumber})" class="px-6 py-3 font-semibold text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 transition-colors flex items-center outline-none">
                             <i class="fas fa-book-reader mr-2"></i> Ringkasan Materi
                         </button>
-                        <button id="tab-soal" onclick="switchTab('soal')" class="px-6 py-3 font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 border-b-2 border-transparent transition-colors flex items-center outline-none">
+                        <button id="tab-soal" onclick="switchTab('soal', ${bab.babNumber})" class="px-6 py-3 font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 border-b-2 border-transparent transition-colors flex items-center outline-none">
                             <i class="fas fa-tasks mr-2"></i> Arsip Latihan
                         </button>
                     </div>
@@ -2813,7 +2865,7 @@ cout << pq.top(); // Pasti 50!</code></pre>
             document.getElementById('main-content').scrollTop = 0;
         };
 
-        window.switchTab = function(tabName) {
+        window.switchTab = function(tabName, babNumber) {
             const tabMateriBtn = document.getElementById('tab-materi');
             const tabSoalBtn = document.getElementById('tab-soal');
             const contentMateri = document.getElementById('content-materi');
@@ -2833,6 +2885,19 @@ cout << pq.top(); // Pasti 50!</code></pre>
                 contentSoal.classList.add('block');
                 contentMateri.classList.remove('block');
                 contentMateri.classList.add('hidden');
+                
+                // Load foto soal jika belum di-load (cek loading spinner)
+                if (babNumber && contentSoal.innerHTML.includes('animate-spin')) {
+                    generateImagesHTML(babNumber).then(html => {
+                        // Target div container yang berisi imagesHTML
+                        const imageWrapper = contentSoal.querySelector('.flex.flex-col.gap-4');
+                        if (imageWrapper) {
+                            imageWrapper.innerHTML = html;
+                        }
+                    }).catch(err => {
+                        console.error('Error loading images:', err);
+                    });
+                }
             }
         };
 
