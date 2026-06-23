@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="IPO Tracker Dashboard - Pantau modal, akun, profit, gain, dan equity emiten IPO Anda">
+    <title>IPO Tracker Dashboard</title>
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js untuk grafik -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- jsPDF untuk export PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- jsPDF AutoTable plugin untuk tabel PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.0/jspdf.plugin.autotable.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Konfigurasi Tailwind -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 min-h-screen text-slate-800 dark:text-slate-100 transition-colors duration-200">
+
+    <!-- ==================== HEADER ==================== -->
+    <header class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-md shadow-sm sticky top-0 z-40 border-b border-slate-200 dark:border-slate-700 transition-colors duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                <!-- Judul -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">IPO Tracker Dashboard</h1>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">Pantau performa investasi IPO Anda</p>
+                    </div>
+                </div>
+
+                <!-- Tombol Aksi Header -->
+                <div class="flex flex-wrap gap-2 overflow-x-auto pb-1" style="-webkit-overflow-scrolling: touch;">
+                    <button id="btnAddEmiten" class="btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        <span>Tambah Emiten</span>
+                    </button>
+                    <button id="btnExportPDF" class="btn-danger">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <span class="hidden sm:inline">Export PDF</span>
+                    </button>
+                    <button id="btnExportJSON" class="btn-success">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                        </svg>
+                        <span class="hidden sm:inline">Export JSON</span>
+                    </button>
+                    <button id="btnImportJSON" class="btn-warning">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                        </svg>
+                        <span class="hidden sm:inline">Import JSON</span>
+                    </button>
+                    <input type="file" id="fileImportJSON" accept=".json" class="hidden">
+                    <button id="btnThemeToggle" class="btn-secondary" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+                        <svg id="iconSun" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        </svg>
+                        <svg id="iconMoon" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        </svg>
+                        <span id="themeLabel" class="hidden sm:inline">Dark</span>
+                    </button>
+                    <button id="btnResetData" class="btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                        <span class="hidden sm:inline">Reset Data</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- ==================== SUMMARY CARDS ==================== -->
+        <section>
+            <h2 class="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-3 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+                Ringkasan Statistik
+            </h2>
+            <div id="summaryCards" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+                <!-- Cards akan di-render oleh JS -->
+            </div>
+        </section>
+
+        <!-- ==================== CHARTS ==================== -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <!-- Top 10 Profit -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 sm:p-5 transition-colors duration-200">
+                <h3 class="text-sm sm:text-base font-semibold text-slate-700 dark:text-slate-200 mb-3 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    Top 10 Profit Emiten
+                </h3>
+                <div class="chart-container">
+                    <canvas id="chartTopProfit"></canvas>
+                </div>
+            </div>
+
+            <!-- Distribusi Modal -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 sm:p-5 transition-colors duration-200">
+                <h3 class="text-sm sm:text-base font-semibold text-slate-700 dark:text-slate-200 mb-3 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                    Distribusi Modal per Emiten
+                </h3>
+                <div class="chart-container">
+                    <canvas id="chartModal"></canvas>
+                </div>
+            </div>
+
+            <!-- Distribusi Equity -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 sm:p-5 transition-colors duration-200">
+                <h3 class="text-sm sm:text-base font-semibold text-slate-700 dark:text-slate-200 mb-3 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                    Distribusi Equity per Emiten
+                </h3>
+                <div class="chart-container">
+                    <canvas id="chartEquity"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TABEL EMITEN ==================== -->
+        <section class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors duration-200">
+            <!-- Toolbar Tabel: Search & Filter -->
+            <div class="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-700">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                    <h2 class="text-lg font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                        </svg>
+                        Daftar Emiten IPO
+                    </h2>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <!-- Search -->
+                        <div class="relative">
+                            <input type="text" id="searchInput" placeholder="Cari emiten..." class="input-search">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                        <!-- Filter -->
+                        <select id="filterSelect" class="select-filter">
+                            <option value="all">Semua Emiten</option>
+                            <option value="profit-positive">Profit Positif</option>
+                            <option value="profit-negative">Profit Negatif</option>
+                            <option value="gain-25">Gain &gt; 25%</option>
+                            <option value="gain-50">Gain &gt; 50%</option>
+                            <option value="gain-100">Gain &gt; 100%</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabel Responsif -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-slate-50 dark:bg-slate-900/50 text-slate-600 dark:text-slate-300 text-xs uppercase tracking-wider">
+                        <tr>
+                            <th class="th-sortable" data-sort="emiten">Emiten <span class="sort-icon"></span></th>
+                            <th class="th-sortable text-right" data-sort="modalPerAkun">Modal/Akun <span class="sort-icon"></span></th>
+                            <th class="th-sortable text-center" data-sort="jumlahAkun">Akun <span class="sort-icon"></span></th>
+                            <th class="th-sortable text-right" data-sort="modalTotal">Modal Total <span class="sort-icon"></span></th>
+                            <th class="th-sortable text-right" data-sort="profitPerAkun">Profit/Akun <span class="sort-icon"></span></th>
+                            <th class="th-sortable text-right" data-sort="totalProfit">Total Profit <span class="sort-icon"></span></th>
+                            <th class="th-sortable text-center" data-sort="gain">Gain <span class="sort-icon"></span></th>
+                            <th class="th-sortable text-center" data-sort="hari">Hari <span class="sort-icon"></span></th>
+                            <th class="th-sortable text-right" data-sort="equity">Equity <span class="sort-icon"></span></th>
+                            <th class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="emitenTableBody" class="divide-y divide-slate-100 dark:divide-slate-700">
+                        <!-- Rows di-render oleh JS -->
+                    </tbody>
+                </table>
+                <div id="emptyState" class="hidden p-10 text-center text-slate-400 dark:text-slate-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mx-auto mb-2 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+                    </svg>
+                    <p class="font-medium">Belum ada data emiten</p>
+                    <p class="text-sm">Klik tombol "Tambah Emiten" untuk memulai.</p>
+                </div>
+            </div>
+
+            <!-- Footer Tabel: Info jumlah data -->
+            <div class="p-3 border-t border-slate-200 dark:border-slate-700 text-xs text-slate-500 dark:text-slate-400 flex justify-between items-center">
+                <span id="dataCount">Menampilkan 0 emiten</span>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-xs text-slate-400 dark:text-slate-500 py-6">
+            <p>IPO Tracker Dashboard &copy; <span id="yearNow"></span> &middot; Data tersimpan di LocalStorage browser Anda</p>
+        </footer>
+    </main>
+
+    <!-- ==================== MODAL FORM ==================== -->
+    <div id="modalForm" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto transition-colors duration-200">
+            <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between sticky top-0 bg-white dark:bg-slate-800">
+                <h3 id="modalTitle" class="text-lg font-semibold text-slate-800 dark:text-white">Tambah Emiten</h3>
+                <button id="btnCloseModal" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <form id="emitenForm" class="p-5 space-y-4">
+                <input type="hidden" id="formId">
+
+                <!-- Emiten -->
+                <div>
+                    <label for="formEmiten" class="label">Nama Emiten <span class="text-red-500">*</span></label>
+                    <input type="text" id="formEmiten" class="input" placeholder="Contoh: BBCA, TLKM, GOTO" required>
+                    <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">Masukkan kode atau nama emiten</p>
+                </div>
+
+                <!-- Modal per Akun -->
+                <div>
+                    <label for="formModalPerAkun" class="label">Modal per Akun (Rp) <span class="text-red-500">*</span></label>
+                    <input type="number" id="formModalPerAkun" class="input" placeholder="100000" min="0" step="1" required>
+                    <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">Tidak boleh negatif</p>
+                </div>
+
+                <!-- Jumlah Akun -->
+                <div>
+                    <label for="formJumlahAkun" class="label">Jumlah Akun <span class="text-red-500">*</span></label>
+                    <input type="number" id="formJumlahAkun" class="input" placeholder="10" min="1" step="1" required>
+                    <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">Minimal 1 akun</p>
+                </div>
+
+                <!-- Profit per Akun -->
+                <div>
+                    <label for="formProfitPerAkun" class="label">Profit per Akun (Rp) <span class="text-red-500">*</span></label>
+                    <input type="number" id="formProfitPerAkun" class="input" placeholder="25000" step="1" required>
+                    <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">Boleh negatif (rugi)</p>
+                </div>
+
+                <!-- Hari -->
+                <div>
+                    <label for="formHari" class="label">Hari <span class="text-red-500">*</span></label>
+                    <input type="number" id="formHari" class="input" placeholder="7" min="0" step="1" required>
+                    <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">Minimal 0 hari</p>
+                </div>
+
+                <!-- Pesan error -->
+                <div id="formError" class="hidden bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-300 text-sm p-3 rounded-lg border border-red-200 dark:border-red-800"></div>
+
+                <!-- Tombol Aksi -->
+                <div class="flex justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-700">
+                    <button type="button" id="btnCancelForm" class="btn-secondary">Batal</button>
+                    <button type="submit" class="btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL KONFIRMASI ==================== -->
+    <div id="modalConfirm" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md transition-colors duration-200">
+            <div class="p-5">
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/40 flex items-center justify-center flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <h3 id="confirmTitle" class="text-lg font-semibold text-slate-800 dark:text-white">Konfirmasi</h3>
+                        <p id="confirmMessage" class="text-sm text-slate-500 dark:text-slate-400 mt-1">Apakah Anda yakin?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-50 dark:bg-slate-900/40 rounded-b-2xl flex justify-end gap-2">
+                <button id="btnConfirmCancel" class="btn-secondary">Batal</button>
+                <button id="btnConfirmOk" class="btn-danger">Ya, Lanjutkan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TOAST NOTIFICATION ==================== -->
+    <div id="toast" class="fixed top-4 right-4 z-50 hidden transform transition-all duration-300 translate-x-full">
+        <div id="toastContent" class="px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 max-w-sm">
+            <span id="toastIcon"></span>
+            <span id="toastMessage" class="text-sm font-medium"></span>
+        </div>
+    </div>
+
+    <!-- ==================== THEME INITIALIZATION (no flash) ==================== -->
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('ipo_tracker_theme_v1');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var theme = saved || (prefersDark ? 'dark' : 'light');
+                if (theme === 'dark') document.documentElement.classList.add('dark');
+            } catch (e) { /* abaikan */ }
+        })();
+    </script>
+
+    <!-- ==================== APP SCRIPT ==================== -->
+    <script src="js/app.js"></script>
+</body>
+</html>
