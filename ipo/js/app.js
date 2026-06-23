@@ -798,7 +798,7 @@
                 // Normalisasi: pastikan setiap item punya field yang diperlukan
                 const normalized = dataArray.map(item => ({
                     id: item.id || generateId(),
-                    emiten: String(item.emiten || '').trim(),
+                    emiten: String(item.emiten || '').trim().toUpperCase(),
                     modalPerAkun: Number(item.modalPerAkun) || 0,
                     jumlahAkun: Number(item.jumlahAkun) || 1,
                     profitPerAkun: Number(item.profitPerAkun) || 0,
