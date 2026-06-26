@@ -958,7 +958,7 @@
             doc.setFontSize(8);
             doc.setTextColor(150);
             doc.text(
-                `Halaman ${i} dari ${pageCount} - IPO Tracker Dashboard`,
+                `Halaman ${i} dari ${pageCount} - IPO Tracker Dashboard By Sigit Berkarya`,
                 doc.internal.pageSize.width / 2,
                 doc.internal.pageSize.height - 20,
                 { align: 'center' }
