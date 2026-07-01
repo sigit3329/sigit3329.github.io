@@ -1016,8 +1016,11 @@
         doc.text(`Tanggal Export: ${new Date().toLocaleString('id-ID')}`, 40, 70);
 
         // ---- Ringkasan ----
+        // Konsisten dengan summary card: Total Akun = MAX, sisanya = TOTAL.
         const totalEmiten = data.length;
-        const totalAkun   = data.reduce((s, e) => s + (Number(e.jumlahAkun) || 0), 0);
+        const totalAkun   = data.length > 0
+            ? data.reduce((m, e) => Math.max(m, Number(e.jumlahAkun) || 0), 0)
+            : 0;
         const totalModal  = data.reduce((s, e) => s + e.modalTotal, 0);
         const totalProfit = data.reduce((s, e) => s + e.totalProfit, 0);
         const totalEquity = data.reduce((s, e) => s + e.equity, 0);
@@ -1031,12 +1034,13 @@
         doc.setFontSize(9);
         const summaryY = 118;
         doc.text(`Total Emiten   : ${totalEmiten}`, 40,  summaryY);
-        doc.text(`Total Akun     : ${totalAkun.toLocaleString('id-ID')}`, 200, summaryY);
+        doc.text(`Total Akun     : ${totalAkun.toLocaleString('id-ID')} (max)`, 200, summaryY);
         doc.text(`Total Modal    : ${formatRupiah(totalModal)}`, 360, summaryY);
         doc.text(`Total Profit   : ${formatRupiah(totalProfit)}`, 40,  summaryY + 15);
         doc.text(`Total Equity   : ${formatRupiah(totalEquity)}`, 200, summaryY + 15);
 
         // ---- Tabel Emiten ----
+        // Daftar kolom mengikuti struktur tabel di UI.
         const tableColumn = [
             'Emiten', 'Modal/Akun', 'Akun', 'Modal Total',
             'Profit/Akun', 'Total Profit', 'Gain (%)', 'Hari', 'Equity'
@@ -1046,19 +1050,49 @@
             formatRupiah(e.modalPerAkun),
             e.jumlahAkun.toString(),
             formatRupiah(e.modalTotal),
-            formatRupiah(e.profitPerAkun),
-            formatRupiah(e.totalProfit),
-            formatPersen(e.gain),
+            (e.profitPerAkun >= 0 ? '+' : '') + formatRupiah(e.profitPerAkun),
+            (e.totalProfit >= 0 ? '+' : '') + formatRupiah(e.totalProfit),
+            (e.gain >= 0 ? '+' : '') + formatPersen(e.gain),
             `${e.hari} hari`,
             formatRupiah(e.equity)
         ]);
 
-        // Baris total di footer
+        // ---- Baris TOTAL (footer tabel) ----
+        // Aturan diselaraskan dengan logika baris TOTAL di UI:
+        //   - Modal/Akun  -> TOTAL (akumulasi)
+        //   - Akun        -> MAX
+        //   - Modal Total -> TOTAL
+        //   - Profit/Akun -> TOTAL (akumulasi)
+        //   - Total Profit-> TOTAL
+        //   - Gain        -> agregat (total profit / total modal)
+        //   - Hari        -> MAX
+        //   - Equity      -> TOTAL
+        const pdfTotals = data.reduce((acc, e) => {
+            acc.modalPerAkun  += Number(e.modalPerAkun)  || 0;
+            acc.profitPerAkun += Number(e.profitPerAkun) || 0;
+            acc.jumlahAkun     = Math.max(acc.jumlahAkun, Number(e.jumlahAkun) || 0);
+            acc.hari           = Math.max(acc.hari,       Number(e.hari)       || 0);
+            acc.modalTotal    += e.modalTotal;
+            acc.totalProfit   += e.totalProfit;
+            acc.equity        += e.equity;
+            return acc;
+        }, { modalPerAkun: 0, profitPerAkun: 0, jumlahAkun: 0, hari: 0, modalTotal: 0, totalProfit: 0, equity: 0 });
+
+        const pdfTotalGain = pdfTotals.modalTotal > 0
+            ? (pdfTotals.totalProfit / pdfTotals.modalTotal) * 100
+            : 0;
+
+        // Tambahkan baris TOTAL dengan suffix "(max)" untuk kolom Akun & Hari
         tableRows.push([
-            'TOTAL', '', totalAkun.toString(),
-            formatRupiah(totalModal), '',
-            formatRupiah(totalProfit), '', '',
-            formatRupiah(totalEquity)
+            `TOTAL (${data.length} emiten)`,
+            formatRupiah(pdfTotals.modalPerAkun),
+            `${pdfTotals.jumlahAkun} (max)`,
+            formatRupiah(pdfTotals.modalTotal),
+            (pdfTotals.profitPerAkun >= 0 ? '+' : '') + formatRupiah(pdfTotals.profitPerAkun),
+            (pdfTotals.totalProfit >= 0 ? '+' : '') + formatRupiah(pdfTotals.totalProfit),
+            (pdfTotalGain >= 0 ? '+' : '') + formatPersen(pdfTotalGain),
+            `${pdfTotals.hari} hari (max)`,
+            formatRupiah(pdfTotals.equity)
         ]);
 
         doc.autoTable({
