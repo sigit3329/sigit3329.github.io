@@ -192,7 +192,12 @@
 
         // Kalkulasi ringkasan
         const totalEmiten   = data.length;
-        const totalAkun     = data.reduce((s, e) => s + (Number(e.jumlahAkun) || 0), 0);
+        // Total Akun: nilai tertinggi (MAX) dari jumlahAkun, bukan akumulasi.
+        // Sama seperti logika baris TOTAL di tabel: tiap emiten = 1 posisi/akun,
+        // jadi yang relevan adalah jumlah lot/slot terbesar.
+        const totalAkun     = data.length > 0
+            ? data.reduce((m, e) => Math.max(m, Number(e.jumlahAkun) || 0), 0)
+            : 0;
         const totalModal    = data.reduce((s, e) => s + e.modalTotal, 0);
         const totalProfit   = data.reduce((s, e) => s + e.totalProfit, 0);
         const totalEquity   = data.reduce((s, e) => s + e.equity, 0);
@@ -335,6 +340,80 @@
                 </tr>
             `;
         }).join('');
+
+        // Baris TOTAL/Akumulasi di bawah tabel.
+        // Mengakumulasi nilai per kolom dari data yang sedang ditampilkan
+        // (sesuai filter & pencarian aktif).
+        // Aturan total:
+        //   - Kolom "per-akun" (modalPerAkun, profitPerAkun) -> TOTAL
+        //     (akumulasi lintas emiten).
+        //   - Kolom "Jumlah Akun" & "Hari" -> MAX (nilai tertinggi),
+        //     karena tiap emiten = 1 posisi/akun, jadi yang relevan adalah
+        //     jumlah lot/slot terbesar.
+        //   - Kolom total (modalTotal, totalProfit, equity) -> TOTAL
+        //     (akumulasi, kolom ini memang sudah agregat).
+        const totals = data.reduce((acc, e) => {
+            acc.jumlahAkun    = Math.max(acc.jumlahAkun,   Number(e.jumlahAkun)    || 0);
+            acc.hari          = Math.max(acc.hari,         Number(e.hari)          || 0);
+            acc.modalPerAkun  += Number(e.modalPerAkun)  || 0;
+            acc.profitPerAkun += Number(e.profitPerAkun) || 0;
+            acc.modalTotal    += e.modalTotal;
+            acc.totalProfit   += e.totalProfit;
+            acc.equity        += e.equity;
+            return acc;
+        }, { jumlahAkun: 0, hari: 0, modalPerAkun: 0, profitPerAkun: 0, modalTotal: 0, totalProfit: 0, equity: 0 });
+
+        // Gain agregat: dihitung dari total profit / total modal
+        const totalGain = totals.modalTotal > 0
+            ? (totals.totalProfit / totals.modalTotal) * 100
+            : 0;
+
+        const totalProfitClass = totals.totalProfit >= 0
+            ? 'text-emerald-600 dark:text-emerald-400'
+            : 'text-red-600 dark:text-red-400';
+        const totalGainClass = totalGain >= 0 ? 'badge-green' : 'badge-red';
+        // Warna profit per akun: hijau untuk positif, merah untuk negatif
+        const totalProfitPerAkunClass = totals.profitPerAkun >= 0
+            ? 'text-emerald-600 dark:text-emerald-400'
+            : 'text-red-600 dark:text-red-400';
+
+        // Helper untuk sel dengan label "max" (nilai tertinggi) dan tooltip
+        const maxCell = (value, formatter) => `
+            ${formatter(value)}
+            <span class="total-row-sub">max</span>
+        `;
+
+        // Sisipkan baris TOTAL sebagai baris terakhir di tbody.
+        // Row ini dibedakan dengan class .total-row untuk styling khusus.
+        tbody.insertAdjacentHTML('beforeend', `
+            <tr class="total-row">
+                <td class="font-bold text-slate-900 dark:text-white">
+                    TOTAL
+                    <span class="total-row-sub">(${data.length} emiten)</span>
+                </td>
+                <td class="text-right font-bold text-slate-900 dark:text-white">
+                    ${formatRupiah(totals.modalPerAkun)}
+                </td>
+                <td class="text-center font-bold text-slate-900 dark:text-white" title="Jumlah akun tertinggi dari emiten yang ditampilkan">
+                    ${maxCell(totals.jumlahAkun, v => v.toLocaleString('id-ID'))}
+                </td>
+                <td class="text-right font-bold text-slate-900 dark:text-white">${formatRupiah(totals.modalTotal)}</td>
+                <td class="text-right font-bold ${totalProfitPerAkunClass}">
+                    ${(totals.profitPerAkun >= 0 ? '+' : '') + formatRupiah(totals.profitPerAkun)}
+                </td>
+                <td class="text-right font-bold ${totalProfitClass}">
+                    ${totals.totalProfit >= 0 ? '+' : ''}${formatRupiah(totals.totalProfit)}
+                </td>
+                <td class="text-center">
+                    <span class="badge ${totalGainClass}">${totalGain >= 0 ? '+' : ''}${formatPersen(totalGain)}</span>
+                </td>
+                <td class="text-center font-bold text-slate-900 dark:text-white" title="Hari tertinggi dari emiten yang ditampilkan">
+                    ${maxCell(totals.hari, v => `${v} hari`)}
+                </td>
+                <td class="text-right font-bold text-purple-700 dark:text-purple-400">${formatRupiah(totals.equity)}</td>
+                <td class="text-center text-slate-400 dark:text-slate-500">—</td>
+            </tr>
+        `);
 
         dataCount.textContent = `Menampilkan ${data.length} dari ${state.emitens.length} emiten`;
     }
@@ -584,7 +663,64 @@
 
         modal.classList.remove('hidden');
         modal.classList.add('flex');
+        // Hitung ulang ringkasan Akun Saya setelah nilai field terisi
+        updateAkunPanel();
         setTimeout(() => document.getElementById('formEmiten').focus(), 50);
+    }
+
+    /**
+     * Update panel "Akun Saya" di dalam modal form secara realtime
+     * berdasarkan nilai input modal per akun, jumlah akun, dan profit per akun.
+     * Menghitung ulang baik nilai per akun maupun total keseluruhan.
+     */
+    function updateAkunPanel() {
+        const modalPerAkun  = parseNumber(document.getElementById('formModalPerAkun').value);
+        const jumlahAkun    = parseNumber(document.getElementById('formJumlahAkun').value);
+        const profitPerAkun = parseNumber(document.getElementById('formProfitPerAkun').value);
+
+        // Per akun
+        const equityPerAkun = modalPerAkun + profitPerAkun;
+        const gainPerAkun   = modalPerAkun > 0 ? (profitPerAkun / modalPerAkun) * 100 : 0;
+
+        // Total semua akun
+        const modalTotal    = modalPerAkun * jumlahAkun;
+        const profitTotal   = profitPerAkun * jumlahAkun;
+        const equityTotal   = modalTotal + profitTotal;
+
+        // Tulis ke DOM
+        setText('akunModalPerAkun',  formatRupiah(modalPerAkun));
+        setText('akunProfitPerAkun', (profitPerAkun >= 0 ? '+' : '') + formatRupiah(profitPerAkun));
+        setText('akunEquityPerAkun', (equityPerAkun >= 0 ? '+' : '') + formatRupiah(equityPerAkun));
+        setText('akunGainPerAkun',   (gainPerAkun >= 0 ? '+' : '') + formatPersen(gainPerAkun));
+
+        setText('akunJumlah',        jumlahAkun.toLocaleString('id-ID'));
+        setText('akunModalTotal',    formatRupiah(modalTotal));
+        setText('akunProfitTotal',   (profitTotal >= 0 ? '+' : '') + formatRupiah(profitTotal));
+        setText('akunEquityTotal',   (equityTotal >= 0 ? '+' : '') + formatRupiah(equityTotal));
+
+        // Terapkan kelas warna positif/negatif agar user langsung tahu status
+        applyProfitClass('akunProfitPerAkun', profitPerAkun);
+        applyProfitClass('akunEquityPerAkun', equityPerAkun);
+        applyProfitClass('akunGainPerAkun',   gainPerAkun);
+        applyProfitClass('akunProfitTotal',   profitTotal);
+        applyProfitClass('akunEquityTotal',   equityTotal);
+    }
+
+    function setText(id, text) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text;
+    }
+
+    /**
+     * Menambahkan kelas warna positif (hijau) atau negatif (merah)
+     * pada elemen nilai Akun Saya berdasarkan nilai numeriknya.
+     */
+    function applyProfitClass(id, value) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.remove('is-positive', 'is-negative');
+        if (value > 0) el.classList.add('is-positive');
+        else if (value < 0) el.classList.add('is-negative');
     }
 
     function closeForm() {
@@ -1044,6 +1180,13 @@
                 // Kembalikan posisi kursor (workaround untuk input uppercase)
                 try { e.target.setSelectionRange(start, end); } catch (err) {}
             }
+        });
+
+        // Update panel "Akun Saya" secara realtime saat user mengubah
+        // nilai modal, jumlah akun, atau profit.
+        ['formModalPerAkun', 'formJumlahAkun', 'formProfitPerAkun'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('input', updateAkunPanel);
         });
 
         // Tutup modal saat klik backdrop

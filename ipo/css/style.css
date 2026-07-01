@@ -316,6 +316,35 @@ tbody tr:hover {
     background: #334155;
 }
 
+/* Baris TOTAL/Akumulasi di akhir tabel */
+tbody tr.total-row {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border-top: 2px solid #3b82f6;
+}
+tbody tr.total-row:hover {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+}
+.dark tbody tr.total-row {
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.45) 0%, rgba(30, 64, 175, 0.3) 100%);
+    border-top: 2px solid #60a5fa;
+}
+.dark tbody tr.total-row:hover {
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.55) 0%, rgba(37, 99, 235, 0.4) 100%);
+}
+
+.total-row-sub {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: #64748b;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-top: 0.1rem;
+}
+.dark .total-row-sub {
+    color: #94a3b8;
+}
+
 .th-sortable {
     cursor: pointer;
     user-select: none;
@@ -384,6 +413,109 @@ tbody tr:hover {
 #modalConfirm.flex {
     display: flex !important;
 }
+
+/* -------------------- Panel "Akun Saya" (live preview di modal) -------------------- */
+.akun-panel {
+    margin-top: 0.5rem;
+    padding: 0.85rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+    border: 1px solid #dbeafe;
+    border-radius: 0.75rem;
+}
+.dark .akun-panel {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 58, 138, 0.25) 100%);
+    border-color: #1e3a8a;
+}
+
+.akun-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #1e40af;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.6rem;
+}
+.dark .akun-panel-header {
+    color: #93c5fd;
+}
+
+.akun-section-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.4rem;
+}
+.akun-section-divider {
+    margin-top: 0.7rem;
+    padding-top: 0.6rem;
+    border-top: 1px dashed #cbd5e1;
+}
+.dark .akun-section-title { color: #94a3b8; }
+.dark .akun-section-divider { border-top-color: #334155; }
+
+.akun-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+}
+@media (min-width: 480px) {
+    .akun-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.akun-item {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.65rem;
+    min-width: 0; /* penting untuk text-overflow di grid */
+}
+.dark .akun-item {
+    background: #0f172a;
+    border-color: #334155;
+}
+
+.akun-label {
+    font-size: 0.65rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.dark .akun-label { color: #94a3b8; }
+
+.akun-value {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-top: 0.15rem;
+    word-break: break-word;
+    line-height: 1.25;
+}
+.dark .akun-value { color: #f1f5f9; }
+
+/* Warna nilai profit/equity/gain: hijau untuk positif, merah untuk negatif */
+.akun-value.is-positive { color: #059669; }
+.akun-value.is-negative { color: #dc2626; }
+.dark .akun-value.is-positive { color: #34d399; }
+.dark .akun-value.is-negative { color: #f87171; }
+
+/* Warna khusus untuk beberapa metrik agar mudah dibaca */
+.akun-value.akun-profit   { color: #059669; }
+.akun-value.akun-equity   { color: #7c3aed; }
+.akun-value.akun-gain     { color: #2563eb; }
+.akun-value.akun-jumlah   { color: #475569; }
+.dark .akun-value.akun-profit   { color: #34d399; }
+.dark .akun-value.akun-equity   { color: #c4b5fd; }
+.dark .akun-value.akun-gain     { color: #60a5fa; }
+.dark .akun-value.akun-jumlah   { color: #cbd5e1; }
 
 /* -------------------- Toast -------------------- */
 #toast.show {
