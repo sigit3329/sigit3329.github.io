@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PurityFlow, Smart Water Refill Controller</title>
+<meta name="description" content="PurityFlow adalah sistem kontrol pengisian galon otomatis berbasis ESP32 dengan monitoring kualitas air TDS, LCD, rotary encoder, dan OTA update.">
+<meta name="theme-color" content="#0284c7">
+<link rel="icon" href="../logo.png" type="image/png">
+<link rel="stylesheet" href="style.css">
+<script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script defer src="app.js"></script>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="brand-mark" href="#top">
+      <span class="logo-dot">PF</span>
+      <span class="name">PurityFlow<small>Smart Water Refill Controller</small></span>
+    </a>
+    <a class="back-link" href="../">&larr; Kembali ke portofolio</a>
+  </div>
+</div>
+
+<main id="top">
+  <div class="container">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Embedded &middot; IoT &middot; ESP32</p>
+        <h1>Kontrol pengisian galon otomatis, berbasis waktu dan dipantau lewat kualitas air.</h1>
+        <p class="lead">PurityFlow mengatur proses pengisian air galon di depot secara otomatis: durasi pengisian konsisten, kualitas air dipantau lewat sensor TDS secara real-time, dan jumlah galon yang sudah terisi tercatat otomatis meski listrik sempat mati.</p>
+        <div class="hero-tags">
+          <span class="tag">ESP32</span>
+          <span class="tag">Sensor TDS</span>
+          <span class="tag">LCD 20x4</span>
+          <span class="tag">Rotary Encoder</span>
+          <span class="tag">EEPROM</span>
+          <span class="tag">WiFi &amp; OTA</span>
+        </div>
+        <div class="hero-cta-row">
+          <a class="btn primary" href="#demo">Coba Simulasi Dashboard</a>
+          <a class="btn" href="#arsitektur">Lihat Arsitektur Sistem</a>
+        </div>
+      </div>
+
+      <div class="hero-device" aria-hidden="true">
+        <div class="device-panel">
+          <div class="device-topline">
+            <span class="device-chip">ESP32</span>
+            <span class="device-leds"><i class="led led-ok"></i><i class="led led-info"></i></span>
+          </div>
+          <div class="device-screen">
+            <div class="device-screen-line">PURITYFLOW&nbsp;&nbsp;v1.0</div>
+            <div class="device-screen-line dim">--------------------</div>
+            <div class="device-screen-line">TDS: 118 ppm (Baik)</div>
+            <div class="device-screen-line">Galon: 12 / 20</div>
+          </div>
+          <div class="device-controls">
+            <div class="device-knob"><span></span></div>
+            <div class="device-buttons">
+              <div class="device-btn">Start</div>
+              <div class="device-btn">Reset</div>
+            </div>
+          </div>
+        </div>
+        <div class="device-caption">Panel kontrol PurityFlow, LCD 20x4 &amp; rotary encoder</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="container">
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Tujuan Sistem</p>
+        <h2>Kenapa PurityFlow dibuat</h2>
+        <p>Operator depot air butuh alat yang konsisten dan tidak ribet dioperasikan, bukan sekadar timer manual.</p>
+      </div>
+      <ul class="checklist grid-2">
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Mengotomatisasi proses pengisian air galon</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Menjaga durasi pengisian tetap konsisten</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Mencegah overfill dan air tumpah</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Menampilkan kualitas air secara real-time</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Mencatat jumlah galon yang sudah diisi</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Kontrol yang sederhana untuk operator depot</li>
+      </ul>
+    </section>
+
+    <section class="section" id="arsitektur">
+      <div class="section-head">
+        <p class="kicker">Arsitektur Sistem</p>
+        <h2>Susunan hardware</h2>
+        <p>Sistem bekerja berdasarkan waktu, bukan volume, dengan LCD 20x4 sebagai pusat tampilan dan rotary encoder sebagai kontrol utama.</p>
+      </div>
+      <div class="grid-3">
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg></div>
+          <h3>Microcontroller</h3>
+          <p>ESP32 sebagai pusat kontrol seluruh sistem.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M12 2v6M12 22v-6M4.9 4.9l4.2 4.2M14.9 14.9l4.2 4.2M2 12h6M16 12h6M4.9 19.1l4.2-4.2M14.9 9.1l4.2-4.2"/></svg></div>
+          <h3>Sensor</h3>
+          <p>Sensor TDS membaca kualitas air dalam satuan ppm.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M5 5l3 3M16 16l3 3M3 12h4M17 12h4M5 19l3-3M16 8l3-3"/></svg></div>
+          <h3>Output</h3>
+          <p>Relay untuk buka tutup aliran, buzzer, LED indikator, dan LCD 20x4.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></div>
+          <h3>Input</h3>
+          <p>Rotary encoder untuk navigasi, tombol start, dan tombol reset.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0M8.5 15.5a3.5 3.5 0 0 1 7 0M12 19v.01"/></svg></div>
+          <h3>Network</h3>
+          <p>WiFi untuk OTA update firmware dan pengiriman data ke server.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Mode Operasi</p>
+        <h2>Tiga mode kerja terpisah</h2>
+        <p>Dipisah supaya sistem tetap stabil, terutama saat proses pengisian sedang berjalan.</p>
+      </div>
+      <div class="grid-3">
+        <div class="panel">
+          <h3>Monitoring</h3>
+          <p>Menampilkan status sistem, nilai TDS, kualitas air, dan total galon terisi dibanding target.</p>
+        </div>
+        <div class="panel">
+          <h3>Mengisi</h3>
+          <p>Menjalankan countdown timer dan relay. WiFi dimatikan sementara supaya tidak ada delay selama proses berjalan.</p>
+        </div>
+        <div class="panel">
+          <h3>Setting</h3>
+          <p>Atur durasi pengisian dan target galon. Putar encoder untuk ubah nilai, tahan 3 detik untuk simpan.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="demo">
+      <div class="section-head">
+        <p class="kicker">Simulasi</p>
+        <h2>Coba dashboard-nya</h2>
+        <p>Ini simulasi ringan di browser yang meniru tampilan LCD dan alur kerja controller aslinya. Data tersimpan di perangkat kamu sendiri, seperti EEPROM pada alat fisiknya.</p>
+      </div>
+
+      <div class="demo">
+        <div class="demo-inner">
+          <div class="demo-tabs" role="tablist">
+            <button class="demo-tab active" data-tab="dashboard" type="button">Dashboard Utama</button>
+            <button class="demo-tab" data-tab="monitoring" type="button">Monitoring</button>
+            <button class="demo-tab" data-tab="control" type="button">Control Panel</button>
+            <button class="demo-tab" data-tab="status" type="button">Status Sistem</button>
+          </div>
+
+          <div class="demo-body">
+
+            <!-- DASHBOARD UTAMA -->
+            <div class="demo-panel active" data-panel="dashboard">
+              <div class="status-row">
+                <span class="status-badge" id="statusBadge"><span class="dot"></span><span id="statusText">Standby</span></span>
+              </div>
+
+              <div class="lcd" id="lcdScreen">
+                <div class="lcd-line">PURITYFLOW  v1.0</div>
+                <div class="lcd-line lcd-dim">--------------------</div>
+                <div class="lcd-line" id="lcdLine1">TDS: -- ppm</div>
+                <div class="lcd-line" id="lcdLine2">Galon: -- / --</div>
+              </div>
+
+              <div class="readout-grid" style="margin-top:16px">
+                <div class="readout">
+                  <div class="label">TDS Real-time</div>
+                  <div class="value" id="tdsValue">--<small>ppm</small></div>
+                  <span class="quality" id="qualityBadge">--</span>
+                </div>
+                <div class="readout">
+                  <div class="label">Galon Hari Ini</div>
+                  <div class="value" id="gallonToday">--<small>galon</small></div>
+                </div>
+                <div class="readout">
+                  <div class="label">Target Galon</div>
+                  <div class="value" id="gallonTarget">--<small>galon</small></div>
+                </div>
+              </div>
+
+              <div style="margin-top:6px">
+                <div class="progress-track"><div class="progress-fill" id="gallonProgress" style="width:0%"></div></div>
+              </div>
+
+              <div class="btn-row">
+                <button class="btn primary" id="btnStart" type="button">Start Pengisian</button>
+                <button class="btn hold danger" id="btnReset" type="button"><span class="hold-fill" id="resetFill"></span><span>Tahan untuk Reset Galon</span></button>
+              </div>
+            </div>
+
+            <!-- MONITORING -->
+            <div class="demo-panel" data-panel="monitoring">
+              <div class="chart-wrap">
+                <canvas id="tdsChart" height="90"></canvas>
+              </div>
+              <h3 style="margin:0 0 8px;font-size:14.5px">Riwayat Pengisian</h3>
+              <ul class="log-list" id="fillHistory"></ul>
+            </div>
+
+            <!-- CONTROL PANEL -->
+            <div class="demo-panel" data-panel="control">
+              <div class="field-row">
+                <div>
+                  <div class="field-label">Durasi Pengisian</div>
+                  <p class="field-hint">Lama relay menyala untuk satu galon</p>
+                </div>
+                <div class="stepper">
+                  <button type="button" data-adjust="duration" data-dir="-1">&minus;</button>
+                  <span class="val" id="durationVal">-- s</span>
+                  <button type="button" data-adjust="duration" data-dir="1">+</button>
+                </div>
+              </div>
+              <div class="field-row">
+                <div>
+                  <div class="field-label">Target Galon</div>
+                  <p class="field-hint">Batas maksimum sebelum sistem mengunci start</p>
+                </div>
+                <div class="stepper">
+                  <button type="button" data-adjust="target" data-dir="-1">&minus;</button>
+                  <span class="val" id="targetVal">--</span>
+                  <button type="button" data-adjust="target" data-dir="1">+</button>
+                </div>
+              </div>
+              <div class="btn-row">
+                <button class="btn hold primary" id="btnSaveSetting" type="button"><span class="hold-fill" id="saveFill"></span><span>Tahan 3 Detik untuk Simpan</span></button>
+              </div>
+            </div>
+
+            <!-- STATUS SISTEM -->
+            <div class="demo-panel" data-panel="status">
+              <div class="grid-3">
+                <div class="panel">
+                  <h3>Koneksi WiFi</h3>
+                  <p id="wifiStatus">Terhubung, siap OTA</p>
+                </div>
+                <div class="panel">
+                  <h3>Status Relay</h3>
+                  <p id="relayStatus">Nonaktif</p>
+                </div>
+                <div class="panel">
+                  <h3>Status Sensor TDS</h3>
+                  <p id="sensorStatus">Normal</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Logika Kualitas Air</p>
+        <h2>Ambang nilai TDS</h2>
+      </div>
+      <table class="quality-table">
+        <thead><tr><th>Rentang TDS</th><th>Kualitas</th></tr></thead>
+        <tbody>
+          <tr><td>0 sampai 150 ppm</td><td><span class="q-swatch" style="background:#16a34a"></span>Terbaik</td></tr>
+          <tr><td>151 sampai 250 ppm</td><td><span class="q-swatch" style="background:#0891b2"></span>Baik</td></tr>
+          <tr><td>251 sampai 300 ppm</td><td><span class="q-swatch" style="background:#d97706"></span>Cukup</td></tr>
+          <tr><td>301 sampai 500 ppm</td><td><span class="q-swatch" style="background:#ea580c"></span>Buruk</td></tr>
+          <tr><td>Di atas 500 ppm</td><td><span class="q-swatch" style="background:#dc2626"></span>Warning</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Keamanan</p>
+        <h2>Proteksi operasional</h2>
+      </div>
+      <ul class="checklist grid-2">
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Pengisian berbasis timer presisi untuk cegah overfill</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> WiFi nonaktif otomatis selama proses pengisian</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Start terkunci jika target galon sudah tercapai</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Reset counter hanya lewat tombol tahan beberapa detik</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Penyimpanan &amp; Data</p>
+        <h2>EEPROM dan pengiriman ke server</h2>
+        <p>Total galon, setting durasi, dan target maksimum disimpan di EEPROM sehingga tetap ada meski listrik mati. Saat online, ESP32 mengirim TDS dan total galon ke server dengan format berikut.</p>
+      </div>
+      <div class="endpoint">/PurityFlow/public/values/{tds}/{total}</div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>PurityFlow, project IoT oleh Muhammad Sigit Nugroho. <a href="../">Kembali ke portofolio</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
