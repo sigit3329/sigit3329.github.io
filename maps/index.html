@@ -75,8 +75,7 @@
       const p = new URLSearchParams(location.search);
       const q = p.get('theme');
       if (q === 'light' || q === 'dark') return q;
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      return prefersDark ? 'dark' : 'light';
+      return 'light';
     }
 
     let THEME = initialTheme();

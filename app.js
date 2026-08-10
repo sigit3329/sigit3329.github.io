@@ -2,19 +2,15 @@
 (function(){
   const html = document.documentElement;
   const stored = localStorage.getItem('theme');
-  if (stored === 'light' || stored === 'dark') html.setAttribute('data-theme', stored);
-  else html.setAttribute('data-theme', 'system');
+  html.setAttribute('data-theme', stored === 'dark' ? 'dark' : 'light');
 
   function setTheme(mode){
     html.setAttribute('data-theme', mode);
-    if (mode === 'system') localStorage.removeItem('theme');
-    else localStorage.setItem('theme', mode);
+    localStorage.setItem('theme', mode);
   }
 
   function resolvedTheme(){
-    const mode = html.getAttribute('data-theme') || 'system';
-    if (mode === 'dark' || mode === 'light') return mode;
-    return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    return html.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
   }
 
   const mapFrame = document.getElementById('mapFrame');
@@ -30,7 +26,6 @@
   }
   syncMapTheme();
   mapFrame && mapFrame.addEventListener('load', syncMapTheme);
-  window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncMapTheme);
 
   const btn = document.getElementById('themeToggle');
   btn && btn.addEventListener('click', () => {

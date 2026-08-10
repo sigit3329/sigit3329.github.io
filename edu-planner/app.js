@@ -1,11 +1,14 @@
 // app.js — Perencana Dana Pendidikan (Rupiah)
 (function(){
   const html = document.documentElement;
-  html.setAttribute('data-theme','dark'); // default dark
+  const stored = localStorage.getItem('theme');
+  html.setAttribute('data-theme', stored === 'dark' ? 'dark' : 'light');
   document.getElementById('year').textContent = new Date().getFullYear();
 
   document.getElementById('themeToggle').addEventListener('click', () => {
-    html.setAttribute('data-theme', html.getAttribute('data-theme')==='light' ? 'dark' : 'light');
+    const next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
   });
 
   const rupiah = new Intl.NumberFormat('id-ID', { style:'currency', currency:'IDR', maximumFractionDigits:0 });

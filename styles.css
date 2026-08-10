@@ -107,6 +107,7 @@ body{
 .card.is-hidden{ display:none; }
 
 .profile-note{ margin: 16px 0 0; color: var(--muted); font-size: 13px; }
+
 /* ===== GRID / CARDS ===== */
 .grid{
   display:grid;

@@ -6,7 +6,7 @@
     <title>Smart Locker System - Secure & Modular</title>
     <!-- Script untuk mencegah FOUC (Flash of Unstyled Content) saat load halaman -->
     <script>
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (localStorage.getItem('color-theme') === 'dark') {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark')
@@ -490,7 +490,7 @@
         var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
 
         // Ganti ikon di dalam tombol berdasarkan pengaturan sebelumnya
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (localStorage.getItem('color-theme') === 'dark') {
             themeToggleLightIcon.classList.remove('hidden');
         } else {
             themeToggleDarkIcon.classList.remove('hidden');

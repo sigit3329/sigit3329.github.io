@@ -386,9 +386,7 @@
         (function () {
             try {
                 var saved = localStorage.getItem('ipo_tracker_theme_v1');
-                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-                var theme = saved || (prefersDark ? 'dark' : 'light');
-                if (theme === 'dark') document.documentElement.classList.add('dark');
+                if (saved === 'dark') document.documentElement.classList.add('dark');
             } catch (e) { /* abaikan */ }
         })();
     </script>

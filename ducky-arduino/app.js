@@ -2,15 +2,11 @@
 (function(){
   const html = document.documentElement;
   const stored = localStorage.getItem('theme');
-  if (stored === 'light' || stored === 'dark') html.setAttribute('data-theme', stored);
-  else html.setAttribute('data-theme', 'system');
+  html.setAttribute('data-theme', stored === 'dark' ? 'dark' : 'light');
   document.getElementById('year').textContent = new Date().getFullYear();
 
   function resolvedTheme(){
-    const curr = html.getAttribute('data-theme') || 'system';
-    if (curr === 'light') return 'light';
-    if (curr === 'dark') return 'dark';
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return html.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
   }
 
   document.getElementById('themeToggle').addEventListener('click', () => {
