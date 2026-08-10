@@ -11,12 +11,12 @@
   <style>
     /* ========== THEME VARS ========== */
     :root{
-      --bg:#0b1220; --panel:#0f172a; --text:#e5e7eb; --muted:#9aa3b2;
-      --primary:#0ea5e9; --ring:rgba(14,165,233,.45); --bd:rgba(148,163,184,.2);
+      --bg:#0d1117; --panel:#161b22; --text:#e6e9ef; --muted:#8b93a3;
+      --primary:#4a72d9; --ring:rgba(74,114,217,.45); --bd:rgba(110,130,160,.2);
     }
     :root[data-theme="light"]{
-      --bg:#f8fafc; --panel:#ffffff; --text:#0f172a; --muted:#475569;
-      --primary:#0ea5e9; --ring:rgba(14,165,233,.35); --bd:rgba(15,23,42,.15);
+      --bg:#eef3fb; --panel:#ffffff; --text:#16213a; --muted:#5c6b85;
+      --primary:#3a5fc4; --ring:rgba(58,95,196,.35); --bd:rgba(58,95,196,.16);
     }
 
     html,body{height:100%;margin:0;background:var(--bg);color:var(--text)}
@@ -36,13 +36,14 @@
     .leaflet-control-attribution a{color:#93c5fd}
     :root[data-theme="light"] .leaflet-control-attribution a{color:#2563eb}
     .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--panel);color:var(--text)}
+    body.embed header,body.embed .toolbar{display:none}
   </style>
 </head>
 <body>
   <div class="page">
     <header>
       <!-- <h1>Lokasi</h1> -->
-      <p id="info">Workshop Sigit Berkarya • Banguntapan, Bantul, DI Yogyakarta • -7.755604, 110.411669</p>
+      <p id="info">Workshop Sigit Berkarya • Jl. Tambakboyo No. 20 No. 8A, RW. 61, Dero, Condongcatur, Kec. Depok, Kabupaten Sleman, DI Yogyakarta 55283 • -7.755604, 110.411669</p>
     </header>
 
     <div id="map" aria-label="Peta lokasi"></div>
@@ -62,7 +63,7 @@
     // === Data Lokasi (ubah kalau perlu) ===
     const DEST = { lat: -7.755604, lng: 110.411669 };
     const LOCATION_NAME = "Workshop Si-GIT";
-    const LOCATION_ADDRESS = "Banguntapan, Bantul, DI Yogyakarta";
+    const LOCATION_ADDRESS = "Jl. Tambakboyo No. 20 No. 8A, RW. 61, Dero, Condongcatur, Kec. Depok, Kabupaten Sleman, DI Yogyakarta 55283";
     const ZOOM = 15;
 
     // Tile URL
@@ -80,6 +81,9 @@
 
     let THEME = initialTheme();
     document.documentElement.setAttribute('data-theme', THEME);
+    if (new URLSearchParams(location.search).get('embed') === '1') {
+      document.body.classList.add('embed');
+    }
 
     window.addEventListener('load', () => {
       const map = L.map('map', { scrollWheelZoom:true }).setView([DEST.lat, DEST.lng], ZOOM);

@@ -3,39 +3,97 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Portofolio – Muhammad Sigit Nugroho</title>
-  <meta name="description" content="Portofolio ringkas berisi tautan LinkedIn, Instagram, Tokopedia, GitHub, Asmaul-Husna, Ducky-Arduino, Kalkulator Bunga Majemuk, dan Lokasi.">
-  <meta name="theme-color" content="#0ea5e9">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title>Sigit Berkarya | Muhammad Sigit Nugroho, IoT Product & Systems Engineer</title>
+  <meta name="description" content="Sigit Berkarya adalah personal brand dan portofolio Muhammad Sigit Nugroho, IoT Product & Systems Engineer. Proyek IoT, robotika, dashboard, dan tools web dalam satu tempat.">
+  <link rel="canonical" href="https://sigitberkarya.com/">
+  <meta name="theme-color" content="#4a72d9">
+  <link rel="icon" href="logo.png" type="image/png">
   <link rel="stylesheet" href="styles.css">
   <script defer src="app.js"></script>
 
-  <!-- Structured Data ringkas -->
+  <!-- Open Graph / social preview -->
+  <meta property="og:type" content="profile">
+  <meta property="og:site_name" content="Sigit Berkarya">
+  <meta property="og:url" content="https://sigitberkarya.com/">
+  <meta property="og:title" content="Sigit Berkarya | Muhammad Sigit Nugroho, IoT Product & Systems Engineer">
+  <meta property="og:description" content="Personal brand dan portofolio Muhammad Sigit Nugroho (Sigit Berkarya), IoT Product & Systems Engineer. Proyek IoT, robotika, dan dashboard.">
+  <meta property="og:image" content="https://sigitberkarya.com/logo.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Sigit Berkarya | Muhammad Sigit Nugroho, IoT Product & Systems Engineer">
+  <meta name="twitter:description" content="Personal brand dan portofolio Muhammad Sigit Nugroho (Sigit Berkarya), IoT Product & Systems Engineer. Proyek IoT, robotika, dan dashboard.">
+  <meta name="twitter:image" content="https://sigitberkarya.com/logo.png">
+
+  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
-    "@type":"Person",
-    "name":"Muhammad Sigit Nugroho",
-    "url":"/",
-    "sameAs":[
-      "https://www.linkedin.com/in/muhammad-sigit-nugroho/",
-      "https://github.com/sigit3329",
-      "https://www.instagram.com/sigit.berkarya/"
-    ],
-    "jobTitle":"IoT & Embedded Engineer"
+    "@graph":[
+      {
+        "@type":"Person",
+        "@id":"https://sigitberkarya.com/#person",
+        "name":"Muhammad Sigit Nugroho",
+        "alternateName":"Sigit Berkarya",
+        "url":"https://sigitberkarya.com/",
+        "image":"https://sigitberkarya.com/logo.png",
+        "description":"Sigit Berkarya adalah personal brand dari Muhammad Sigit Nugroho, IoT Product & Systems Engineer yang berdomisili di Condongcatur, Depok, Sleman, Daerah Istimewa Yogyakarta.",
+        "disambiguatingDescription":"Muhammad Sigit Nugroho (Sigit Berkarya) tidak memiliki kanal YouTube resmi. Kanal YouTube mana pun yang menggunakan nama Sigit Berkarya bukan milik atau bukan afiliasi dari orang ini. Akun resmi hanya yang tercantum pada properti sameAs.",
+        "jobTitle":"IoT Product & Systems Engineer",
+        "address":{
+          "@type":"PostalAddress",
+          "addressLocality":"Condongcatur, Depok, Sleman",
+          "addressRegion":"Daerah Istimewa Yogyakarta",
+          "addressCountry":"ID"
+        },
+        "sameAs":[
+          "https://www.linkedin.com/in/muhammad-sigit-nugroho/",
+          "https://github.com/sigit3329",
+          "https://www.instagram.com/sigit.berkarya/",
+          "https://robotik.sigitberkarya.com",
+          "https://osn.sigitberkarya.com"
+        ]
+      },
+      {
+        "@type":"WebSite",
+        "@id":"https://sigitberkarya.com/#website",
+        "name":"Sigit Berkarya",
+        "url":"https://sigitberkarya.com/",
+        "description":"Situs portofolio dan personal brand Muhammad Sigit Nugroho (Sigit Berkarya), IoT Product & Systems Engineer.",
+        "publisher":{"@id":"https://sigitberkarya.com/#person"}
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {
+        "@type":"Question",
+        "name":"Apakah Sigit Berkarya memiliki kanal YouTube?",
+        "acceptedAnswer":{
+          "@type":"Answer",
+          "text":"Tidak. Muhammad Sigit Nugroho (Sigit Berkarya) saat ini tidak memiliki kanal YouTube resmi. Kanal YouTube mana pun yang menggunakan nama Sigit Berkarya bukan milik atau bukan afiliasi dari Muhammad Sigit Nugroho. Akun resmi hanya LinkedIn, GitHub, dan Instagram yang tercantum di halaman ini."
+        }
+      }
+    ]
   }
   </script>
 </head>
 <body>
-  <noscript><div class="noscript">Situs ini berjalan lebih baik dengan JavaScript aktif.</div></noscript>
+  <noscript><style>.reveal{opacity:1!important;transform:none!important}</style><div class="noscript">Situs ini berjalan lebih baik dengan JavaScript aktif.</div></noscript>
 
   <!-- HEADER -->
   <header class="site-header container">
     <div class="brand">
-      <div class="avatar" aria-hidden="true">MS</div>
+      <div class="avatar" aria-hidden="true">
+        <img src="logo.png" alt="" onerror="this.style.display='none'">
+        <span>MS</span>
+      </div>
       <div>
         <h1 class="title">Muhammad Sigit Nugroho</h1>
-        <p class="subtitle">IoT • Embedded • Robotik • Web</p>
+        <p class="subtitle">IoT Product &amp; Systems Engineer</p>
       </div>
     </div>
 
@@ -46,174 +104,458 @@
     </nav>
   </header>
 
-  <!-- GRID KARTU -->
   <main class="container">
-    <section class="grid">
 
-      <!-- LinkedIn -->
-      <article class="card reveal">
-        <div class="card-head">
-          <div class="card-icon linkedin" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V23h-4zM8.5 8.5h3.8V10h.05c.53-1 1.82-2.05 3.74-2.05 4 0 4.74 2.63 4.74 6.05V23h-4v-6.5c0-1.55-.03-3.55-2.17-3.55-2.17 0-2.5 1.69-2.5 3.43V23h-4V8.5z"/></svg>
+    <!-- PROFIL & SOSIAL -->
+    <section class="group">
+      <div class="group-head">
+        <h2>Profil &amp; Sosial</h2>
+        <p class="group-desc">Tempat menemukan saya di platform lain.</p>
+      </div>
+      <div class="grid compact">
+
+        <!-- LinkedIn -->
+        <article class="card compact reveal">
+          <div class="card-head">
+            <div class="card-icon linkedin" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V23h-4zM8.5 8.5h3.8V10h.05c.53-1 1.82-2.05 3.74-2.05 4 0 4.74 2.63 4.74 6.05V23h-4v-6.5c0-1.55-.03-3.55-2.17-3.55-2.17 0-2.5 1.69-2.5 3.43V23h-4V8.5z"/></svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">LinkedIn</h3>
+              <p class="card-desc">Profil profesional & jejak karier saya.</p>
+            </div>
           </div>
-          <h3 class="card-title">LinkedIn</h3>
-          <p class="card-desc">Profil profesional & perjalanan karier saya.</p>
-        </div>
-        <div class="card-actions">
-          <a class="btn primary" href="https://www.linkedin.com/in/muhammad-sigit-nugroho/" target="_blank" rel="noopener">Kunjungi LinkedIn</a>
-        </div>
-      </article>
-
-      <!-- Instagram -->
-      <article class="card reveal">
-        <div class="card-head">
-          <div class="card-icon instagram" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.66 0 3 1.34 3 3v10c0 1.66-1.34 3-3 3H7c-1.66 0-3-1.34-3-3V7c0-1.66 1.34-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5zm0 2A2.5 2.5 0 1 1 9.5 12 2.5 2.5 0 0 1 12 9.5zM18 7.2a1 1 0 1 0-1-1 1 1 0 0 0 1 1z"/></svg>
+          <div class="card-actions">
+            <a class="btn primary" href="https://www.linkedin.com/in/muhammad-sigit-nugroho/" target="_blank" rel="noopener">Kunjungi LinkedIn</a>
           </div>
-          <h3 class="card-title">Instagram</h3>
-          <p class="card-desc">Galeri karya & aktivitas di @sigit.berkarya.</p>
-        </div>
-        <div class="card-actions">
-          <a class="btn primary" href="https://www.instagram.com/sigit.berkarya/" target="_blank" rel="noopener">Buka Instagram</a>
-        </div>
-      </article>
+        </article>
 
-      <!-- Tokopedia -->
-      <article class="card reveal">
-        <div class="card-head">
-          <div class="card-icon toko" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M7 6V4a5 5 0 0 1 10 0v2h3a1 1 0 0 1 1 1v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V7a1 1 0 0 1 1-1h3zm2 0h6V4a3 3 0 0 0-6 0v2z"/></svg>
+        <!-- Instagram -->
+        <article class="card compact reveal">
+          <div class="card-head">
+            <div class="card-icon instagram" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22"><path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.66 0 3 1.34 3 3v10c0 1.66-1.34 3-3 3H7c-1.66 0-3-1.34-3-3V7c0-1.66 1.34-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5zm0 2A2.5 2.5 0 1 1 9.5 12 2.5 2.5 0 0 1 12 9.5zM18 7.2a1 1 0 1 0-1-1 1 1 0 0 0 1 1z"/></svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Instagram</h3>
+              <p class="card-desc">Galeri karya & aktivitas @sigit.berkarya.</p>
+            </div>
           </div>
-          <h3 class="card-title">Tokopedia</h3>
-          <p class="card-desc">Produk & jasa seputar IoT/Elektronika.</p>
-        </div>
-        <div class="card-actions">
-          <a class="btn primary" href="https://www.tokopedia.com/" target="_blank" rel="noopener">Lihat Tokopedia</a>
-        </div>
-      </article>
-
-      <!-- GitHub -->
-      <article class="card reveal">
-        <div class="card-head">
-          <div class="card-icon github" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.42c.58.11.8-.25.8-.56v-2c-3.26.71-3.95-1.39-3.95-1.39-.53-1.33-1.3-1.68-1.3-1.68-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.6-.3-5.33-1.3-5.33-5.79 0-1.28.46-2.32 1.2-3.14-.12-.3-.52-1.53.11-3.18 0 0 .98-.31 3.2 1.2a11.1 11.1 0 0 1 5.82 0c2.22-1.5 3.2-1.2 3.2-1.2.63 1.65.23 2.88.11 3.18.75.82 1.2 1.86 1.2 3.14 0 4.5-2.73 5.49-5.34 5.79.42.36.8 1.08.8 2.18v3.23c0 .31.21.68.81.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+          <div class="card-actions">
+            <a class="btn primary" href="https://www.instagram.com/sigit.berkarya/" target="_blank" rel="noopener">Buka Instagram</a>
           </div>
-          <h3 class="card-title">GitHub</h3>
-          <p class="card-desc">Repositori, proyek, & kontribusi terbuka.</p>
-        </div>
-        <div class="card-actions">
-          <a class="btn primary" href="https://github.com/sigit3329" target="_blank" rel="noopener">Buka GitHub</a>
-        </div>
-      </article>
+        </article>
 
-      <!-- Asmaul-Husna -->
-      <article class="card reveal">
-        <div class="card-head">
-          <div class="card-icon husna" aria-hidden="true">
-            <!-- icon book/star -->
-            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M4 4h10a4 4 0 0 1 4 4v12H6a2 2 0 0 1-2-2V4zm12 0v16h2V8a4 4 0 0 0-4-4h2zM8 8h6v2H8V8zm0 4h6v2H8v-2z"/></svg>
+        <!-- GitHub -->
+        <article class="card compact reveal">
+          <div class="card-head">
+            <div class="card-icon github" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.42c.58.11.8-.25.8-.56v-2c-3.26.71-3.95-1.39-3.95-1.39-.53-1.33-1.3-1.68-1.3-1.68-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.6-.3-5.33-1.3-5.33-5.79 0-1.28.46-2.32 1.2-3.14-.12-.3-.52-1.53.11-3.18 0 0 .98-.31 3.2 1.2a11.1 11.1 0 0 1 5.82 0c2.22-1.5 3.2-1.2 3.2-1.2.63 1.65.23 2.88.11 3.18.75.82 1.2 1.86 1.2 3.14 0 4.5-2.73 5.49-5.34 5.79.42.36.8 1.08.8 2.18v3.23c0 .31.21.68.81.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">GitHub</h3>
+              <p class="card-desc">Repositori, proyek, & kontribusi terbuka.</p>
+            </div>
           </div>
-          <h3 class="card-title">Asmaul Husna</h3>
-          <p class="card-desc">Dzikir Asmaul-Husna interaktif.</p>
-        </div>
-        <div class="card-actions">
-          <a class="btn primary" href="asmaul-husna/" rel="noopener">Buka Asmaul Husna</a>
-        </div>
-      </article>
-
-      <!-- Ducky-Arduino -->
-      <article class="card reveal">
-        <div class="card-head">
-          <div class="card-icon arduino" aria-hidden="true">
-            <!-- icon "infinity" ala arduino -->
-            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M7 8c2.5 0 4 2 5 4 1-2 2.5-4 5-4 2.21 0 4 1.79 4 4s-1.79 4-4 4c-2.5 0-4-2-5-4-1 2-2.5 4-5 4-2.21 0-4-1.79-4-4s1.79-4 4-4m0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4m10 0a2 2 0 1 0 .001 4.001A2 2 0 0 0 17 10z"/></svg>
+          <div class="card-actions">
+            <a class="btn primary" href="https://github.com/sigit3329" target="_blank" rel="noopener">Buka GitHub</a>
           </div>
-          <h3 class="card-title">Ducky Arduino</h3>
-          <p class="card-desc">Koleksi skrip & utilitas terkait Arduino.</p>
-        </div>
-        <div class="card-actions">
-          <a class="btn primary" href="ducky-arduino/" rel="noopener">Buka Tools</a>
-        </div>
-      </article>
+        </article>
 
-      <!-- Compound Interest -->
-      <article class="card reveal">
-        <div class="card-head">
-          <div class="card-icon calc" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M7 2h10a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3zm0 4v2h10V6H7zm0 5v7h10v-7H7zm2 1h2v2H9v-2zm0 3h2v2H9v-2zm3-3h2v2h-2v-2zm0 3h2v2h-2v-2z"/></svg>
-          </div>
-          <h3 class="card-title">Compound Interest</h3>
-          <p class="card-desc">Kalkulator bunga majemuk sederhana.</p>
-        </div>
-        <div class="card-actions">
-          <a class="btn primary" href="compound-interest/" rel="noopener">Buka Kalkulator</a>
-        </div>
-      </article>
-
-      <!-- Dana Pendidikan (TK–S2) -->
-      <article class="card reveal">
-        <div class="card-head">
-          <div class="card-icon edu" aria-hidden="true">
-            <!-- graduation cap -->
-            <svg viewBox="0 0 24 24" width="24" height="24">
-              <path d="M12 2 1 7l11 5 9-4.09V17h2V7L12 2Zm0 13.18L6 12v4.07c0 2.02 3.6 3.65 6 3.65s6-1.63 6-3.65V12l-6 3.18Z"/>
-            </svg>
-          </div>
-          <h3 class="card-title">Dana Pendidikan</h3>
-          <p class="card-desc">Proyeksi biaya TK–S2 & target nabung bulanan.</p>
-        </div>
-        <div class="card-actions">
-          <a class="btn primary" href="edu-planner/" rel="noopener">Buka Planner</a>
-        </div>
-      </article>
-
-
-      <!-- Tools Online -->
-      <article class="card reveal">
-        <div class="card-head">
-          <div class="card-icon tools" aria-hidden="true">
-            <!-- toolbox icon -->
-            <svg viewBox="0 0 24 24" width="24" height="24">
-              <path d="M7 6V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1h2a2 2 0 0 1 2 2v9a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V8a2 2 0 0 1 2-2h2zm2-1h6v1H9V5zm12 5H3v7a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-7zm-10 2h3v2h-3v-2zm-4 0h3v2H7v-2zm8 0h3v2h-3v-2z"/>
-            </svg>
-          </div>
-          <h3 class="card-title">Tools Online</h3>
-          <p class="card-desc">Kumpulan utilitas kecil (QR, Base64, URL, Ubah huruf, UUID, Timestamp).</p>
-        </div>
-        <div class="card-actions">
-          <a class="btn primary" href="online-tools/" rel="noopener">Buka Tools</a>
-        </div>
-      </article>
-
-
-      <!-- Lokasi (wide) -->
-      <article class="card wide reveal">
-        <div class="card-head">
-          <div class="card-icon map" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 14.5 9 2.5 2.5 0 0 1 12 11.5z"/></svg>
-          </div>
-          <h3 class="card-title">Lokasi</h3>
-        </div>
-        <div class="map-frame">
-          <iframe id="mapFrame" src="maps/index.html" title="Peta lokasi" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-      </article>
-
+      </div>
+      <p class="profile-note">Akun-akun di atas adalah satu-satunya kanal resmi saya. Saya tidak memiliki kanal YouTube, dan kanal YouTube mana pun yang memakai nama Sigit Berkarya bukan milik atau bukan afiliasi dari Muhammad Sigit Nugroho.</p>
     </section>
 
-    <!-- ABOUT ME — Diletakkan PALING AKHIR -->
-    <section id="about" class="about-section reveal">
-      <h2>Tentang Saya</h2>
-      <p>Halo! Saya Sigit. Fokus pada pengembangan perangkat IoT – desain hardware, firmware (ESP32/STM32), BLE/Wi-Fi/MQTT, hingga integrasi cloud & web.</p>
-      <ul class="bullets">
-        <li>Embedded: ESP32, FreeRTOS, OTA, sensor TDS, kalibrasi</li>
-        <li>Web: Laravel/Next.js, REST API, WebSocket</li>
-        <li>Data: Kalman Filter, smoothing sinyal, logging</li>
-      </ul>
-      <div class="about-actions">
-        <a class="btn primary" href="mailto:msigit.n12@gmail.com">Hubungi Saya</a>
-        <a class="btn" href="cv.pdf" target="_blank" rel="noopener">Unduh CV</a>
+    <!-- PROYEK & KARYA -->
+    <section class="group">
+      <div class="group-head">
+        <div>
+          <h2>Proyek &amp; Karya</h2>
+          <p class="group-desc">Aplikasi dan eksperimen yang saya bangun dan kembangkan sendiri.</p>
+        </div>
+        <div class="project-search">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="search" id="projectSearch" placeholder="Cari project..." aria-label="Cari project">
+        </div>
       </div>
+      <div class="grid" id="projectsGrid">
+
+        <!-- Asmaul-Husna -->
+        <article class="card reveal">
+          <div class="card-head">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24"><path d="M4 4h10a4 4 0 0 1 4 4v12H6a2 2 0 0 1-2-2V4zm12 0v16h2V8a4 4 0 0 0-4-4h2zM8 8h6v2H8V8zm0 4h6v2H8v-2z"/></svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Asmaul Husna</h3>
+              <p class="card-desc">Dzikir Asmaul Husna interaktif.</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="btn primary" href="asmaul-husna/" rel="noopener">Buka Asmaul Husna</a>
+          </div>
+        </article>
+
+        <!-- Ducky-Arduino -->
+        <article class="card reveal">
+          <div class="card-head">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24"><path d="M7 8c2.5 0 4 2 5 4 1-2 2.5-4 5-4 2.21 0 4 1.79 4 4s-1.79 4-4 4c-2.5 0-4-2-5-4-1 2-2.5 4-5 4-2.21 0-4-1.79-4-4s1.79-4 4-4m0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4m10 0a2 2 0 1 0 .001 4.001A2 2 0 0 0 17 10z"/></svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Ducky Arduino</h3>
+              <p class="card-desc">Koleksi skrip & utilitas terkait Arduino.</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="btn primary" href="ducky-arduino/" rel="noopener">Buka Tools</a>
+          </div>
+        </article>
+
+        <!-- Compound Interest -->
+        <article class="card reveal">
+          <div class="card-head">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24"><path d="M7 2h10a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3zm0 4v2h10V6H7zm0 5v7h10v-7H7zm2 1h2v2H9v-2zm0 3h2v2H9v-2zm3-3h2v2h-2v-2zm0 3h2v2h-2v-2z"/></svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Compound Interest</h3>
+              <p class="card-desc">Kalkulator bunga majemuk sederhana.</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="btn primary" href="compound-interest/" rel="noopener">Buka Kalkulator</a>
+          </div>
+        </article>
+
+        <!-- Smart Locker -->
+        <article class="card reveal">
+          <div class="card-head">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zM9 10V7a3 3 0 1 1 6 0v3H9zm3 4a2 2 0 0 1 1 3.73V20h-2v-2.27A2 2 0 0 1 12 14z"/></svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Smart Locker</h3>
+              <p class="card-desc">Sistem loker pintar berbasis IoT, modular dan aman digunakan.</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="btn primary" href="smart-locker/" rel="noopener">Buka Smart Locker</a>
+          </div>
+        </article>
+
+        <!-- PurityFlow -->
+        <article class="card reveal">
+          <div class="card-head">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 2c3 4 7 8.5 7 12.5A7 7 0 0 1 5 14.5C5 10.5 9 6 12 2zm0 15.5a3 3 0 0 0 3-3h-1.6a1.4 1.4 0 0 1-2.8 0H9a3 3 0 0 0 3 3z"/></svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">PurityFlow</h3>
+              <p class="card-desc">Kontrol pengisian galon otomatis berbasis ESP32 dengan monitoring TDS.</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="btn primary" href="purityflow/" rel="noopener">Buka PurityFlow</a>
+          </div>
+        </article>
+
+        <!-- MEDILINK -->
+        <article class="card reveal">
+          <div class="card-head">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24"><path d="M11 2h2v6h6v2h-6v6h-2v-6H5V8h6V2zM4 18h16v2H4z"/></svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">MEDILINK</h3>
+              <p class="card-desc">Platform identitas pasien berbasis RFID untuk integrasi sistem rumah sakit.</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="btn primary" href="medilink/" rel="noopener">Buka MEDILINK</a>
+          </div>
+        </article>
+
+        <!-- SMC -->
+        <article class="card reveal">
+          <div class="card-head">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24"><path d="M4 20V10h3v10H4zm6.5 0V4h3v16h-3zM17 20v-7h3v7h-3z"/></svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">SMC</h3>
+              <p class="card-desc">Simulator trading SMC dengan equity curve, expectancy, dan jurnal.</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="btn primary" href="smc/" rel="noopener">Buka SMC Simulator</a>
+          </div>
+        </article>
+
+        <!-- IPO (kategori: IPO + Kalkulator Penjatahan IPO) -->
+        <details class="card ipo-card reveal">
+          <summary class="card-summary">
+            <div class="card-head">
+              <div class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2zm1 15h-2v-1.05a3.5 3.5 0 0 1-2.45-2.45l1.9-.6a1.5 1.5 0 0 0 1.55 1.1c.8 0 1.3-.35 1.3-.9 0-.6-.55-.85-1.65-1.15C9.4 11.55 8.4 10.85 8.4 9.4c0-1.25.9-2.15 2.1-2.4V6h2v1c1.05.2 1.85.85 2.2 1.85l-1.85.65a1.25 1.25 0 0 0-1.25-.85c-.7 0-1.1.3-1.1.8 0 .55.55.8 1.6 1.1 1.75.5 2.8 1.15 2.8 2.65 0 1.35-.95 2.25-2.2 2.5V17z"/></svg>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title"><span>IPO</span><svg class="chevron" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 10l5 5 5-5z"/></svg></h3>
+                <p class="card-desc">Pelacakan portofolio & kalkulator penjatahan saham IPO.</p>
+              </div>
+            </div>
+          </summary>
+          <div class="card-actions ipo-actions">
+            <a class="btn primary" href="ipo/" rel="noopener">IPO Tracker</a>
+            <a class="btn" href="kalkulator-penjatahan-ipo/" rel="noopener">Kalkulator Penjatahan IPO</a>
+          </div>
+        </details>
+
+      </div>
+      <p class="search-empty" id="projectsEmpty">Tidak ada project yang cocok dengan pencarian.</p>
+    </section>
+
+    <!-- TOOLS & EDUKASI -->
+    <section class="group">
+      <div class="group-head">
+        <div>
+          <h2>Tools &amp; Edukasi</h2>
+          <p class="group-desc">Robotika, materi belajar, dan utilitas kecil yang saya pakai sehari-hari.</p>
+        </div>
+      </div>
+      <div class="grid compact">
+
+        <!-- Robotik (eksternal) -->
+        <article class="card featured compact reveal">
+          <div class="card-head">
+            <div class="card-icon lg" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26"><path d="M9 2h6v2h-2v2h3a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-7a3 3 0 0 1 3-3h3V4H9V2zM8 10a1.5 1.5 0 1 0 .001 3.001A1.5 1.5 0 0 0 8 10zm8 0a1.5 1.5 0 1 0 .001 3.001A1.5 1.5 0 0 0 16 10zM8 16h8v2H8v-2z"/></svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Robotik</h3>
+              <p class="card-desc">Materi, dokumentasi, dan proyek robotika yang saya kembangkan & ajarkan.</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="btn primary" href="https://robotik.sigitberkarya.com" target="_blank" rel="noopener noreferrer">
+              Buka Robotik
+              <svg class="ext-icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+            </a>
+            <!-- <span class="ext-hint">Situs eksternal, tab baru</span> -->
+          </div>
+        </article>
+
+        <!-- OSN (eksternal) -->
+        <article class="card featured compact reveal">
+          <div class="card-head">
+            <div class="card-icon lg" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">OSN</h3>
+              <p class="card-desc">Materi dan latihan OSN Informatika untuk siswa yang saya bimbing.</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="btn primary" href="https://osn.sigitberkarya.com" target="_blank" rel="noopener noreferrer">
+              Buka OSN
+              <svg class="ext-icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+            </a>
+            <!-- <span class="ext-hint">Situs eksternal, tab baru</span> -->
+          </div>
+        </article>
+
+        <!-- Dana Pendidikan -->
+        <article class="card compact reveal">
+          <div class="card-head">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22">
+                <path d="M12 2 1 7l11 5 9-4.09V17h2V7L12 2Zm0 13.18L6 12v4.07c0 2.02 3.6 3.65 6 3.65s6-1.63 6-3.65V12l-6 3.18Z"/>
+              </svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Dana Pendidikan</h3>
+              <p class="card-desc">Proyeksi biaya TK-S2 & target nabung bulanan.</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="btn primary" href="edu-planner/" rel="noopener">Buka Planner</a>
+          </div>
+        </article>
+
+        <!-- Tools Online -->
+        <article class="card compact reveal">
+          <div class="card-head">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22">
+                <path d="M7 6V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1h2a2 2 0 0 1 2 2v9a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V8a2 2 0 0 1 2-2h2zm2-1h6v1H9V5zm12 5H3v7a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-7zm-10 2h3v2h-3v-2zm-4 0h3v2H7v-2zm8 0h3v2h-3v-2z"/>
+              </svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Tools Online</h3>
+              <p class="card-desc">Kumpulan utilitas kecil (QR, Base64, URL, Ubah huruf, UUID, Timestamp).</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="btn primary" href="online-tools/" rel="noopener">Buka Tools</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- TENTANG SAYA -->
+    <section id="about" class="group reveal">
+      <div class="group-head">
+        <div>
+          <h2>Tentang Saya</h2>
+          <p class="group-desc">Profil dan pendekatan kerja.</p>
+        </div>
+      </div>
+
+      <article class="card about-card">
+        <p class="eyebrow">Tentang Saya</p>
+        <h3>IoT Product &amp; Systems Engineer</h3>
+        <p class="about-desc"><strong>Sigit Berkarya</strong> adalah nama personal brand yang saya pakai untuk seluruh proyek, konten edukasi, dan portofolio ini, milik saya, <strong>Muhammad Sigit Nugroho</strong>.</p>
+        <p class="about-desc">Saya adalah <strong>IoT Product &amp; Systems Engineer</strong> yang berfokus pada pengembangan sistem terintegrasi dari <strong>hardware, embedded systems, connectivity, data processing, hingga backend dan web dashboard</strong>.</p>
+        <p class="about-desc">Saya memiliki pengalaman membangun dan mengembangkan solusi berbasis <strong>ESP32 dan STM32</strong>, mengintegrasikan berbagai sensor dan aktuator, merancang komunikasi data, melakukan optimasi data sensor, serta menghubungkan perangkat dengan platform monitoring dan layanan cloud.</p>
+        <p class="about-desc">Pendekatan saya berorientasi pada <strong>problem solving dan product development</strong>. Saya tidak hanya berfokus pada membuat prototype bekerja, tetapi juga mempertimbangkan <strong>reliability, efisiensi biaya, kebutuhan pengguna, maintainability, scalability, dan kesiapan implementasi di dunia nyata</strong>.</p>
+        <p class="about-desc">Selain engineering, saya aktif dalam <strong>robotics education dan technical mentoring</strong>, khususnya dalam pengembangan materi IoT, Robotika, Embedded Systems, dan OSN Informatika berbasis praktik dan problem solving.</p>
+        <div class="about-actions">
+          <a class="btn primary" href="mailto:msigit.n12@gmail.com">Hubungi Saya</a>
+          <a class="btn" href="cv.pdf" target="_blank" rel="noopener">Unduh CV</a>
+        </div>
+      </article>
+    </section>
+
+    <!-- KEAHLIAN UTAMA -->
+    <section class="group reveal">
+      <div class="group-head">
+        <div>
+          <h2>Keahlian Utama</h2>
+          <p class="group-desc">Area kerja yang saya kuasai, dari hardware sampai dashboard.</p>
+        </div>
+      </div>
+      <div class="skills-grid">
+        <article class="card skill-card">
+          <span class="skill-index">01</span>
+          <h4>Embedded &amp; IoT Systems Development</h4>
+          <p>Pengembangan perangkat berbasis <strong>ESP32 dan STM32</strong> dari prototipe hingga implementasi lapangan, termasuk integrasi sensor dan aktuator, kalibrasi, komunikasi data, persistent configuration, serta OTA update.</p>
+        </article>
+        <article class="card skill-card">
+          <span class="skill-index">02</span>
+          <h4>End-to-End System Integration</h4>
+          <p>Perancangan sistem terintegrasi dari <strong>edge device hingga cloud dan dashboard</strong>, mencakup komunikasi perangkat, real-time data flow, REST API, WebSocket, serta sistem notifikasi menggunakan Telegram dan berbagai layanan lainnya.</p>
+        </article>
+        <article class="card skill-card">
+          <span class="skill-index">03</span>
+          <h4>Web Dashboard &amp; Backend Development</h4>
+          <p>Pengembangan platform monitoring dan dashboard menggunakan <strong>Laravel dan Next.js</strong>, termasuk REST API, WebSocket, authentication, manajemen data perangkat, serta integrasi antara perangkat IoT dan aplikasi web.</p>
+        </article>
+        <article class="card skill-card">
+          <span class="skill-index">04</span>
+          <h4>Data Processing &amp; Sensor Optimization</h4>
+          <p>Pengolahan dan optimasi data sensor menggunakan <strong>Kalman Filter, signal smoothing, filtering, calibration, dan data logging</strong> untuk meningkatkan stabilitas, konsistensi, dan kualitas data.</p>
+        </article>
+        <article class="card skill-card">
+          <span class="skill-index">05</span>
+          <h4>Hardware &amp; Software Co-Design</h4>
+          <p>Perancangan sistem dengan mempertimbangkan keterkaitan antara <strong>hardware, firmware, komunikasi, power system, backend, dan user interface</strong>, sehingga keseluruhan sistem dapat bekerja secara optimal sebagai satu kesatuan.</p>
+        </article>
+        <article class="card skill-card">
+          <span class="skill-index">06</span>
+          <h4>Product Development &amp; Engineering Decision Making</h4>
+          <p>Pengembangan produk IoT dengan mempertimbangkan <strong>technical feasibility, reliability, BOM, cost efficiency, component availability, user requirements, maintainability, dan production readiness</strong>.</p>
+        </article>
+        <article class="card skill-card">
+          <span class="skill-index">07</span>
+          <h4>Rapid Prototyping &amp; Iterative Development</h4>
+          <p>Pengembangan solusi menggunakan pendekatan <strong>build, test, refine</strong> untuk memvalidasi konsep, menemukan masalah teknis lebih awal, dan menyesuaikan sistem dengan kebutuhan nyata di lapangan.</p>
+        </article>
+        <article class="card skill-card">
+          <span class="skill-index">08</span>
+          <h4>Robotics &amp; Automation Systems</h4>
+          <p>Perancangan sistem robotika dan otomasi yang menggabungkan <strong>sensor, aktuator, embedded controller, komunikasi, dan algoritma kontrol</strong> untuk kebutuhan edukasi maupun aplikasi nyata.</p>
+        </article>
+        <article class="card skill-card">
+          <span class="skill-index">09</span>
+          <h4>Technical Education &amp; Mentoring</h4>
+          <p>Penyusunan <strong>materi, kurikulum, modul praktikum, dan pelatihan Robotika, IoT, Embedded Systems, serta OSN Informatika</strong> dengan pendekatan project-based learning, praktik langsung, logika, dan problem solving.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- CARA SAYA BEKERJA -->
+    <section class="group reveal">
+      <div class="group-head">
+        <div>
+          <h2>Cara Saya Bekerja</h2>
+          <p class="group-desc">Mengubah kebutuhan teknis menjadi sistem yang benar-benar bekerja di lapangan.</p>
+        </div>
+      </div>
+      <div class="card workflow-card">
+        <div class="flow-row">
+          <span class="flow-step">Problem &amp; Requirement</span>
+          <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="flow-step">System Architecture</span>
+          <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="flow-step">Hardware &amp; Sensor Selection</span>
+          <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="flow-step">Embedded Firmware</span>
+          <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="flow-step">Connectivity &amp; Communication</span>
+          <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="flow-step">Data Processing</span>
+          <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="flow-step">Backend &amp; API</span>
+          <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="flow-step">Dashboard &amp; User Interface</span>
+          <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="flow-step">Testing &amp; Optimization</span>
+          <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="flow-step">Deployment</span>
+        </div>
+        <p class="about-desc">Dengan pendekatan tersebut, saya dapat mengembangkan solusi IoT secara <strong>end-to-end</strong>, baik untuk kebutuhan prototyping, monitoring, automation, robotics, maupun pengembangan produk.</p>
+        <div class="focus-tags">
+          <span class="focus-tag">IoT Engineering</span>
+          <span class="focus-tag">Embedded Systems</span>
+          <span class="focus-tag">Robotics</span>
+          <span class="focus-tag">System Integration</span>
+          <span class="focus-tag">Product Development</span>
+          <span class="focus-tag">Data Processing</span>
+          <span class="focus-tag">Backend &amp; Dashboard</span>
+          <span class="focus-tag">Rapid Prototyping</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOKASI -->
+    <section class="group reveal">
+      <div class="group-head">
+        <div>
+          <h2>Lokasi</h2>
+          <p class="group-desc">Domisili dan cara menuju ke sana.</p>
+        </div>
+      </div>
+      <article class="card map-card">
+        <div class="card-head">
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 14.5 9 2.5 2.5 0 0 1 12 11.5z"/></svg>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Lokasi</h3>
+            <p class="card-desc">Jl. Tambakboyo No. 20 No. 8A, RW. 61, Dero, Condongcatur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55283</p>
+          </div>
+        </div>
+        <div class="map-frame">
+          <iframe id="mapFrame" title="Peta lokasi" loading="lazy" referrerpolicy="no-referrer"></iframe>
+        </div>
+        <div class="card-actions">
+          <a class="btn primary sm" href="https://www.google.com/maps/dir/?api=1&destination=-7.755604,110.411669" target="_blank" rel="noopener">Google Maps</a>
+          <a class="btn sm" href="https://waze.com/ul?ll=-7.755604%2C110.411669&navigate=yes" target="_blank" rel="noopener">Waze</a>
+          <a class="btn sm" href="maps/index.html" target="_blank" rel="noopener">Buka Peta</a>
+        </div>
+      </article>
     </section>
   </main>
 

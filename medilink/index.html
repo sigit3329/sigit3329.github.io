@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MEDILINK, Healthcare Identity Platform</title>
+<meta name="description" content="MEDILINK adalah platform identitas pasien berbasis RFID yang mempercepat identifikasi pasien dan membantu tenaga medis mengambil keputusan klinis lebih cepat.">
+<meta name="theme-color" content="#1d4ed8">
+<link rel="icon" href="../logo.png" type="image/png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <span class="nav-brand">MEDILINK</span>
+    <a class="nav-back" href="../">&larr; Kembali ke portofolio</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <p class="kicker">Healthcare Identity Platform</p>
+      <h1>Satu identitas pasien untuk semua sistem rumah sakit</h1>
+      <p class="tagline">One Identity. Faster Care. Better Decisions.</p>
+      <p class="desc">MEDILINK adalah lapisan identitas pasien berbasis RFID yang menghubungkan sistem rumah sakit, mempercepat identifikasi pasien, dan membantu tenaga medis mengambil keputusan klinis tanpa mengisi ulang data atau mencari riwayat secara manual.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#features">Lihat Fitur</a>
+        <a class="btn-outline" href="#architecture">Lihat Arsitektur</a>
+      </div>
+    </div>
+
+    <div class="mock hero-mock" aria-hidden="true">
+      <div class="mock-bar">
+        <span>Patient Snapshot</span>
+        <span class="tag-live">Contoh tampilan</span>
+      </div>
+      <div class="mock-body">
+        <div class="mock-id">
+          <div class="mock-avatar">RH</div>
+          <div>
+            <h4>Rania Hartanto</h4>
+            <p>UID 04A3 &middot; Terakhir discan 2 menit lalu</p>
+          </div>
+        </div>
+        <div class="mock-grid">
+          <div class="mock-field"><div class="label">Alergi</div><div class="value">Penisilin</div></div>
+          <div class="mock-field"><div class="label">Pengobatan Aktif</div><div class="value">2 resep berjalan</div></div>
+          <div class="mock-field"><div class="label">Kunjungan Terakhir</div><div class="value">14 hari lalu</div></div>
+          <div class="mock-field"><div class="label">Status BPJS</div><div class="value">Aktif</div></div>
+        </div>
+        <div>
+          <div class="mock-score">
+            <span style="font-size:13px;color:var(--muted)">Kelengkapan Data</span>
+            <div class="mock-score-track"><div class="mock-score-fill"></div></div>
+            <span style="font-size:13px;font-weight:700">86%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- PROBLEM -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <p class="kicker">Masalah</p>
+        <h2>Administrasi pasien yang lambat dan terpecah</h2>
+        <p>Ini yang terjadi di banyak rumah sakit sebelum ada lapisan identitas yang terpadu.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card"><span class="num">1</span><h3>Administrasi berulang</h3><p>Proses pendaftaran dan verifikasi pasien lambat dan sering diulang di setiap unit.</p></div>
+        <div class="card"><span class="num">2</span><h3>Data tersebar</h3><p>Riwayat pasien tersimpan di sistem yang berbeda beda dan sulit disatukan.</p></div>
+        <div class="card"><span class="num">3</span><h3>Akses lambat</h3><p>Tenaga medis tidak punya akses cepat ke riwayat pasien saat dibutuhkan.</p></div>
+        <div class="card"><span class="num">4</span><h3>Risiko kesalahan medis</h3><p>Informasi yang tidak lengkap meningkatkan risiko keputusan klinis yang keliru.</p></div>
+        <div class="card"><span class="num">5</span><h3>Keputusan tanpa data lengkap</h3><p>Dokter mengambil keputusan tanpa gambaran penuh kondisi pasien.</p></div>
+        <div class="card"><span class="num">6</span><h3>Tidak ada integrasi</h3><p>Antar rumah sakit umumnya belum saling terhubung.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUTION -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <p class="kicker">Solusi</p>
+        <h2>Bagaimana MEDILINK bekerja</h2>
+        <p>Gelang RFID hanya menyimpan UID sebagai kunci identitas. Semua data medis tetap di server pusat.</p>
+      </div>
+      <div class="grid-2">
+        <div class="card"><h3>Identifikasi instan</h3><p>Scan RFID langsung menampilkan identitas dan ringkasan pasien dalam hitungan detik.</p></div>
+        <div class="card"><h3>Dashboard klinis</h3><p>Ringkasan kondisi pasien ditampilkan dalam satu layar, bukan tumpukan dokumen.</p></div>
+        <div class="card"><h3>Integrasi lewat API</h3><p>Data dari berbagai sistem rumah sakit terhubung melalui satu lapisan integrasi.</p></div>
+        <div class="card"><h3>Clinical Intelligence Engine</h3><p>Data mentah diproses menjadi informasi yang mudah dibaca dan langsung dipakai.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-head center">
+        <p class="kicker">Fitur</p>
+        <h2>Yang bisa dilakukan MEDILINK</h2>
+      </div>
+
+      <div class="grid-3">
+        <div class="feature-card">
+          <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M7 7V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M3 13h18"/></svg></div>
+          <h3>Patient Identification</h3>
+          <p>Scan RFID lalu tampilkan data pasien dalam hitungan detik.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h10M7 17h6"/></svg></div>
+          <h3>Patient Dashboard</h3>
+          <p>Riwayat penyakit, alergi, pengobatan aktif, kunjungan, dan status asuransi dalam satu tempat.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg></div>
+          <h3>Clinical Timeline</h3>
+          <p>Perjalanan medis pasien ditampilkan secara kronologis.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+          <h3>Patient Snapshot</h3>
+          <p>Ringkasan kondisi pasien yang bisa dibaca dalam beberapa detik.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 19V5m8 14V9m8 10V13"/></svg></div>
+          <h3>Decision Support</h3>
+          <p>Menyajikan informasi penting untuk membantu keputusan klinis.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></div>
+          <h3>Data Completeness Score</h3>
+          <p>Menunjukkan seberapa lengkap data pasien saat ini.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h5"/></svg></div>
+          <h3>Audit Log</h3>
+          <p>Semua aktivitas akses data tercatat dan bisa ditelusuri.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section class="section" id="architecture">
+    <div class="container">
+      <div class="section-head center">
+        <p class="kicker">Arsitektur</p>
+        <h2>Struktur sistem</h2>
+        <p>Dibangun dengan pendekatan Modular Monolith, Clean Architecture, dan Domain Driven Design.</p>
+      </div>
+      <div class="arch-stack">
+        <div class="arch-layer">Frontend Dashboard <span class="tag">React</span></div>
+        <div class="arch-layer">Backend API <span class="tag">Laravel</span></div>
+        <div class="arch-layer">Clinical Intelligence Engine <span class="tag">Data processing</span></div>
+        <div class="arch-layer">Database <span class="tag">PostgreSQL</span></div>
+        <div class="arch-layer">RFID Device <span class="tag">ESP32</span></div>
+      </div>
+      <div class="arch-approach">
+        <span class="pill">Modular Monolith</span>
+        <span class="pill">Clean Architecture</span>
+        <span class="pill">Domain Driven Design</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECHNOLOGY -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <p class="kicker">Teknologi</p>
+        <h2>Stack yang digunakan</h2>
+      </div>
+      <div style="max-width:640px;margin:0 auto">
+        <div class="tech-row"><span class="label">Frontend</span><span class="items">React, Tailwind CSS, component based architecture</span></div>
+        <div class="tech-row"><span class="label">Backend</span><span class="items">Laravel, REST API, service and repository pattern</span></div>
+        <div class="tech-row"><span class="label">Database</span><span class="items">PostgreSQL</span></div>
+        <div class="tech-row"><span class="label">Device</span><span class="items">ESP32, RFID reader</span></div>
+        <div class="tech-row"><span class="label">Infrastructure</span><span class="items">Docker, Nginx, Redis, MinIO</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECURITY -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <p class="kicker">Keamanan</p>
+        <h2>Identitas tanpa menyimpan data medis di perangkat</h2>
+      </div>
+      <div class="grid-3">
+        <div class="card"><h3>UID saja di RFID</h3><p>Gelang hanya berisi UID, tidak ada data medis yang tersimpan di perangkat.</p></div>
+        <div class="card"><h3>Autentikasi wajib</h3><p>Setiap akses data memerlukan autentikasi yang sah.</p></div>
+        <div class="card"><h3>Role based access</h3><p>Hak akses berbeda untuk setiap peran pengguna.</p></div>
+        <div class="card"><h3>Audit log penuh</h3><p>Seluruh aktivitas akses data tercatat dan bisa diaudit.</p></div>
+        <div class="card"><h3>Komunikasi HTTPS</h3><p>Semua komunikasi data terenkripsi.</p></div>
+        <div class="card"><h3>Data tersentralisasi</h3><p>Data pasien disimpan di server pusat dengan otorisasi ketat.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USE CASE -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <p class="kicker">Contoh Penggunaan</p>
+        <h2>Di ruang gawat darurat</h2>
+      </div>
+      <div class="usecase">
+        <ol>
+          <li><b>Pasien tiba di UGD.</b> Petugas memindai gelang RFID di pergelangan tangan pasien.</li>
+          <li><b>Identitas langsung muncul.</b> Dashboard menampilkan snapshot pasien: alergi, pengobatan aktif, dan kunjungan terakhir.</li>
+          <li><b>Dokter mengambil keputusan.</b> Informasi penting sudah tersedia tanpa perlu mencari rekam medis manual.</li>
+          <li><b>Semua akses tercatat.</b> Audit log menyimpan siapa yang mengakses data dan kapan.</li>
+        </ol>
+        <div class="roles">
+          <span class="pill">Doctor</span>
+          <span class="pill">Nurse</span>
+          <span class="pill">Admin</span>
+          <span class="pill">System Operator</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POSITIONING -->
+  <section class="positioning">
+    <div class="container">
+      <blockquote>MEDILINK adalah platform identitas pasien berbasis RFID yang memungkinkan tenaga medis mengakses informasi klinis penting secara cepat, aman, dan terintegrasi untuk meningkatkan kualitas pengambilan keputusan di lingkungan rumah sakit.</blockquote>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>MEDILINK, dikembangkan oleh Muhammad Sigit Nugroho. <a href="../">Kembali ke portofolio</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
