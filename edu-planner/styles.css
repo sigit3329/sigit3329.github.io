@@ -14,10 +14,7 @@ html,[data-theme="dark"]{ color-scheme: dark; }
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
-  margin:0; background:
-    radial-gradient(60rem 60rem at 20% -10%, rgba(56,189,248,.10), transparent 40%),
-    radial-gradient(30rem 30rem at 100% 0%, rgba(14,165,233,.08), transparent 50%),
-    var(--bg);
+  margin:0; background: var(--bg);
   color:var(--text);
   font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Inter, Roboto, Arial, sans-serif;
 }

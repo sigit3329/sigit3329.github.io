@@ -18,9 +18,7 @@
     return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
   document.getElementById('themeToggle').addEventListener('click', () => {
-    const cycle = ['system','light','dark'];
-    const curr = html.getAttribute('data-theme') || 'system';
-    const next = cycle[(cycle.indexOf(curr)+1)%cycle.length];
+    const next = resolvedTheme() === 'dark' ? 'light' : 'dark';
     setTheme(next);
   });
 

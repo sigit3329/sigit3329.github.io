@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Temperature Sensor & Kalman Filter, Signal Optimization</title>
+<meta name="description" content="Perbandingan beberapa sensor suhu berbasis ESP32 dengan Kalman Filter untuk signal smoothing, menghasilkan data suhu yang lebih stabil.">
+<meta name="theme-color" content="#ea580c">
+<link rel="icon" href="../logo.png" type="image/png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="brand-mark" href="#top">
+      <span class="logo-dot">TK</span>
+      <span class="name">Temperature &amp; Kalman<small>Signal Optimization</small></span>
+    </a>
+    <a class="back-link" href="../">&larr; Kembali ke portofolio</a>
+  </div>
+</div>
+
+<main id="top">
+  <div class="container">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Multi-Sensor Temperature Measurement &amp; Signal Optimization</p>
+        <h1>Dari data suhu yang berisik, jadi sinyal yang stabil.</h1>
+        <p class="lead">Project ini membandingkan beberapa sensor suhu berbasis ESP32, mencatat data mentah dari tiap sensor, lalu menerapkan Kalman Filter untuk menghasilkan data suhu yang lebih stabil dan halus.</p>
+        <div class="hero-tags">
+          <span class="tag">ESP32</span>
+          <span class="tag">Multi-Sensor Comparison</span>
+          <span class="tag">Kalman Filter</span>
+          <span class="tag">Signal Smoothing</span>
+          <span class="tag">Data Export</span>
+        </div>
+        <div class="hero-cta-row">
+          <a class="btn primary" href="#arsitektur">Lihat Arsitektur Sistem</a>
+          <a class="btn" href="../">Kembali ke Portofolio</a>
+        </div>
+      </div>
+
+      <div class="hero-device" aria-hidden="true">
+        <span class="mock-hint">Contoh Tampilan</span>
+        <div class="device-panel">
+          <div class="device-topline">
+            <span class="device-chip">SIGNAL MONITOR</span>
+            <div class="device-legend">
+              <span class="legend-item"><span class="legend-dot dot-raw"></span>Raw</span>
+              <span class="legend-item"><span class="legend-dot dot-filtered"></span>Filtered</span>
+            </div>
+          </div>
+          <div class="chart-box">
+            <svg viewBox="0 0 300 90" preserveAspectRatio="none">
+              <polyline points="0,55 20,35 40,58 60,28 80,50 100,22 120,48 140,18 160,44 180,26 200,40 220,20 240,42 260,24 280,38 300,30" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+              <polyline points="0,46 20,43 40,41 60,39 80,38 100,34 120,35 140,31 160,33 180,30 200,32 220,29 240,31 260,30 280,31 300,30" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="temp-readouts">
+            <div class="temp-readout">
+              <div class="lbl">Raw</div>
+              <div class="val val-raw">27.8&deg;C</div>
+            </div>
+            <div class="temp-readout">
+              <div class="lbl">Filtered</div>
+              <div class="val val-filtered">28.1&deg;C</div>
+            </div>
+          </div>
+          <div class="device-controls">
+            <div class="device-status"><span class="led"></span> Logging Active</div>
+            <div class="device-buttons">
+              <div class="device-btn">Export</div>
+            </div>
+          </div>
+        </div>
+        <div class="device-caption">Ilustrasi perbandingan sinyal raw vs hasil Kalman Filter</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="container">
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Latar Belakang</p>
+        <h2>Kenapa project ini dibuat</h2>
+        <p>Data sensor suhu mentah memiliki noise dan variasi bacaan, sehingga sulit dijadikan acuan yang stabil, terutama saat membandingkan performa antar sensor.</p>
+      </div>
+      <ul class="checklist grid-2">
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Membandingkan beberapa sensor suhu sekaligus</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Mencatat data mentah (raw) untuk referensi</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Menghaluskan sinyal dengan Kalman Filter</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Data raw dan filtered bisa diekspor untuk analisis</li>
+      </ul>
+    </section>
+
+    <section class="section" id="arsitektur">
+      <div class="section-head">
+        <p class="kicker">Arsitektur Sistem</p>
+        <h2>Dari sensor mentah sampai data yang stabil</h2>
+        <p>Beberapa sensor suhu dibaca secara paralel lewat ESP32, dicatat sebagai data mentah, lalu diproses dengan Kalman Filter sebelum divisualisasikan.</p>
+      </div>
+      <div class="flow-row">
+        <span class="flow-step">Multiple Temperature Sensors</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">ESP32 Raw Data Acquisition</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Data Logging</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Kalman Filter</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Filtered Data</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Visualization &amp; Export</span>
+      </div>
+      <div class="grid-3">
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v9.17a4 4 0 1 0 6 0V5a3 3 0 0 0-3-3zm0 2a1 1 0 0 1 1 1v9.68l.5.4a2 2 0 1 1-3 0l.5-.4V5a1 1 0 0 1 1-1z"/></svg></div>
+          <h3>Multi-Sensor Comparison</h3>
+          <p>Beberapa sensor suhu dibaca bersamaan untuk dibandingkan performanya.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M4 12h4l2-7 4 14 2-7h4"/></svg></div>
+          <h3>Raw Data Logging</h3>
+          <p>Data mentah tiap sensor dicatat sebagai baseline pembanding.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></div>
+          <h3>Kalman Filter</h3>
+          <p>Data mentah diproses dengan Kalman Filter untuk mengurangi noise.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 14l3-4 3 3 3-6"/></svg></div>
+          <h3>Data Visualization</h3>
+          <p>Data raw dan hasil filter ditampilkan berdampingan untuk dibandingkan.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 21h16"/></svg></div>
+          <h3>Data Export</h3>
+          <p>Data dapat diekspor untuk analisis lebih lanjut di luar sistem.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Technology</p>
+        <h2>Yang digunakan dalam sistem ini</h2>
+      </div>
+      <div class="focus-tags">
+        <span class="focus-tag">ESP32</span>
+        <span class="focus-tag">Multi-Sensor Comparison</span>
+        <span class="focus-tag">Raw Data Logging</span>
+        <span class="focus-tag">Kalman Filter</span>
+        <span class="focus-tag">Signal Smoothing</span>
+        <span class="focus-tag">Filtered Data</span>
+        <span class="focus-tag">Data Visualization</span>
+        <span class="focus-tag">Data Export</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Kontribusi Saya</p>
+        <h2>Peran dalam pengembangan sistem ini</h2>
+      </div>
+      <p style="color:var(--muted); font-size:15.5px; max-width:70ch; margin:0;">Saya membangun jalur akuisisi data dari beberapa sensor suhu sekaligus, mengimplementasikan Kalman Filter untuk signal smoothing, serta menyiapkan visualisasi dan ekspor data untuk membandingkan data mentah dengan data hasil filter.</p>
+    </section>
+
+    <section class="section">
+      <div class="status-card">
+        <p class="kicker">Status</p>
+        <h3>Prototype / R&amp;D</h3>
+        <p>Project ini merupakan eksperimen karakterisasi sensor dan optimasi sinyal, bukan sistem produksi.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>Temperature Sensor &amp; Kalman Filter, project oleh Muhammad Sigit Nugroho. <a href="../">Kembali ke portofolio</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

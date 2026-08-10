@@ -509,11 +509,11 @@ tbody tr.total-row:hover {
 
 /* Warna khusus untuk beberapa metrik agar mudah dibaca */
 .akun-value.akun-profit   { color: #059669; }
-.akun-value.akun-equity   { color: #7c3aed; }
+.akun-value.akun-equity   { color: #1d4ed8; }
 .akun-value.akun-gain     { color: #2563eb; }
 .akun-value.akun-jumlah   { color: #475569; }
 .dark .akun-value.akun-profit   { color: #34d399; }
-.dark .akun-value.akun-equity   { color: #c4b5fd; }
+.dark .akun-value.akun-equity   { color: #93c5fd; }
 .dark .akun-value.akun-gain     { color: #60a5fa; }
 .dark .akun-value.akun-jumlah   { color: #cbd5e1; }
 

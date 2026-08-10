@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Motor Security, RFID & RF-Based Vehicle Security System</title>
+<meta name="description" content="Smart Motor Security, sistem keamanan kendaraan berbasis RFID PN532 dan RF 433 MHz dengan status kunci tersimpan di EEPROM.">
+<meta name="theme-color" content="#dc2626">
+<link rel="icon" href="../logo.png" type="image/png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="brand-mark" href="#top">
+      <span class="logo-dot">MS</span>
+      <span class="name">Smart Motor Security<small>Vehicle Security System</small></span>
+    </a>
+    <a class="back-link" href="../">&larr; Kembali ke portofolio</a>
+  </div>
+</div>
+
+<main id="top">
+  <div class="container">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">RFID &amp; RF-Based Vehicle Security System</p>
+        <h1>Dua jalur akses, satu status kunci yang selalu tersimpan.</h1>
+        <p class="lead">Smart Motor Security menggabungkan RFID (PN532) dan RF 433 MHz untuk kontrol akses dan penguncian nirkabel, dengan status kunci manual yang tetap tersimpan di EEPROM meski perangkat mati atau restart.</p>
+        <div class="hero-tags">
+          <span class="tag">RFID PN532</span>
+          <span class="tag">RF 433 MHz</span>
+          <span class="tag">EEPROM</span>
+          <span class="tag">Access Control</span>
+          <span class="tag">Embedded Security</span>
+        </div>
+        <div class="hero-cta-row">
+          <a class="btn primary" href="#arsitektur">Lihat Arsitektur Sistem</a>
+          <a class="btn" href="../">Kembali ke Portofolio</a>
+        </div>
+      </div>
+
+      <div class="hero-device" aria-hidden="true">
+        <span class="mock-hint">Contoh Tampilan</span>
+        <div class="device-panel">
+          <div class="device-topline">
+            <span class="device-chip">MOTOR SECURITY</span>
+            <span class="led led-ok"></span>
+          </div>
+          <div class="lock-status">
+            <div class="lock-icon">
+              <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            </div>
+            <div class="lock-text">LOCKED</div>
+          </div>
+          <div class="rf-row">
+            <div class="rf-item">
+              <div class="rf-label">RFID</div>
+              <div class="rf-bars"><i style="height:60%"></i><i style="height:100%"></i><i style="height:80%"></i></div>
+            </div>
+            <div class="rf-item">
+              <div class="rf-label">RF 433</div>
+              <div class="rf-bars"><i style="height:40%"></i><i style="height:70%"></i><i style="height:90%"></i></div>
+            </div>
+            <div class="rf-item">
+              <div class="rf-label">EEPROM</div>
+              <div class="rf-bars"><i style="height:100%"></i><i style="height:100%"></i><i style="height:100%"></i></div>
+            </div>
+          </div>
+          <div class="device-controls">
+            <div class="device-status"><span class="led led-ok" style="width:6px;height:6px;"></span> Standby</div>
+            <div class="device-buttons">
+              <div class="device-btn">Unlock</div>
+            </div>
+          </div>
+        </div>
+        <div class="device-caption">Ilustrasi panel status kunci Smart Motor Security</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="container">
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Latar Belakang</p>
+        <h2>Kenapa Smart Motor Security dibuat</h2>
+        <p>Kunci konvensional pada kendaraan rentan terhadap duplikasi dan tidak memiliki kontrol akses maupun status kunci yang bisa dikonfigurasi secara elektronik.</p>
+      </div>
+      <ul class="checklist grid-2">
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Kontrol akses lewat RFID PN532</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Penguncian nirkabel lewat RF 433 MHz</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Status kunci tersimpan permanen di EEPROM</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Tetap berfungsi meski perangkat restart</li>
+      </ul>
+    </section>
+
+    <section class="section" id="arsitektur">
+      <div class="section-head">
+        <p class="kicker">Arsitektur Sistem</p>
+        <h2>Dari input akses sampai status kunci</h2>
+        <p>Sistem menerima input dari RFID PN532 dan RF 433 MHz, memproses logika akses, lalu menyimpan status kunci secara persisten di EEPROM.</p>
+      </div>
+      <div class="flow-row">
+        <span class="flow-step">RFID PN532 / RF 433 MHz</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Access Control Logic</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">EEPROM Persistent State</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Embedded Security Control</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Manual / Wireless Lock</span>
+      </div>
+      <div class="grid-3">
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h2M7 14h6"/></svg></div>
+          <h3>RFID PN532</h3>
+          <p>Membaca kartu/tag RFID sebagai salah satu jalur akses.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0M8.5 15.5a3.5 3.5 0 0 1 7 0M12 19v.01"/></svg></div>
+          <h3>RF 433 MHz</h3>
+          <p>Modul RF sebagai jalur kontrol nirkabel tambahan.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg></div>
+          <h3>Access Control Logic</h3>
+          <p>Menentukan keputusan buka/kunci dari kedua sumber input.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 8h8v8H8z"/></svg></div>
+          <h3>EEPROM Persistent State</h3>
+          <p>Status kunci disimpan permanen, tetap ada meski listrik mati.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+          <h3>Embedded Security</h3>
+          <p>Logika keamanan berjalan langsung di embedded controller.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 21h16"/></svg></div>
+          <h3>Manual / Wireless Lock</h3>
+          <p>Kunci dapat dikontrol manual maupun secara nirkabel.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Technology</p>
+        <h2>Yang digunakan dalam sistem ini</h2>
+      </div>
+      <div class="focus-tags">
+        <span class="focus-tag">RFID PN532</span>
+        <span class="focus-tag">RF 433 MHz</span>
+        <span class="focus-tag">EEPROM</span>
+        <span class="focus-tag">Access Control</span>
+        <span class="focus-tag">Manual Lock State</span>
+        <span class="focus-tag">Wireless Control</span>
+        <span class="focus-tag">Persistent Configuration</span>
+        <span class="focus-tag">Embedded Security</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Kontribusi Saya</p>
+        <h2>Peran dalam pengembangan sistem ini</h2>
+      </div>
+      <p style="color:var(--muted); font-size:15.5px; max-width:70ch; margin:0;">Saya mengembangkan logika kontrol akses dari dua sumber input (RFID dan RF), penyimpanan status kunci yang persisten di EEPROM, serta integrasi keseluruhan sistem keamanan berbasis embedded ini.</p>
+    </section>
+
+    <section class="section">
+      <div class="status-card">
+        <p class="kicker">Status</p>
+        <h3>Prototype / R&amp;D</h3>
+        <p>Project ini masih dalam tahap pengembangan sistem keamanan embedded.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>Smart Motor Security, project oleh Muhammad Sigit Nugroho. <a href="../">Kembali ke portofolio</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

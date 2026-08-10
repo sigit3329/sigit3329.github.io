@@ -1,0 +1,121 @@
+/* Gesture Wearable: wearable-tech, violet + dark, minim gimmick */
+:root{
+  --violet-900: #1c1330;
+  --violet-800: #2a1e47;
+  --violet-700: #3b2a63;
+  --violet-500: #8b5cf6;
+  --violet-400: #a78bfa;
+  --violet-100: #ede9fe;
+  --ink: #171225;
+  --muted: #625c74;
+  --line: #e4dff0;
+  --bg: #f8f6fc;
+  --panel: #ffffff;
+  --good: #16a34a;
+  --radius: 10px;
+  --shadow: 0 4px 14px rgba(23,18,37,.08);
+  --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{ margin:0; font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color: var(--ink); background: var(--bg); }
+.container{ max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+a{ color: var(--violet-700); }
+
+.topbar{ border-bottom: 1px solid var(--line); background: rgba(248,246,252,.9); backdrop-filter: blur(6px); position: sticky; top:0; z-index:20; }
+.topbar-inner{ display:flex; align-items:center; justify-content:space-between; padding: 14px 20px; max-width:1120px; margin:0 auto; gap:16px; flex-wrap:wrap; }
+.brand-mark{ display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; }
+.brand-mark .logo-dot{ width:32px; height:32px; border-radius:9px; background: linear-gradient(135deg, var(--violet-500), var(--violet-800)); display:grid; place-items:center; color:#fff; font-weight:800; font-size:13px; }
+.brand-mark .name{ font-weight:800; font-size:16px; letter-spacing:.2px; color: var(--ink); }
+.brand-mark .name small{ display:block; font-weight:500; font-size:11px; color:var(--muted); letter-spacing:.4px; text-transform:uppercase; }
+.back-link{ font-size:13.5px; color: var(--muted); text-decoration:none; display:inline-flex; align-items:center; gap:6px; }
+.back-link:hover{ color: var(--violet-700); }
+
+.hero{ padding: 64px 0 52px; display:grid; grid-template-columns: 1.1fr .9fr; gap:48px; align-items:center; }
+.hero .eyebrow{ text-transform:uppercase; letter-spacing:.12em; font-size:12px; font-weight:700; color: var(--violet-700); margin:0 0 10px; }
+.hero h1{ margin:0 0 10px; font-size: clamp(28px, 4vw, 42px); line-height:1.15; letter-spacing:-.01em; }
+.hero p.lead{ margin:0 0 22px; color: var(--muted); font-size: 17px; max-width: 62ch; }
+.hero-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:22px; }
+.tag{ font-size:12.5px; font-weight:600; padding:5px 10px; border-radius:999px; border:1px solid var(--line); background:#fff; color: var(--violet-800); }
+.hero-cta-row{ display:flex; flex-wrap:wrap; gap:10px; }
+.hero-cta-row .btn{ text-decoration:none; }
+
+/* ===== HERO DEVICE: wristband ===== */
+.hero-device{ display:flex; flex-direction:column; align-items:center; gap:14px; }
+.wristband{
+  position:relative; width:100%; max-width:300px; padding: 30px 0;
+}
+.wristband-strap{
+  position:absolute; top:50%; left:0; right:0; height:34px; transform:translateY(-50%);
+  background: linear-gradient(180deg, var(--violet-800), var(--violet-900));
+  border-radius:18px;
+}
+.wristband-strap::before, .wristband-strap::after{
+  content:''; position:absolute; top:50%; width:26px; height:34px; transform:translateY(-50%);
+  background: inherit; border-radius:14px;
+}
+.wristband-strap::before{ left:-18px; }
+.wristband-strap::after{ right:-18px; }
+.device-panel{
+  position:relative; z-index:2; margin:0 auto;
+  width:190px;
+  background: linear-gradient(180deg, var(--violet-700), var(--violet-900));
+  border-radius: 22px; padding: 16px;
+  box-shadow: 0 24px 48px rgba(23,18,37,.32), inset 0 1px 0 rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.08);
+}
+.device-topline{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.device-chip{ font-family: var(--mono); font-size:10px; font-weight:700; color:#d8caf9; background: rgba(255,255,255,.1); padding:3px 7px; border-radius:6px; letter-spacing:.05em; }
+.led{ width:7px; height:7px; border-radius:50%; display:inline-block; background:#22c55e; box-shadow:0 0 6px rgba(34,197,94,.8); }
+
+.wave-box{ background:#120c1f; border-radius:8px; padding:8px; box-shadow: inset 0 2px 6px rgba(0,0,0,.4); margin-bottom:10px; }
+.wave-box svg{ display:block; width:100%; height:auto; }
+
+.gesture-readout{ text-align:center; margin-bottom:10px; }
+.gesture-readout .lbl{ font-family: var(--mono); font-size:9px; color:#b3a3e0; text-transform:uppercase; letter-spacing:.06em; }
+.gesture-readout .val{ font-family: var(--mono); font-size:15px; font-weight:700; color:#e4d8ff; margin-top:2px; }
+
+.device-status{ display:flex; align-items:center; justify-content:center; gap:6px; font-family: var(--mono); font-size:10px; color:#c7b9ef; }
+.device-caption{ font-size:12.5px; color: var(--muted); text-align:center; max-width:280px; margin-top:6px; }
+.mock-hint{ font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#6d3fc9; background: rgba(139,92,246,.12); border:1px solid rgba(139,92,246,.28); padding:2px 8px; border-radius:999px; display:inline-block; margin-bottom:6px; }
+
+.section{ padding: 56px 0; border-top: 1px solid var(--line); }
+.section-head{ max-width: 680px; margin: 0 0 28px; }
+.section-head .kicker{ font-size:12.5px; font-weight:700; color: var(--violet-700); text-transform:uppercase; letter-spacing:.1em; margin:0 0 8px; }
+.section-head h2{ margin:0 0 8px; font-size: clamp(22px,3vw,28px); letter-spacing:-.01em; }
+.section-head p{ margin:0; color: var(--muted); font-size:15.5px; }
+
+.checklist{ list-style:none; margin:0; padding:0; display:grid; gap:12px; }
+.checklist.grid-2{ grid-template-columns: repeat(2, 1fr); }
+.checklist li{ display:flex; align-items:flex-start; gap:10px; font-size:14.5px; color: var(--ink); }
+.checklist svg{ flex-shrink:0; width:18px; height:18px; margin-top:2px; stroke: var(--good); fill:none; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+@media (max-width:640px){ .checklist.grid-2{ grid-template-columns:1fr; } }
+
+.flow-row{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:18px; }
+.flow-step{ background: var(--violet-100); border:1px solid rgba(139,92,246,.22); border-radius:999px; padding:8px 14px; font-size:13px; font-weight:700; color: var(--violet-700); white-space:nowrap; }
+.flow-arrow{ color: var(--muted); font-size:14px; flex-shrink:0; }
+
+.grid-3{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:16px; }
+.panel{ background: var(--panel); border:1px solid var(--line); border-radius: var(--radius); padding:18px; box-shadow: var(--shadow); }
+.panel .icon-chip{ width:38px; height:38px; border-radius:9px; margin-bottom:10px; background: var(--violet-100); color: var(--violet-700); display:grid; place-items:center; }
+.panel .icon-chip svg{ width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.panel h3{ margin:0 0 6px; font-size:15.5px; }
+.panel p{ margin:0; color: var(--muted); font-size:14px; }
+
+.focus-tags{ display:flex; flex-wrap:wrap; gap:8px; }
+.focus-tag{ background: var(--violet-100); color: var(--violet-700); border:1px solid rgba(139,92,246,.22); border-radius:999px; padding:6px 12px; font-size:13px; font-weight:700; }
+
+.status-card{ background: linear-gradient(135deg, var(--violet-800), var(--violet-900)); color:#fff; border-radius:16px; padding:26px 28px; }
+.status-card .kicker{ color:#c9b4fb; }
+.status-card h3{ margin:0 0 8px; font-size:19px; }
+.status-card p{ margin:0; color:#e0d5f7; font-size:14.5px; max-width:62ch; }
+
+.btn{ display:inline-flex; align-items:center; gap:6px; text-decoration:none; padding:11px 18px; border-radius:10px; font-weight:700; font-size:14.5px; border:1px solid var(--line); color: var(--ink); background:#fff; cursor:pointer; transition: transform .12s ease, box-shadow .12s ease; }
+.btn.primary{ background: linear-gradient(135deg, var(--violet-500), var(--violet-700)); border-color:transparent; color:#fff; box-shadow: 0 8px 18px rgba(139,92,246,.3); }
+.btn:hover{ transform: translateY(-1px); }
+
+.site-footer{ padding: 32px 0 48px; text-align:center; color: var(--muted); font-size:13.5px; }
+.site-footer a{ color: var(--violet-700); }
+
+@media (max-width:840px){ .hero{ grid-template-columns:1fr; } }

@@ -6,13 +6,17 @@
   else html.setAttribute('data-theme', 'system');
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  document.getElementById('themeToggle').addEventListener('click', () => {
-    const cycle = ['system','light','dark'];
+  function resolvedTheme(){
     const curr = html.getAttribute('data-theme') || 'system';
-    const next = cycle[(cycle.indexOf(curr)+1)%cycle.length];
+    if (curr === 'light') return 'light';
+    if (curr === 'dark') return 'dark';
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const next = resolvedTheme() === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
-    if (next === 'system') localStorage.removeItem('theme');
-    else localStorage.setItem('theme', next);
+    localStorage.setItem('theme', next);
   });
 
   const el = (id) => document.getElementById(id);

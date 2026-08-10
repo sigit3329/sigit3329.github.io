@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vehicle Counting, LiDAR-Based Vehicle Counting & Remote Monitoring</title>
+<meta name="description" content="Vehicle Counting, sistem penghitung kendaraan berbasis LiDAR TF02-Pro, ESP32-S3, RS485, dan 4G LTE untuk monitoring jarak jauh di lapangan.">
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" href="../logo.png" type="image/png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="brand-mark" href="#top">
+      <span class="logo-dot">VC</span>
+      <span class="name">Vehicle Counting<small>Field &amp; Remote Monitoring</small></span>
+    </a>
+    <a class="back-link" href="../">&larr; Kembali ke portofolio</a>
+  </div>
+</div>
+
+<main id="top">
+  <div class="container">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">LiDAR-Based Vehicle Counting &amp; Remote Monitoring</p>
+        <h1>Menghitung kendaraan di lapangan, dipantau dari mana saja.</h1>
+        <p class="lead">Vehicle Counting menggunakan sensor LiDAR TF02-Pro untuk mendeteksi dan menghitung kendaraan di kondisi outdoor, lalu mengirim datanya lewat jaringan 4G LTE sehingga bisa dipantau dari jarak jauh tanpa akses internet kabel atau WiFi di lokasi.</p>
+        <div class="hero-tags">
+          <span class="tag">TF02-Pro LiDAR</span>
+          <span class="tag">ESP32-S3</span>
+          <span class="tag">RS485</span>
+          <span class="tag">4G LTE</span>
+          <span class="tag">Field / Outdoor Sensing</span>
+        </div>
+        <div class="hero-cta-row">
+          <a class="btn primary" href="#arsitektur">Lihat Arsitektur Sistem</a>
+          <a class="btn" href="../">Kembali ke Portofolio</a>
+        </div>
+      </div>
+
+      <div class="hero-device" aria-hidden="true">
+        <span class="mock-hint">Contoh Tampilan</span>
+        <div class="device-panel">
+          <div class="device-topline">
+            <span class="device-chip">FIELD UNIT</span>
+            <span class="led led-ok"></span>
+          </div>
+          <div class="count-readout">
+            <div class="count-label">Vehicle Count</div>
+            <div class="count-value">3,942</div>
+            <div class="count-unit">kendaraan terdeteksi</div>
+          </div>
+          <div class="field-row">
+            <div class="field-item">
+              <div class="lbl">LiDAR Range</div>
+              <div class="val">184 cm</div>
+            </div>
+            <div class="field-item">
+              <div class="lbl">4G LTE</div>
+              <div class="signal-bars"><i style="height:40%"></i><i style="height:60%"></i><i style="height:80%"></i><i style="height:100%"></i></div>
+            </div>
+          </div>
+          <div class="device-controls">
+            <div class="device-status"><span class="led led-ok" style="width:6px;height:6px;"></span> RS485 Linked</div>
+            <div class="device-buttons">
+              <div class="device-btn">Sync</div>
+            </div>
+          </div>
+        </div>
+        <div class="device-caption">Ilustrasi panel unit lapangan Vehicle Counting</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="container">
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Latar Belakang</p>
+        <h2>Kenapa Vehicle Counting dibuat</h2>
+        <p>Penghitungan kendaraan di lapangan membutuhkan sensor yang andal untuk kondisi outdoor, serta jalur komunikasi yang stabil untuk mengirim data ke sistem monitoring dari lokasi yang mungkin tidak memiliki akses internet kabel atau WiFi.</p>
+      </div>
+      <ul class="checklist grid-2">
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Deteksi kendaraan pakai sensor LiDAR</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Dirancang tahan untuk kondisi outdoor/lapangan</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Komunikasi data pakai RS485</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Kirim data lewat 4G LTE, tanpa perlu WiFi lokasi</li>
+      </ul>
+    </section>
+
+    <section class="section" id="arsitektur">
+      <div class="section-head">
+        <p class="kicker">Arsitektur Sistem</p>
+        <h2>Dari sensor LiDAR sampai sistem remote</h2>
+        <p>Sensor LiDAR TF02-Pro mendeteksi kendaraan yang lewat, data diproses oleh ESP32-S3, dikomunikasikan lewat RS485, lalu dikirim ke sistem remote lewat 4G LTE.</p>
+      </div>
+      <div class="flow-row">
+        <span class="flow-step">TF02-Pro LiDAR</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">ESP32-S3</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">RS485</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">4G LTE</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Remote Monitoring System</span>
+      </div>
+      <div class="grid-3">
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M12 3v6m0 6v6M3 12h6m6 0h6"/></svg></div>
+          <h3>TF02-Pro LiDAR</h3>
+          <p>Mendeteksi keberadaan dan jarak kendaraan yang melintas.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg></div>
+          <h3>ESP32-S3</h3>
+          <p>Memproses data jarak dari LiDAR menjadi hasil penghitungan kendaraan.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M4 12h16M4 7h10M4 17h13"/></svg></div>
+          <h3>RS485</h3>
+          <p>Jalur komunikasi data yang stabil untuk kondisi lapangan.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0M8.5 15.5a3.5 3.5 0 0 1 7 0M12 19v.01"/></svg></div>
+          <h3>4G LTE</h3>
+          <p>Mengirim data ke sistem remote tanpa perlu jaringan WiFi lokal.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M4 4h16v12H4zM8 20h8"/></svg></div>
+          <h3>Remote Monitoring</h3>
+          <p>Data penghitungan kendaraan bisa dipantau dari jarak jauh.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M3 21c2-4 4-6 9-6s7 2 9 6M12 3a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/></svg></div>
+          <h3>Outdoor / Field Sensing</h3>
+          <p>Dirancang untuk beroperasi pada kondisi lapangan yang lebih menantang.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Technology</p>
+        <h2>Yang digunakan dalam sistem ini</h2>
+      </div>
+      <div class="focus-tags">
+        <span class="focus-tag">TF02-Pro LiDAR</span>
+        <span class="focus-tag">ESP32-S3</span>
+        <span class="focus-tag">RS485</span>
+        <span class="focus-tag">4G LTE</span>
+        <span class="focus-tag">Vehicle Detection</span>
+        <span class="focus-tag">Vehicle Counting</span>
+        <span class="focus-tag">Remote Monitoring</span>
+        <span class="focus-tag">Outdoor / Field Sensing</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Kontribusi Saya</p>
+        <h2>Peran dalam pengembangan sistem ini</h2>
+      </div>
+      <p style="color:var(--muted); font-size:15.5px; max-width:70ch; margin:0;">Saya mengintegrasikan sensor LiDAR dengan ESP32-S3 melalui komunikasi RS485, serta membangun jalur pengiriman data lewat 4G LTE agar sistem dapat dipantau dari jarak jauh di kondisi lapangan/outdoor.</p>
+    </section>
+
+    <section class="section">
+      <div class="status-card">
+        <p class="kicker">Status</p>
+        <h3>Field / Industrial IoT System Development</h3>
+        <p>Project ini merupakan sistem IoT untuk kondisi lapangan, dalam tahap pengembangan.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>Vehicle Counting, project IoT oleh Muhammad Sigit Nugroho. <a href="../">Kembali ke portofolio</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

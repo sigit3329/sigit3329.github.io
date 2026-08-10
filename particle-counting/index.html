@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Particle Counting, Particle Counting & Monitoring System</title>
+<meta name="description" content="Particle Counting adalah sistem deteksi dan penghitungan partikel berbasis sensor, dengan embedded processing, komunikasi, monitoring, dan data logging.">
+<meta name="theme-color" content="#0e7c70">
+<link rel="icon" href="../logo.png" type="image/png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="brand-mark" href="#top">
+      <span class="logo-dot">PC</span>
+      <span class="name">Particle Counting<small>Detection &amp; Monitoring</small></span>
+    </a>
+    <a class="back-link" href="../">&larr; Kembali ke portofolio</a>
+  </div>
+</div>
+
+<main id="top">
+  <div class="container">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Particle Counting &amp; Monitoring System</p>
+        <h1>Deteksi dan hitung partikel secara otomatis, bukan manual.</h1>
+        <p class="lead">Particle Counting mendeteksi dan menghitung partikel menggunakan sensor khusus, memproses hasil pembacaan di sisi embedded, lalu mengirim dan mencatat datanya sehingga bisa dipantau secara berkelanjutan.</p>
+        <div class="hero-tags">
+          <span class="tag">Particle Sensing</span>
+          <span class="tag">Data Acquisition</span>
+          <span class="tag">Embedded Processing</span>
+          <span class="tag">Detection &amp; Counting</span>
+          <span class="tag">Data Logging</span>
+        </div>
+        <div class="hero-cta-row">
+          <a class="btn primary" href="#arsitektur">Lihat Arsitektur Sistem</a>
+          <a class="btn" href="../">Kembali ke Portofolio</a>
+        </div>
+      </div>
+
+      <div class="hero-device" aria-hidden="true">
+        <span class="mock-hint">Contoh Tampilan</span>
+        <div class="device-panel">
+          <div class="device-topline">
+            <span class="device-chip">PARTICLE COUNTER</span>
+            <span class="device-leds"><i class="led led-ok"></i><i class="led led-info"></i></span>
+          </div>
+          <div class="particle-field">
+            <i style="top:20%;left:15%"></i><i style="top:40%;left:30%"></i><i style="top:65%;left:20%"></i>
+            <i style="top:25%;left:55%"></i><i style="top:70%;left:60%"></i><i style="top:50%;left:75%"></i>
+            <i style="top:15%;left:80%"></i><i style="top:80%;left:40%"></i><i style="top:35%;left:10%"></i>
+            <i style="top:55%;left:48%"></i><i style="top:10%;left:65%"></i><i style="top:75%;left:85%"></i>
+          </div>
+          <div class="counter-readout">
+            <div>
+              <div class="counter-value">1,284</div>
+              <div class="counter-unit">particles / min</div>
+            </div>
+          </div>
+          <div class="device-controls">
+            <div class="device-status">
+              <span class="led led-ok" style="width:6px;height:6px;"></span> Sensing Active
+            </div>
+            <div class="device-buttons">
+              <div class="device-btn">Log</div>
+            </div>
+          </div>
+        </div>
+        <div class="device-caption">Ilustrasi panel monitoring Particle Counting</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="container">
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Latar Belakang</p>
+        <h2>Kenapa Particle Counting dibuat</h2>
+        <p>Menghitung dan memantau jumlah partikel secara manual tidak praktis untuk kebutuhan monitoring yang berkelanjutan, dan membutuhkan pemrosesan sinyal yang konsisten agar hasil counting bisa diandalkan.</p>
+      </div>
+      <ul class="checklist grid-2">
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Deteksi partikel otomatis lewat sensor</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Counting diproses langsung di embedded controller</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Data dicatat (logging) untuk ditelusuri</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Bisa dipantau berkelanjutan, bukan sesaat</li>
+      </ul>
+    </section>
+
+    <section class="section" id="arsitektur">
+      <div class="section-head">
+        <p class="kicker">Arsitektur Sistem</p>
+        <h2>Dari sensing sampai monitoring</h2>
+        <p>Sistem melakukan sensing dan akuisisi data partikel, memproses hasil deteksi di embedded controller, lalu mengirim dan mencatat datanya.</p>
+      </div>
+      <div class="grid-3">
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><circle cx="7" cy="8" r="1.6"/><circle cx="14" cy="6" r="1.2"/><circle cx="11" cy="14" r="1.8"/><circle cx="17" cy="15" r="1.4"/></svg></div>
+          <h3>Particle Sensing</h3>
+          <p>Sensor mendeteksi keberadaan partikel pada jalur pengukuran.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M4 12h4l2-7 4 14 2-7h4"/></svg></div>
+          <h3>Data Acquisition</h3>
+          <p>Hasil pembacaan sensor diakuisisi untuk diproses lebih lanjut.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg></div>
+          <h3>Embedded Processing</h3>
+          <p>Data diproses di embedded controller untuk menghasilkan angka counting.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M12 2v6M12 22v-6M4.9 4.9l4.2 4.2M14.9 14.9l4.2 4.2M2 12h6M16 12h6M4.9 19.1l4.2-4.2M14.9 9.1l4.2-4.2"/></svg></div>
+          <h3>Detection &amp; Counting</h3>
+          <p>Logika deteksi menentukan dan menghitung partikel yang terbaca.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0M8.5 15.5a3.5 3.5 0 0 1 7 0M12 19v.01"/></svg></div>
+          <h3>Communication</h3>
+          <p>Hasil counting dikirim melalui jalur komunikasi ke sistem monitoring.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M4 4h16v12H4zM8 20h8"/></svg></div>
+          <h3>Monitoring &amp; Data Logging</h3>
+          <p>Data dipantau dan dicatat untuk keperluan analisis lebih lanjut.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Technology</p>
+        <h2>Yang digunakan dalam sistem ini</h2>
+      </div>
+      <div class="focus-tags">
+        <span class="focus-tag">Particle Sensing</span>
+        <span class="focus-tag">Data Acquisition</span>
+        <span class="focus-tag">Embedded Processing</span>
+        <span class="focus-tag">Detection &amp; Counting</span>
+        <span class="focus-tag">Data Processing</span>
+        <span class="focus-tag">Communication</span>
+        <span class="focus-tag">Monitoring</span>
+        <span class="focus-tag">Data Logging</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Kontribusi Saya</p>
+        <h2>Peran dalam pengembangan sistem ini</h2>
+      </div>
+      <p style="color:var(--muted); font-size:15.5px; max-width:70ch; margin:0;">Saya mengembangkan alur akuisisi data dari sensor partikel, logika deteksi dan counting di sisi embedded, serta jalur komunikasi dan pencatatan (logging) datanya.</p>
+    </section>
+
+    <section class="section">
+      <div class="status-card">
+        <p class="kicker">Status</p>
+        <h3>System Development</h3>
+        <p>Project ini masih dalam tahap pengembangan sistem.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>Particle Counting, project IoT oleh Muhammad Sigit Nugroho. <a href="../">Kembali ke portofolio</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

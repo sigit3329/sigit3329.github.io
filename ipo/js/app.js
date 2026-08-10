@@ -206,11 +206,11 @@
             : 0;
 
         const cards = [
-            { label: 'Total Emiten',   value: totalEmiten.toString(),           accent: '#3b82f6' },
-            { label: 'Total Akun',     value: totalAkun.toLocaleString('id-ID'), accent: '#8b5cf6' },
-            { label: 'Total Modal',    value: formatRupiah(totalModal),         accent: '#0ea5e9' },
+            { label: 'Total Emiten',   value: totalEmiten.toString(),           accent: '#60a5fa' },
+            { label: 'Total Akun',     value: totalAkun.toLocaleString('id-ID'), accent: '#3b82f6' },
+            { label: 'Total Modal',    value: formatRupiah(totalModal),         accent: '#2563eb' },
             { label: 'Total Profit',   value: formatRupiah(totalProfit),        accent: totalProfit >= 0 ? '#10b981' : '#ef4444' },
-            { label: 'Total Equity',   value: formatRupiah(totalEquity),        accent: '#a855f7' },
+            { label: 'Total Equity',   value: formatRupiah(totalEquity),        accent: '#1d4ed8' },
             { label: 'Avg Gain',       value: formatPersen(averageGain),        accent: averageGain >= 0 ? '#10b981' : '#ef4444' }
         ];
 

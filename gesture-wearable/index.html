@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gesture Wearable, EMG & IMU-Based Wearable Interaction System</title>
+<meta name="description" content="Gesture Wearable, prototype wearable berbasis EMG & IMU (BMI160) untuk deteksi gesture, dibangun di atas ESP32.">
+<meta name="theme-color" content="#8b5cf6">
+<link rel="icon" href="../logo.png" type="image/png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="brand-mark" href="#top">
+      <span class="logo-dot">GW</span>
+      <span class="name">Gesture Wearable<small>Wearable Interaction</small></span>
+    </a>
+    <a class="back-link" href="../">&larr; Kembali ke portofolio</a>
+  </div>
+</div>
+
+<main id="top">
+  <div class="container">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">EMG &amp; IMU-Based Wearable Interaction System</p>
+        <h1>Mengenali gesture langsung dari sinyal otot dan gerakan.</h1>
+        <p class="lead">Gesture Wearable adalah perangkat wearable berbasis ESP32 yang menggabungkan sensor EMG dan IMU (BMI160) untuk mendeteksi gerakan dan gesture pengguna secara real-time.</p>
+        <div class="hero-tags">
+          <span class="tag">ESP32</span>
+          <span class="tag">EMG Sensor</span>
+          <span class="tag">BMI160 IMU</span>
+          <span class="tag">Gesture Sensing</span>
+          <span class="tag">Wearable Electronics</span>
+        </div>
+        <div class="hero-cta-row">
+          <a class="btn primary" href="#arsitektur">Lihat Arsitektur Sistem</a>
+          <a class="btn" href="../">Kembali ke Portofolio</a>
+        </div>
+      </div>
+
+      <div class="hero-device" aria-hidden="true">
+        <span class="mock-hint">Contoh Tampilan</span>
+        <div class="wristband">
+          <div class="wristband-strap"></div>
+          <div class="device-panel">
+            <div class="device-topline">
+              <span class="device-chip">GESTURE WEARABLE</span>
+              <span class="led"></span>
+            </div>
+            <div class="wave-box">
+              <svg viewBox="0 0 160 46" preserveAspectRatio="none">
+                <polyline points="0,23 8,10 14,34 20,14 26,30 32,8 38,32 44,16 50,28 56,12 62,26 68,18 74,24 80,20 86,23 92,21 98,23 104,22 110,23 116,22 122,23 128,23 134,23 140,23 146,23 152,23 160,23" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="gesture-readout">
+              <div class="lbl">Gesture Terdeteksi</div>
+              <div class="val">Swipe &rarr;</div>
+            </div>
+            <div class="device-status">EMG + IMU Active</div>
+          </div>
+        </div>
+        <div class="device-caption">Ilustrasi wearable dengan sinyal EMG dan status gesture</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="container">
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Latar Belakang</p>
+        <h2>Kenapa Gesture Wearable dibuat</h2>
+        <p>Interaksi berbasis gesture membutuhkan akuisisi sinyal otot (EMG) dan gerakan (IMU/gyroscope) secara bersamaan, serta pemrosesan sinyal pada perangkat yang ringkas dan hemat daya agar nyaman dipakai di tubuh.</p>
+      </div>
+      <ul class="checklist grid-2">
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Akuisisi sinyal EMG dan IMU secara bersamaan</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Pemrosesan sinyal langsung di ESP32</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Bentuk wearable yang ringkas di pergelangan tangan</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Mempertimbangkan power management perangkat</li>
+      </ul>
+    </section>
+
+    <section class="section" id="arsitektur">
+      <div class="section-head">
+        <p class="kicker">Arsitektur Sistem</p>
+        <h2>Dari sinyal otot dan gerakan sampai gesture</h2>
+        <p>Sistem membaca sinyal EMG dan data IMU/gyroscope dari BMI160 secara bersamaan, memproses sinyal tersebut di ESP32 untuk mengenali pola gesture.</p>
+      </div>
+      <div class="flow-row">
+        <span class="flow-step">EMG Sensor + BMI160 IMU</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Signal Acquisition</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">ESP32 Embedded Processing</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Gesture Recognition</span>
+        <span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Wearable Interaction</span>
+      </div>
+      <div class="grid-3">
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-8 4 16 2-8h6"/></svg></div>
+          <h3>EMG Signal Acquisition</h3>
+          <p>Sensor EMG membaca sinyal aktivitas otot pengguna.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></div>
+          <h3>IMU / Gyroscope</h3>
+          <p>BMI160 membaca data gerakan dan orientasi pergelangan tangan.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg></div>
+          <h3>Embedded Processing</h3>
+          <p>ESP32 memproses sinyal EMG dan IMU untuk mengenali pola gesture.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M12 2v6M12 22v-6M4.9 4.9l4.2 4.2M14.9 14.9l4.2 4.2M2 12h6M16 12h6M4.9 19.1l4.2-4.2M14.9 9.1l4.2-4.2"/></svg></div>
+          <h3>Gesture Recognition</h3>
+          <p>Kombinasi sinyal otot dan gerakan digunakan untuk mengenali gesture.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M7 4v16M17 4v16M3 8h4m10 0h4M3 16h4m10 0h4"/></svg></div>
+          <h3>Wearable Electronics</h3>
+          <p>Seluruh komponen dirancang ringkas agar nyaman dipakai di tubuh.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 11-14h-7l1-6z"/></svg></div>
+          <h3>Power Management</h3>
+          <p>Konsumsi daya dipertimbangkan agar perangkat wearable tetap hemat energi.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Technology</p>
+        <h2>Yang digunakan dalam sistem ini</h2>
+      </div>
+      <div class="focus-tags">
+        <span class="focus-tag">ESP32</span>
+        <span class="focus-tag">EMG Sensor</span>
+        <span class="focus-tag">BMI160 IMU</span>
+        <span class="focus-tag">Gyroscope</span>
+        <span class="focus-tag">Gesture Sensing</span>
+        <span class="focus-tag">Signal Acquisition</span>
+        <span class="focus-tag">Embedded Processing</span>
+        <span class="focus-tag">Wearable Electronics</span>
+        <span class="focus-tag">Power Management</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Kontribusi Saya</p>
+        <h2>Peran dalam pengembangan sistem ini</h2>
+      </div>
+      <p style="color:var(--muted); font-size:15.5px; max-width:70ch; margin:0;">Saya merancang akuisisi sinyal dari sensor EMG dan IMU secara bersamaan, mengembangkan pemrosesan sinyal di ESP32, serta mempertimbangkan aspek power management untuk perangkat wearable ini.</p>
+    </section>
+
+    <section class="section">
+      <div class="status-card">
+        <p class="kicker">Status</p>
+        <h3>Prototype / R&amp;D</h3>
+        <p>Project ini masih dalam tahap riset dan pengembangan, belum berupa produk jadi.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>Gesture Wearable, project oleh Muhammad Sigit Nugroho. <a href="../">Kembali ke portofolio</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

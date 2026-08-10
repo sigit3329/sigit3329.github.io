@@ -1,4 +1,4 @@
-// app.js — theme toggle, scroll reveal, small helpers
+// app.js: theme toggle, scroll reveal, small helpers
 (function(){
   const html = document.documentElement;
   const stored = localStorage.getItem('theme');
@@ -10,42 +10,34 @@
     if (mode === 'system') localStorage.removeItem('theme');
     else localStorage.setItem('theme', mode);
   }
-// === THEME -> MAP IFRAME SYNC ===
-function resolvedTheme() {
-  const curr = document.documentElement.getAttribute('data-theme') || 'system';
-  if (curr === 'light') return 'light';
-  if (curr === 'dark') return 'dark';
-  return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-}
-function syncMapTheme() {
-  const frame = document.getElementById('mapFrame');
-  if (frame && frame.contentWindow) {
-    frame.contentWindow.postMessage({ type: 'theme', value: resolvedTheme() }, '*');
-  }
-}
-syncMapTheme();
-window.addEventListener('load', () => {
-  const frame = document.getElementById('mapFrame');
-  if (frame) frame.addEventListener('load', syncMapTheme);
-  // kirim sekali saat awal halaman tampil
-  syncMapTheme();
-});
-if (window.matchMedia) {
-  const mq = window.matchMedia('(prefers-color-scheme: dark)');
-  mq.addEventListener('change', () => {
-    if ((localStorage.getItem('theme') || 'system') === 'system') syncMapTheme();
-  });
-}
 
+  function resolvedTheme(){
+    const mode = html.getAttribute('data-theme') || 'system';
+    if (mode === 'dark' || mode === 'light') return mode;
+    return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  }
+
+  const mapFrame = document.getElementById('mapFrame');
+  function syncMapTheme(){
+    if (!mapFrame) return;
+    if (!mapFrame.src) {
+      mapFrame.src = 'maps/index.html?embed=1&theme=' + resolvedTheme();
+      return;
+    }
+    if (mapFrame.contentWindow) {
+      mapFrame.contentWindow.postMessage({ type: 'theme', value: resolvedTheme() }, '*');
+    }
+  }
+  syncMapTheme();
+  mapFrame && mapFrame.addEventListener('load', syncMapTheme);
+  window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncMapTheme);
 
   const btn = document.getElementById('themeToggle');
-  let cycle = ['system','light','dark'];
   btn && btn.addEventListener('click', () => {
-    const curr = html.getAttribute('data-theme') || 'system';
-    const idx = cycle.indexOf(curr);
-    const next = cycle[(idx+1)%cycle.length];
+    const next = resolvedTheme() === 'dark' ? 'light' : 'dark';
     setTheme(next);
     btn.title = 'Tema: ' + next;
+    syncMapTheme();
   });
 
   const y = document.getElementById('year');
@@ -73,23 +65,23 @@ if (window.matchMedia) {
     });
   });
 
-  // Micro tilt (mati otomatis jika user reduce motion)
-if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches){
-  document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - 0.5;
-      const y = (e.clientY - r.top) / r.height - 0.5;
-      card.style.setProperty('--ry', (x * 6) + 'deg');
-      card.style.setProperty('--rx', (-y * 3) + 'deg');
+  // === PENCARIAN PROJECT ===
+  const searchInput = document.getElementById('projectSearch');
+  const projectsGrid = document.getElementById('projectsGrid');
+  const projectsEmpty = document.getElementById('projectsEmpty');
+  if (searchInput && projectsGrid) {
+    const cards = Array.from(projectsGrid.children).filter(el => el.classList.contains('card'));
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.trim().toLowerCase();
+      let visible = 0;
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        const match = !q || text.includes(q);
+        card.classList.toggle('is-hidden', !match);
+        if (match) visible++;
+      });
+      if (projectsEmpty) projectsEmpty.classList.toggle('show', visible === 0);
     });
-    card.addEventListener('mouseleave', () => {
-      card.style.setProperty('--ry','0deg');
-      card.style.setProperty('--rx','0deg');
-    });
-  });
-}
-
-
+  }
 
 })();

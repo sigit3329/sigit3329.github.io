@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart UPS, IoT Energy & Power Monitoring System</title>
+<meta name="description" content="Smart UPS adalah sistem monitoring daya listrik berbasis IoT: voltase, arus, konsumsi energi, dan kondisi baterai, dengan integrasi BMS dan kontrol jarak jauh.">
+<meta name="theme-color" content="#d97706">
+<link rel="icon" href="../logo.png" type="image/png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="brand-mark" href="#top">
+      <span class="logo-dot">SU</span>
+      <span class="name">Smart UPS<small>Energy &amp; Power Monitoring</small></span>
+    </a>
+    <a class="back-link" href="../">&larr; Kembali ke portofolio</a>
+  </div>
+</div>
+
+<main id="top">
+  <div class="container">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">IoT Energy &amp; Power Monitoring System</p>
+        <h1>Pantau voltase, arus, dan kondisi baterai tanpa harus ke lokasi.</h1>
+        <p class="lead">Smart UPS mengukur voltase, arus, konsumsi energi, dan kondisi baterai secara real-time, terhubung ke Battery Management System (BMS), sehingga penyimpangan pada sistem kelistrikan bisa dipantau dan direspons dari jarak jauh.</p>
+        <div class="hero-tags">
+          <span class="tag">Voltage Monitoring</span>
+          <span class="tag">Current Monitoring</span>
+          <span class="tag">Energy Consumption</span>
+          <span class="tag">Battery Monitoring</span>
+          <span class="tag">BMS Integration</span>
+          <span class="tag">IoT Connectivity</span>
+        </div>
+        <div class="hero-cta-row">
+          <a class="btn primary" href="#arsitektur">Lihat Arsitektur Sistem</a>
+          <a class="btn" href="../">Kembali ke Portofolio</a>
+        </div>
+      </div>
+
+      <div class="hero-device" aria-hidden="true">
+        <span class="mock-hint">Contoh Tampilan</span>
+        <div class="device-panel">
+          <div class="device-topline">
+            <span class="device-chip">SMART UPS</span>
+            <span class="device-leds"><i class="led led-ok"></i><i class="led led-info"></i></span>
+          </div>
+          <div class="meter-grid">
+            <div class="meter-cell">
+              <div class="meter-label">Voltage</div>
+              <div class="meter-value">220.4<small>V</small></div>
+            </div>
+            <div class="meter-cell">
+              <div class="meter-label">Current</div>
+              <div class="meter-value">4.82<small>A</small></div>
+            </div>
+            <div class="meter-cell">
+              <div class="meter-label">Power</div>
+              <div class="meter-value">1062<small>W</small></div>
+            </div>
+            <div class="meter-cell">
+              <div class="meter-label">Battery</div>
+              <div class="meter-value">87<small>%</small></div>
+            </div>
+          </div>
+          <div class="device-bars">
+            <i style="height:40%"></i><i style="height:65%"></i><i style="height:50%"></i>
+            <i style="height:80%"></i><i style="height:55%"></i><i style="height:70%"></i>
+            <i style="height:45%"></i><i style="height:60%"></i>
+          </div>
+          <div class="device-controls">
+            <div class="device-status">
+              <span class="led led-ok" style="width:6px;height:6px;"></span> BMS OK &middot; IoT Connected
+            </div>
+            <div class="device-buttons">
+              <div class="device-btn">Detail</div>
+            </div>
+          </div>
+        </div>
+        <div class="device-caption">Ilustrasi panel monitoring Smart UPS</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="container">
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Latar Belakang</p>
+        <h2>Kenapa Smart UPS dibuat</h2>
+        <p>Kondisi kelistrikan dan baterai, termasuk yang terhubung ke BMS, sulit dipantau secara real-time tanpa alat ukur manual di lokasi. Penyimpangan voltase, arus, atau konsumsi energi biasanya baru diketahui setelah menimbulkan masalah.</p>
+      </div>
+      <ul class="checklist grid-2">
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Monitoring voltase dan arus secara kontinu</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Integrasi dengan Battery Management System (BMS)</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Pelacakan konsumsi energi dari waktu ke waktu</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Monitoring dan kontrol jarak jauh lewat IoT</li>
+      </ul>
+    </section>
+
+    <section class="section" id="arsitektur">
+      <div class="section-head">
+        <p class="kicker">Arsitektur Sistem</p>
+        <h2>Dari jalur daya sampai monitoring jarak jauh</h2>
+        <p>Sistem mengukur besaran listrik di sisi hardware, memprosesnya di embedded controller, lalu mengirimkannya lewat konektivitas IoT.</p>
+      </div>
+      <div class="grid-3">
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 11-14h-7l1-6z"/></svg></div>
+          <h3>Voltage &amp; Current Sensing</h3>
+          <p>Mengukur voltase dan arus pada jalur daya/baterai secara kontinu.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="10" rx="2"/><path d="M20 10v4"/></svg></div>
+          <h3>BMS Integration</h3>
+          <p>Mengambil data kondisi baterai lewat integrasi dengan Battery Management System.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg></div>
+          <h3>Embedded Processing</h3>
+          <p>Mengolah data voltase, arus, dan energi sebelum dikirim ke jaringan IoT.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0M8.5 15.5a3.5 3.5 0 0 1 7 0M12 19v.01"/></svg></div>
+          <h3>IoT Connectivity</h3>
+          <p>Mengirim data ke sistem monitoring lewat konektivitas IoT.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M4 4h16v12H4zM8 20h8"/></svg></div>
+          <h3>Remote Monitoring &amp; Control</h3>
+          <p>Data dan kontrol dapat diakses dan dipantau dari jarak jauh.</p>
+        </div>
+        <div class="panel">
+          <div class="icon-chip"><svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></div>
+          <h3>Automation</h3>
+          <p>Membuka jalan untuk respons otomatis berdasarkan kondisi daya dan baterai.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Technology</p>
+        <h2>Yang digunakan dalam sistem ini</h2>
+      </div>
+      <div class="focus-tags">
+        <span class="focus-tag">Voltage Monitoring</span>
+        <span class="focus-tag">Current Monitoring</span>
+        <span class="focus-tag">Power Monitoring</span>
+        <span class="focus-tag">Energy Consumption</span>
+        <span class="focus-tag">Battery Monitoring</span>
+        <span class="focus-tag">BMS Integration</span>
+        <span class="focus-tag">IoT Connectivity</span>
+        <span class="focus-tag">Remote Monitoring &amp; Control</span>
+        <span class="focus-tag">Automation</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Kontribusi Saya</p>
+        <h2>Peran dalam pengembangan sistem ini</h2>
+      </div>
+      <p style="color:var(--muted); font-size:15.5px; max-width:70ch; margin:0;">Saya merancang integrasi antara sistem kelistrikan/baterai dengan BMS, membangun jalur akuisisi data voltase dan arus, serta mengembangkan konektivitas IoT untuk monitoring dan kontrol jarak jauh.</p>
+    </section>
+
+    <section class="section">
+      <div class="status-card">
+        <p class="kicker">Status</p>
+        <h3>System Development</h3>
+        <p>Project ini masih dalam tahap pengembangan sistem, belum dinyatakan sebagai deployment produksi.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>Smart UPS, project IoT oleh Muhammad Sigit Nugroho. <a href="../">Kembali ke portofolio</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
