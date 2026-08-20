@@ -41,6 +41,25 @@
             100% { transform: translateY(0px); }
         }
         .animate-float { animation: float 6s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce){ .animate-float{ animation:none; } }
+
+        /* ===== EYE-CATCHING BOOST ===== */
+        .bg-pattern::after{
+            content:"";
+            position:absolute; inset:0; pointer-events:none; z-index:0;
+            background:
+                radial-gradient(28rem 20rem at 85% -10%, rgba(37,99,235,.16), transparent 60%),
+                radial-gradient(24rem 18rem at 5% 100%, rgba(234,179,8,.12), transparent 60%);
+        }
+        .dark .bg-pattern::after{
+            background:
+                radial-gradient(28rem 20rem at 85% -10%, rgba(59,130,246,.22), transparent 60%),
+                radial-gradient(24rem 18rem at 5% 100%, rgba(234,179,8,.14), transparent 60%);
+        }
+        a.bg-blue-600, button#theme-toggle, a[href="#kontak"]{
+            transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+        }
+        a.bg-blue-600:hover{ transform: translateY(-2px); filter: brightness(1.07); }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 antialiased selection:bg-yellow-400 selection:text-blue-900 transition-colors duration-300">

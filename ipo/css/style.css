@@ -543,3 +543,37 @@ tbody tr.total-row:hover {
         display: none !important;
     }
 }
+
+/* ===== EYE-CATCHING BOOST ===== */
+body{ position:relative; }
+body::before{
+    content:"";
+    position:fixed; inset:-10%; z-index:-1; pointer-events:none;
+    background:
+        radial-gradient(30rem 22rem at 92% -6%, rgba(59,130,246,.16), transparent 60%),
+        radial-gradient(26rem 20rem at 4% 100%, rgba(124,58,237,.12), transparent 60%);
+    filter: blur(2px);
+    animation: meshDrift 24s ease-in-out infinite alternate;
+}
+.dark body::before{
+    background:
+        radial-gradient(30rem 22rem at 92% -6%, rgba(59,130,246,.24), transparent 60%),
+        radial-gradient(26rem 20rem at 4% 100%, rgba(124,58,237,.2), transparent 60%);
+}
+@keyframes meshDrift{ 0%{ transform:translate3d(0,0,0) scale(1); } 100%{ transform:translate3d(-2%,2%,0) scale(1.05); } }
+@media (prefers-reduced-motion: reduce){ body::before{ animation:none; } }
+
+.summary-card::before{ background: linear-gradient(180deg, #3b82f6, #7c3aed); }
+.summary-card:hover{
+    box-shadow: 0 16px 32px -14px rgba(59,130,246,.35);
+}
+.dark .summary-card:hover{ box-shadow: 0 16px 32px -14px rgba(59,130,246,.5); }
+.btn-primary{
+    background: linear-gradient(135deg, #3b82f6, #2563eb, #7c3aed) !important;
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease !important;
+}
+.btn-primary:hover{
+    filter: brightness(1.08);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px -8px rgba(124,58,237,.5) !important;
+}

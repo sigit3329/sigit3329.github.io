@@ -174,3 +174,45 @@ a{ color: var(--amber-600); }
 @media (max-width:840px){
   .hero{ grid-template-columns:1fr; }
 }
+
+/* ===== EYE-CATCHING BOOST ===== */
+body{ position:relative; }
+body::before{
+  content:"";
+  position:fixed; inset:-10%; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(34rem 26rem at 8% -8%, color-mix(in srgb, var(--amber-600) 24%, transparent), transparent 60%),
+    radial-gradient(28rem 24rem at 100% 2%, color-mix(in srgb, var(--navy-800) 18%, transparent), transparent 60%);
+  filter: blur(2px);
+  animation: meshDrift 24s ease-in-out infinite alternate;
+}
+@keyframes meshDrift{
+  0%{ transform:translate3d(0,0,0) scale(1); }
+  100%{ transform:translate3d(-2%,2%,0) scale(1.05); }
+}
+@media (prefers-reduced-motion: reduce){ body::before{ animation:none; } }
+
+.hero h1{
+  background: linear-gradient(100deg, var(--ink) 35%, var(--amber-600) 70%, var(--amber-400) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+@media (prefers-reduced-motion: no-preference){
+  .hero-device{ animation: floatY 5s ease-in-out infinite; }
+}
+@keyframes floatY{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-8px);} }
+
+.panel{ transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
+.panel:hover{
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--amber-600) 45%, transparent);
+  box-shadow: 0 18px 34px -16px color-mix(in srgb, var(--amber-600) 55%, transparent);
+}
+.device-panel{ box-shadow: 0 24px 48px rgba(10,23,40,.32), 0 0 70px -16px color-mix(in srgb, var(--amber-400) 65%, transparent), inset 0 1px 0 rgba(255,255,255,.06); }
+.btn:hover{ box-shadow: 0 16px 30px -10px color-mix(in srgb, var(--amber-600) 60%, transparent); }
+.led-ok{ animation: ledPulse 2.2s ease-in-out infinite; }
+@keyframes ledPulse{ 0%,100%{ opacity:1 } 50%{ opacity:.4 } }
+@media (prefers-reduced-motion: reduce){ .led-ok{ animation:none; } .hero-device{ animation:none; } }
+.tag{ transition: transform .15s ease, border-color .15s ease; }
+.tag:hover{ border-color: color-mix(in srgb, var(--amber-600) 45%, transparent); transform: translateY(-1px); }
+.status-card{ transition: transform .22s ease, box-shadow .22s ease; }
+.status-card:hover{ transform: translateY(-3px); box-shadow: 0 20px 40px -16px color-mix(in srgb, var(--amber-500) 45%, transparent); }

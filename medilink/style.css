@@ -152,3 +152,44 @@ a{ color: var(--blue); text-decoration:none; }
   .tech-row{ flex-direction:column; }
   .tech-row .items{ text-align:left; }
 }
+
+/* ===== EYE-CATCHING BOOST ===== */
+:root{ --violet: #7c3aed; }
+body{ position:relative; }
+body::before{
+  content:"";
+  position:fixed; inset:-10%; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(34rem 26rem at 92% -8%, color-mix(in srgb, var(--blue) 20%, transparent), transparent 60%),
+    radial-gradient(28rem 24rem at 0% 10%, color-mix(in srgb, var(--violet) 14%, transparent), transparent 60%);
+  filter: blur(2px);
+  animation: meshDrift 24s ease-in-out infinite alternate;
+}
+@keyframes meshDrift{ 0%{ transform:translate3d(0,0,0) scale(1); } 100%{ transform:translate3d(-2%,2%,0) scale(1.05); } }
+@media (prefers-reduced-motion: reduce){ body::before{ animation:none; } }
+
+.hero h1{
+  background: linear-gradient(100deg, var(--navy) 35%, var(--blue) 70%, var(--violet) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+@media (prefers-reduced-motion: no-preference){
+  .hero-mock{ animation: floatY 5.5s ease-in-out infinite; }
+}
+@keyframes floatY{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-8px);} }
+@media (prefers-reduced-motion: reduce){ .hero-mock{ animation:none; } }
+
+.card, .feature-card{ transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
+.card:hover, .feature-card:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 18px 34px -16px color-mix(in srgb, var(--blue) 40%, transparent);
+  border-color: color-mix(in srgb, var(--blue) 35%, transparent);
+}
+.btn-primary{
+  background: linear-gradient(135deg, var(--blue), var(--violet));
+  box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--blue) 60%, transparent);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+.btn-primary:hover{ background: linear-gradient(135deg, var(--blue), var(--violet)); filter: brightness(1.08); transform: translateY(-2px); box-shadow: 0 14px 28px -8px color-mix(in srgb, var(--violet) 55%, transparent); }
+.mock{ transition: box-shadow .22s ease; }
+.mock:hover{ box-shadow: 0 20px 40px -18px color-mix(in srgb, var(--blue) 45%, transparent); }
+.mock-score-fill{ background: linear-gradient(90deg, var(--blue), var(--violet)); }

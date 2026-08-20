@@ -267,3 +267,29 @@ pre {
     max-height: 180px;
   }
 }
+
+/* ===== EYE-CATCHING BOOST ===== */
+:root{ --primary: #2563eb; --primary-2: #7c3aed; }
+body{ position:relative; }
+body::before{
+  content:"";
+  position:fixed; inset:-10%; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(34rem 26rem at 90% -8%, color-mix(in srgb, var(--primary) 32%, transparent), transparent 60%),
+    radial-gradient(30rem 24rem at 4% 100%, color-mix(in srgb, var(--primary-2) 24%, transparent), transparent 60%);
+  filter: blur(2px);
+  animation: meshDrift 24s ease-in-out infinite alternate;
+}
+@keyframes meshDrift{ 0%{ transform:translate3d(0,0,0) scale(1); } 100%{ transform:translate3d(-2%,2%,0) scale(1.05); } }
+@media (prefers-reduced-motion: reduce){ body::before{ animation:none; } }
+
+h1{
+  background: linear-gradient(100deg, #e5e7eb 35%, var(--primary) 70%, var(--primary-2) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.card{ transition: transform .22s ease, box-shadow .22s ease; }
+.card:hover{ transform: translateY(-3px); box-shadow: 0 0 0 1px rgba(148,163,184,0.08), 0 24px 48px color-mix(in srgb, var(--primary) 30%, rgba(0,0,0,.4)); }
+button{ transition: transform .12s ease, box-shadow .18s ease, filter .18s ease; }
+button.primary{ background: linear-gradient(135deg, var(--primary), var(--primary-2)); box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--primary) 65%, transparent); }
+button.primary:hover{ filter: brightness(1.1); box-shadow: 0 14px 26px -8px color-mix(in srgb, var(--primary-2) 65%, transparent); }
+button:hover{ transform: translateY(-1px); }
